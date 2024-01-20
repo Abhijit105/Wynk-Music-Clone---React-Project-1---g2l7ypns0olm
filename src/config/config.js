@@ -8,3 +8,5 @@ export const FEATURED = [
   'Evergreen melodies',
 ]
 export const MOOD = ['romantic', 'happy', 'excited', 'sad']
+
+// https://academics.newtonschool.co/api/v1/music/artist?filter={"languages":"bhojpuri"}

@@ -21,12 +21,38 @@ import Divider from '@mui/material/Divider'
 import TextField from '@mui/material/TextField'
 import { OutlinedInput } from '@mui/material'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {
+  CurrencyRupee,
+  GetApp,
+  Language,
+  Podcasts,
+  SpatialAudio,
+} from '@mui/icons-material'
+import SubscriptionModal from './common/SubscriptionModal'
 
-const settings = ['Download App', 'Select Language', 'Sound Quality', 'Podcast']
+const settings = [
+  {
+    title: 'Download App',
+    icon: <GetApp />,
+  },
+  {
+    title: 'Select Language',
+    icon: <Language />,
+  },
+  {
+    title: 'Sound Quality',
+    icon: <SpatialAudio />,
+  },
+  {
+    title: 'Podcast',
+    icon: <Podcasts />,
+  },
+]
 
-function ResponsiveAppBar() {
+function AppBarPrimary() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const [openModal, setOpenModal] = React.useState(false)
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget)
@@ -43,9 +69,18 @@ function ResponsiveAppBar() {
     setAnchorElUser(null)
   }
 
+  const handleOpenModal = e => {
+    e.preventDefault()
+    setOpenModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position='relative' sx={{ paddingX: '60px' }}>
         <Container maxWidth='xl'>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box>
@@ -67,7 +102,12 @@ function ResponsiveAppBar() {
                   gap: '8px',
                 }}
               >
-                <img src={logo} alt='Wynk logo' width='32' />
+                <img
+                  src={logo}
+                  alt='Wynk logo'
+                  width='32'
+                  style={{ borderRadius: '50%' }}
+                />
                 Wynk Music
               </Typography>
             </Box>
@@ -85,9 +125,19 @@ function ResponsiveAppBar() {
                 size='small'
                 sx={{ borderRadius: '100px' }}
               />
-              <IconButton>
+              <Box
+                display='flex'
+                alignItems='center'
+                gap='0.2rem'
+                component='a'
+                href='#'
+                onClick={e => {
+                  handleOpenModal(e)
+                }}
+              >
+                <CurrencyRupee />
                 <Typography>Manage Subscription</Typography>
-              </IconButton>
+              </Box>
               <Divider
                 orientation='vertical'
                 variant='middle'
@@ -126,9 +176,17 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map(setting => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign='center'>{setting}</Typography>
+                {settings.map((setting, i) => (
+                  <MenuItem key={i} onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign='center'
+                      display='flex'
+                      alignItems='center'
+                      gap='1rem'
+                    >
+                      {setting.icon}
+                      {setting.title}
+                    </Typography>
                   </MenuItem>
                 ))}
                 <Divider />
@@ -157,7 +215,8 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
+      <SubscriptionModal open={openModal} handleClose={handleCloseModal} />
     </>
   )
 }
-export default ResponsiveAppBar
+export default AppBarPrimary

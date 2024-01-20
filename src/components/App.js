@@ -3,12 +3,17 @@ import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { AppBar } from '@mui/material'
-import ResponsiveAppBar from './ResponsiveAppBar'
-import { useEffect, useState } from 'react'
-import NavBar from './NavBar'
+
+import { createContext, useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import All from './All'
 import { FEATURED } from '../config/config'
+import AllSongsProvider from './AllSongsProvider'
+import AppBarPrimary from './AppBarPrimary'
+import AppBarSecondary from './AppBarSecondary'
+import Test from './Test'
+import Trending from './Trending'
+import Footer from './Footer'
 
 const darkTheme = createTheme({
   palette: {
@@ -20,6 +25,7 @@ function App() {
   const [allSongs, setAllSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
+  const [artists, setArtists] = useState([])
 
   const fetchData = async () => {
     try {
@@ -48,7 +54,7 @@ function App() {
   }, [page])
 
   useEffect(() => {
-    !isLoading && allSongs.length < 1000 && setPage(page => page + 1)
+    !isLoading && allSongs.length < 2454 && setPage(page => page + 1)
   }, [isLoading])
 
   console.log(page)
@@ -57,13 +63,17 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <ResponsiveAppBar />
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path='/' element={<All />} />
-        </Routes>
-      </BrowserRouter>
+      <AllSongsProvider allSongs={allSongs}>
+        <AppBarPrimary />
+        <BrowserRouter>
+          <AppBarSecondary />
+          <Routes>
+            <Route path='/' element={<All />} />
+            <Route path='/trending' element={<Trending />} />
+          </Routes>
+        </BrowserRouter>
+        <Footer />
+      </AllSongsProvider>
     </ThemeProvider>
   )
 }
