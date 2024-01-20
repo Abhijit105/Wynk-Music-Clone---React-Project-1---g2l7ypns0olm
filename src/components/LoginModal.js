@@ -7,11 +7,11 @@ import {
   Button,
 } from '@mui/material'
 import React, { useState } from 'react'
-import ModalBackground from '../../assets/img/modalbackground.png'
-import GooglePlay from '../../assets/img/googleplay.png'
-import AppStore from '../../assets/img/appstore.png'
+import ModalBackground from '../assets/img/modalbackground.png'
+import GooglePlay from '../assets/img/googleplay.png'
+import AppStore from '../assets/img/appstore.png'
 
-function SubscriptionModal({ open, handleClose }) {
+function LoginModal({ open, handleClose }) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -90,4 +90,4 @@ function SubscriptionModal({ open, handleClose }) {
   )
 }
 
-export default SubscriptionModal
+export default LoginModal

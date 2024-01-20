@@ -3,7 +3,7 @@ import { Box, Typography, List, ListItem, ListItemText } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'
 
-function NavlinkList({ title, linkTitle, data }) {
+function NavlinkList({ title, data }) {
   const [moodsIsOpen, setMoodsIsOpen] = useState(false)
 
   const handleMoodsMouseEnter = function () {
@@ -17,13 +17,18 @@ function NavlinkList({ title, linkTitle, data }) {
   return (
     <Box
       component={'a'}
-      sx={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: 'pointer',
+        alignItems: 'center',
+      }}
       onMouseEnter={handleMoodsMouseEnter}
       onMouseLeave={handleMoodsMouseLeave}
     >
       <Typography
         component={'a'}
-        sx={{ display: 'flex', alignItems: 'center' }}
+        sx={{ display: 'flex', alignItems: 'center', fontSize: '1.125em' }}
       >
         {title}
         <ExpandMore />
@@ -35,18 +40,18 @@ function NavlinkList({ title, linkTitle, data }) {
             padding: '1rem',
             borderRadius: '0.6rem',
             position: 'absolute',
-            top: '24px',
+            top: '3.5em',
             // transform: 'translateX(-22px)',
             zIndex: '1',
           }}
         >
           <List dense disablePadding={true}>
-            {data.map(mood => (
-              <ListItem sx={{ display: 'flex', padding: '12px' }}>
-                <NavLink
-                  to={`/${linkTitle}-${mood.split(' ').join('').toLowerCase()}`}
-                >
-                  <ListItemText primary={`${mood}`} sx={{ margin: '0' }} />
+            {data.map((mood, i) => (
+              <ListItem key={i} sx={{ display: 'flex', padding: '12px' }}>
+                <NavLink to={`/${mood.split(' ').join('').toLowerCase()}`}>
+                  <Typography sx={{ fontSize: '1.125em !important' }}>
+                    {mood}
+                  </Typography>
                 </NavLink>
               </ListItem>
             ))}

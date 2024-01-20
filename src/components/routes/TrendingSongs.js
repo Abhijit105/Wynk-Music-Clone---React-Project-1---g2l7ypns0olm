@@ -1,9 +1,9 @@
 import { FileDownload } from '@mui/icons-material'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
-import LoginRecommendation from './common/LoginRecommendation'
+import LoginRecommendation from '../common/LoginRecommendation'
 
-function Trending() {
+function TrendingSongs() {
   const [trendingSongs, setTrendingSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
@@ -128,4 +128,4 @@ function Trending() {
   )
 }
 
-export default Trending
+export default TrendingSongs

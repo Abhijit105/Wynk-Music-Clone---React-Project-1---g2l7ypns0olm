@@ -35,28 +35,6 @@ function Test() {
     !isLoading && albums.length < 400 && setPage(page => page + 1)
   }, [isLoading])
 
-  const latestAlbums = albums.filter(
-    album => Number(album.release.slice(0, 4)) >= 2023
-  )
-
-  const latestAlbums2022 = albums.filter(
-    album =>
-      Number(album.release.slice(0, 4)) >= 2022 &&
-      Number(album.release.slice(0, 4)) < 2023
-  )
-
-  const latestAlbums2021 = albums.filter(
-    album =>
-      Number(album.release.slice(0, 4)) >= 2021 &&
-      Number(album.release.slice(0, 4)) < 2022
-  )
-
-  const latestAlbums2020 = albums.filter(
-    album =>
-      Number(album.release.slice(0, 4)) >= 2020 &&
-      Number(album.release.slice(0, 4)) < 2021
-  )
-
   function mergeLanguage(x) {
     const L = new Set()
     for (let a in Object.keys(x.artists)) {
@@ -90,10 +68,6 @@ function Test() {
 
   console.log(page)
   console.log(albums)
-  console.log(latestAlbums)
-  console.log(latestAlbums2022)
-  console.log(latestAlbums2021)
-  console.log(latestAlbums2020)
   console.log(albumsTamil)
   console.log(albumsHindi)
   console.log(albumsEnglish)

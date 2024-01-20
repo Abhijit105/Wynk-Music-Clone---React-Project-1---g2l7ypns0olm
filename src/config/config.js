@@ -1,4 +1,4 @@
-export const BASEURL = 'https://academics.newtonschool.co/api/v1/music/song'
+export const BASEURL = 'https://academics.newtonschool.co/api/v1/music'
 export const PROJECTID = 'g2l7ypns0olm'
 export const FEATURED = [
   'Trending songs',

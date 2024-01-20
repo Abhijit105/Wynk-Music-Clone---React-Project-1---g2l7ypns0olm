@@ -17,7 +17,13 @@ import NavlinkList from './common/NavlinkList'
 
 function AppBarSecondary() {
   const moodsData = ['Romantic', 'Happy', 'Excited', 'Sad']
-  const topAlbumsData = ['Latest', '2022', '2021', '2020']
+  const topAlbumsData = [
+    'Top Hindi Albums',
+    'Top English Albums',
+    'Top Telugu Albums',
+    'Top Tamil Albums',
+    'Top Bhojpuri Albums',
+  ]
   const topPlaylistsData = [
     'Trending songs',
     'Top 50 of this month',
@@ -27,32 +33,30 @@ function AppBarSecondary() {
   ]
 
   return (
-    <AppBar position='static' color='transparent' sx={{ boxShadow: 'none' }}>
+    <AppBar
+      position='static'
+      color='transparent'
+      sx={{ boxShadow: 'none', paddingX: '60px' }}
+    >
       <Container maxWidth='xl'>
         <Toolbar
           sx={{
             display: 'flex',
             justifyContent: 'flex-start',
             gap: '2.4rem',
-            alignItems: 'flex-start',
+            alignItems: 'center',
+            fontSize: '1.125em',
+            color: 'rgba(255, 255, 255, 0.7)',
           }}
         >
           <NavLink to='/'>All</NavLink>
           <NavLink to='/trending'>Trending Now</NavLink>
           <NavLink to='/old'>Old Songs</NavLink>
           <NavLink to='/new'>New Songs</NavLink>
-          <NavlinkList title='Moods' linkTitle='moods' data={moodsData} />
-          <NavlinkList
-            title='Top Albums'
-            linkTitle='topalbums'
-            data={topAlbumsData}
-          />
+          <NavlinkList title='Moods' data={moodsData} />
+          <NavlinkList title='Top Albums' data={topAlbumsData} />
           <NavLink to='/topartists'>Top Artists</NavLink>
-          <NavlinkList
-            title='Top Playlists'
-            linkTitle='topplaylists'
-            data={topPlaylistsData}
-          />
+          <NavlinkList title='Top Playlists' data={topPlaylistsData} />
           <NavLink to='/podcast'>Podcast</NavLink>
         </Toolbar>
       </Container>

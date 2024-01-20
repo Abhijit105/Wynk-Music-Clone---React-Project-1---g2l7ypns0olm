@@ -19,16 +19,17 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Divider from '@mui/material/Divider'
 import TextField from '@mui/material/TextField'
-import { OutlinedInput } from '@mui/material'
+import { InputBase, OutlinedInput, Paper } from '@mui/material'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import {
   CurrencyRupee,
   GetApp,
   Language,
   Podcasts,
+  Search,
   SpatialAudio,
 } from '@mui/icons-material'
-import SubscriptionModal from './common/SubscriptionModal'
+import SubscriptionModal from './LoginModal'
 
 const settings = [
   {
@@ -50,19 +51,11 @@ const settings = [
 ]
 
 function AppBarPrimary() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [openModal, setOpenModal] = React.useState(false)
 
-  const handleOpenNavMenu = event => {
-    setAnchorElNav(event.currentTarget)
-  }
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
   }
 
   const handleCloseUserMenu = () => {
@@ -82,19 +75,25 @@ function AppBarPrimary() {
     <>
       <AppBar position='relative' sx={{ paddingX: '60px' }}>
         <Container maxWidth='xl'>
-          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Toolbar
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontSize: '1.125em',
+            }}
+          >
             <Box>
-              {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
               <Typography
                 variant='h6'
                 noWrap
                 component='a'
-                href='#app-bar-with-responsive-menu'
+                href='/'
                 sx={{
                   mr: 2,
                   display: { xs: 'none', md: 'flex' },
                   fontFamily: 'roboto',
                   fontWeight: 700,
+                  fontSize: '1.375em',
                   color: 'inherit',
                   textDecoration: 'none',
                   display: 'flex',
@@ -120,15 +119,33 @@ function AppBarPrimary() {
                 gap: '1rem',
               }}
             >
-              <OutlinedInput
-                placeholder='Search'
-                size='small'
-                sx={{ borderRadius: '100px' }}
-              />
+              <Paper
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1em',
+                  padding: '0.25em 2em',
+                  borderRadius: '100px',
+                  background: '#383838',
+                }}
+              >
+                <IconButton>
+                  <Search
+                    sx={{
+                      position: 'absolute',
+                      color: 'rgba(255, 255, 255, 0.7)',
+                    }}
+                  />
+                </IconButton>
+                <InputBase
+                  placeholder='Search Songs'
+                  sx={{ backgroundColor: 'transparent' }}
+                />
+              </Paper>
               <Box
                 display='flex'
                 alignItems='center'
-                gap='0.2rem'
+                gap='0.2em'
                 component='a'
                 href='#'
                 onClick={e => {
@@ -144,25 +161,26 @@ function AppBarPrimary() {
                 flexItem
                 sx={{ borderLeft: '1px solid' }}
               />
-              <IconButton
-                sx={{
-                  p: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
+              <Box
+                display='flex'
+                alignItems='center'
+                gap='0.6em'
+                component='a'
+                href='#'
+                onClick={e => {
+                  handleOpenModal(e)
                 }}
               >
                 <Avatar />
                 <Typography>Login</Typography>
-              </IconButton>
+              </Box>
               <Tooltip title='Open settings'>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton onClick={handleOpenUserMenu}>
                   <MenuIcon />
                 </IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: '45px' }}
-                id='menu-appbar'
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',

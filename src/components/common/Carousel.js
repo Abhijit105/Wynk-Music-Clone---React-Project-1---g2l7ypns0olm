@@ -23,11 +23,7 @@ function Carousel({ title, items }) {
   console.log(displayedItems)
 
   return (
-    <Box
-      sx={{
-        padding: '0 100px 50px',
-      }}
-    >
+    <Box marginBottom='60px'>
       <Typography variant='h5'>{title}</Typography>
       <Box
         sx={{
