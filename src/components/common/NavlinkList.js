@@ -29,6 +29,7 @@ function NavlinkList({ title, data }) {
       <Typography
         component={'a'}
         sx={{ display: 'flex', alignItems: 'center', fontSize: '1.125em' }}
+        className='app-bar-secondary-navlink-title'
       >
         {title}
         <ExpandMore />
@@ -40,7 +41,7 @@ function NavlinkList({ title, data }) {
             padding: '1rem',
             borderRadius: '0.6rem',
             position: 'absolute',
-            top: '3.5em',
+            top: '2.50em',
             // transform: 'translateX(-22px)',
             zIndex: '1',
           }}

@@ -8,7 +8,7 @@ import { createContext, useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
 import { FEATURED } from '../config/config'
-import AllSongsProvider from './AllSongsProvider'
+import AllProvider from './AllProvider'
 import AppBarPrimary from './AppBarPrimary'
 import AppBarSecondary from './AppBarSecondary'
 import Test from './Test'
@@ -28,8 +28,10 @@ import AlbumsBhojpuri from './routes/AlbumsBhojpuri'
 import Top50 from './routes/Top50'
 import Top20 from './routes/Top20'
 import SoulSoother from './routes/SoulSoother'
+import Podcast from './routes/Podcast'
+import Search from './routes/Search'
 
-const darkTheme = createTheme({
+export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
@@ -37,8 +39,10 @@ const darkTheme = createTheme({
 
 function App() {
   const [allSongs, setAllSongs] = useState([])
+  const [allAlbums, setAllAlbums] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const fetchData = async () => {
     try {
@@ -76,14 +80,17 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <AllSongsProvider allSongs={allSongs}>
-        <AppBarPrimary />
+      <AllProvider allSongs={allSongs} searchTerm={searchTerm}>
         <BrowserRouter>
+          <AppBarPrimary
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
           <AppBarSecondary />
           <Routes>
             <Route path='/' element={<All />} />
             <Route path='/trending' element={<Trending />} />
-            <Route path='/old' element={<OldSongs />} />
+            <Route path='/evergreenmelodies' element={<OldSongs />} />
             <Route path='/new' element={<NewSongs />} />
             <Route path='/romantic' element={<RomanticSongs />} />
             <Route path='/happy' element={<HappySongs />} />
@@ -97,10 +104,12 @@ function App() {
             <Route path='/top50ofthismonth' element={<Top50 />} />
             <Route path='/top20ofthisweek' element={<Top20 />} />
             <Route path='/soulsoother' element={<SoulSoother />} />
+            <Route path='/podcast' element={<Podcast />} />
+            <Route path='/search' element={<Search />} />
           </Routes>
         </BrowserRouter>
         <Footer />
-      </AllSongsProvider>
+      </AllProvider>
     </ThemeProvider>
   )
 }

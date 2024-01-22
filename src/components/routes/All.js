@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import banner1 from '../../assets/banner/BANNER_1.webp'
 import banner2 from '../../assets/banner/BANNER_2.webp'
 import banner3 from '../../assets/banner/BANNER_3.webp'
@@ -16,17 +16,34 @@ import banner14 from '../../assets/banner/BANNER_14.webp'
 import banner15 from '../../assets/banner/BANNER_15.webp'
 import banner16 from '../../assets/banner/BANNER_16.webp'
 import BannerCarousel from '../BannerCarousel'
-import { AllSongsContext } from '../AllSongsProvider'
+import { AllContext } from '../AllProvider'
 import Carousel from '../common/Carousel'
 import { BASEURL } from '../../config/config'
-import { Box } from '@mui/material'
+import { Box, IconButton, Paper, Typography } from '@mui/material'
 import CarouselWithFetch from '../common/CarouselWithFetch'
+import AudioPlayer from 'react-h5-audio-player'
+import 'react-h5-audio-player/lib/styles.css'
+import '../../custom.css'
+import { RHAP_UI } from 'react-h5-audio-player'
+import {
+  PlaylistPlay,
+  PlaylistPlayRounded,
+  PlaylistPlayTwoTone,
+} from '@mui/icons-material'
 
 function All() {
   const banners = Array.from({ length: 16 }, (_, i) => `BANNER_${i + 1}.webp`)
   console.log(banners)
 
-  const { allSongs } = useContext(AllSongsContext)
+  useEffect(() => {
+    document
+      .querySelector('.rhap_controls-section')
+      .childNodes.forEach(node => {
+        node.setAttribute('class', '')
+      })
+  }, [])
+
+  const { allSongs } = useContext(AllContext)
 
   console.log(allSongs)
 
@@ -115,6 +132,69 @@ function All() {
           type='excited'
         />
         <CarouselWithFetch title='Sad songs' category='mood' type='sad' />
+
+        <Box
+          sx={{
+            position: 'fixed',
+            zIndex: '2',
+            bottom: '0',
+            width: '100%',
+            left: '0',
+          }}
+        >
+          <AudioPlayer
+            customProgressBarSection={[
+              RHAP_UI.PROGRESS_BAR,
+              RHAP_UI.CURRENT_TIME,
+              <div className='rhap_time'>/</div>,
+              RHAP_UI.DURATION,
+            ]}
+            customControlsSection={[
+              <Paper
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gridTemplateRows: '1fr 1fr',
+                }}
+              >
+                <Box
+                  component={'img'}
+                  src=''
+                  alt='song image'
+                  sx={{ gridRow: '1 / 3', gridColumn: '1 / 2' }}
+                />
+                <Typography
+                  variant='subtitle1'
+                  sx={{ gridRow: '1 / 2', gridColumn: '2 / 3' }}
+                >
+                  Song name
+                </Typography>
+                <Typography
+                  variant='subtitle2'
+                  sx={{ gridRow: '2 / 3', gridColumn: '2 / 3' }}
+                >
+                  Song album
+                </Typography>
+              </Paper>,
+              RHAP_UI.ADDITIONAL_CONTROLS,
+              RHAP_UI.MAIN_CONTROLS,
+              RHAP_UI.VOLUME_CONTROLS,
+              <IconButton
+                style={{
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  backgroundColor: '#272727',
+                  padding: '0 !important',
+                  cursor: 'pointer',
+                  border: 'none',
+                }}
+              >
+                <PlaylistPlay />
+              </IconButton>,
+            ]}
+            showSkipControls={true}
+            showJumpControls={false}
+          />
+        </Box>
       </Box>
     </>
   )

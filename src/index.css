@@ -2,11 +2,21 @@
 colors:-
 rgba(255, 255, 255, 0.7)
 #272727
+#383838
 
 search-input
 #383838
+rgba(255, 255, 255, 0.7)
 subscription
 rgb(235, 29, 34)
+react-h5-audio-player
+#272727
+rgba(255, 255, 255, 0.7)
+loginmodal
+#121212
+gradient
+#ff8c76
+#ff0d55
 */
 
 html {
@@ -29,4 +39,9 @@ a:visited {
 
 a:hover {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.app-bar-secondary-navlink-title:hover,
+.app-bar-secondary-navlink-title:active {
+  text-decoration: underline;
 }

@@ -1,7 +1,49 @@
 import React from 'react'
+import { useContext } from 'react'
+import { AllContext } from '../AllProvider'
+import AlbumsPage from '../common/AlbumsPage'
+import BestWay from '../common/BestWay'
+import Footer from '../Footer'
+import { Box } from '@mui/material'
 
 function AlbumsHindi() {
-  return <div>AlbumsHindi</div>
+  const { allAlbums } = useContext(AllContext)
+
+  function mergeLanguage(x) {
+    const L = new Set()
+    for (let a in Object.keys(x.artists)) {
+      for (let l in x.artists[a].languages) {
+        L.add(x.artists[a].languages[l])
+      }
+    }
+
+    return L
+  }
+
+  function filterLanguage(lang, x) {
+    return x.has(lang)
+  }
+
+  const albumsHindi = allAlbums.filter(row =>
+    filterLanguage('hindi', mergeLanguage(row))
+  )
+
+  const displayedAlbums = albumsHindi.slice(0, 10)
+
+  console.log(albumsHindi)
+
+  return (
+    <Box
+      padding='100px'
+      display='flex'
+      flexDirection='column'
+      alignItems='center'
+      width='100%'
+    >
+      <AlbumsPage title='Top Hindi Albums' albumItems={displayedAlbums} />
+      <BestWay />
+    </Box>
+  )
 }
 
 export default AlbumsHindi

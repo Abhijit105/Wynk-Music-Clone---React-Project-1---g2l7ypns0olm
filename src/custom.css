@@ -1,0 +1,26 @@
+.rhap_container {
+  background-color: #272727;
+  width: 100%;
+  padding: 0;
+}
+
+.rhap_progress-container {
+  margin: 0;
+  position: relative;
+}
+
+.rhap_time {
+  position: absolute;
+  bottom: 1.25em;
+  right: 10em;
+}
+
+.rhap_progress-bar {
+  width: 100%;
+}
+
+.rhap_controls-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

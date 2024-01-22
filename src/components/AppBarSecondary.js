@@ -37,6 +37,7 @@ function AppBarSecondary() {
       position='static'
       color='transparent'
       sx={{ boxShadow: 'none', paddingX: '60px' }}
+      className='app-bar-secondary'
     >
       <Container maxWidth='xl'>
         <Toolbar
@@ -49,15 +50,30 @@ function AppBarSecondary() {
             color: 'rgba(255, 255, 255, 0.7)',
           }}
         >
-          <NavLink to='/'>All</NavLink>
-          <NavLink to='/trending'>Trending Now</NavLink>
-          <NavLink to='/old'>Old Songs</NavLink>
-          <NavLink to='/new'>New Songs</NavLink>
+          <NavLink className='app-bar-secondary-navlink-title' to='/'>
+            All
+          </NavLink>
+          <NavLink className='app-bar-secondary-navlink-title' to='/trending'>
+            Trending Now
+          </NavLink>
+          <NavLink
+            className='app-bar-secondary-navlink-title'
+            to='/evergreenmelodies'
+          >
+            Old Songs
+          </NavLink>
+          <NavLink className='app-bar-secondary-navlink-title' to='/new'>
+            New Songs
+          </NavLink>
           <NavlinkList title='Moods' data={moodsData} />
           <NavlinkList title='Top Albums' data={topAlbumsData} />
-          <NavLink to='/topartists'>Top Artists</NavLink>
+          <NavLink className='app-bar-secondary-navlink-title' to='/topartists'>
+            Top Artists
+          </NavLink>
           <NavlinkList title='Top Playlists' data={topPlaylistsData} />
-          <NavLink to='/podcast'>Podcast</NavLink>
+          <NavLink className='app-bar-secondary-navlink-title' to='/podcast'>
+            Podcast
+          </NavLink>
         </Toolbar>
       </Container>
     </AppBar>

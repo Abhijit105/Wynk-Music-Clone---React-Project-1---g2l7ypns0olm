@@ -10,3 +10,12 @@ export const FEATURED = [
 export const MOOD = ['romantic', 'happy', 'excited', 'sad']
 
 // https://academics.newtonschool.co/api/v1/music/artist?filter={"languages":"bhojpuri"}
+
+/*
+Trending songs: 30
+Top 50 of this month: 50
+Soul soother: 30
+Top 20 of this week: 20
+Evergreen melodies: 30
+
+*/

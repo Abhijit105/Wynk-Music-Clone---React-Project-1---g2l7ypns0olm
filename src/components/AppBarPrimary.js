@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
-import logo from '../assets/logo/logo.png'
+import Logo from '../assets/logo/logo.png'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
@@ -20,7 +20,7 @@ import '@fontsource/roboto/700.css'
 import Divider from '@mui/material/Divider'
 import TextField from '@mui/material/TextField'
 import { InputBase, OutlinedInput, Paper } from '@mui/material'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import {
   CurrencyRupee,
   GetApp,
@@ -29,7 +29,9 @@ import {
   Search,
   SpatialAudio,
 } from '@mui/icons-material'
-import SubscriptionModal from './LoginModal'
+import LoginModal from './LoginModal'
+import ComingSoonModal from './ComingSoonModal'
+import { useEffect } from 'react'
 
 const settings = [
   {
@@ -50,9 +52,11 @@ const settings = [
   },
 ]
 
-function AppBarPrimary() {
+function AppBarPrimary({searchTerm, setSearchTerm}) {
+  const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState(null)
-  const [openModal, setOpenModal] = React.useState(false)
+  const [openLoginModal, setOpenLoginModal] = React.useState(false)
+  const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
@@ -62,14 +66,37 @@ function AppBarPrimary() {
     setAnchorElUser(null)
   }
 
-  const handleOpenModal = e => {
+  const handleOpenLoginModal = e => {
     e.preventDefault()
-    setOpenModal(true)
+    setOpenLoginModal(true)
   }
 
-  const handleCloseModal = () => {
-    setOpenModal(false)
+  const handleCloseLoginModal = () => {
+    setOpenLoginModal(false)
   }
+
+  const handleOpenComingSoonModal = () => {
+    setOpenComingSoonModal(true)
+  }
+
+  const handleCloseComingSoonModal = () => {
+    setOpenComingSoonModal(false)
+  }
+
+  useEffect(() => {
+    const navigateToSearchPage = function () {
+      navigate('/search')
+    }
+    document
+      .querySelector('input')
+      .addEventListener('focus', navigateToSearchPage)
+
+    return () => {
+      document
+        .querySelector('input')
+        .removeEventListener('focus', navigateToSearchPage)
+    }
+  }, [])
 
   return (
     <>
@@ -102,7 +129,7 @@ function AppBarPrimary() {
                 }}
               >
                 <img
-                  src={logo}
+                  src={Logo}
                   alt='Wynk logo'
                   width='32'
                   style={{ borderRadius: '50%' }}
@@ -140,6 +167,8 @@ function AppBarPrimary() {
                 <InputBase
                   placeholder='Search Songs'
                   sx={{ backgroundColor: 'transparent' }}
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
                 />
               </Paper>
               <Box
@@ -149,7 +178,7 @@ function AppBarPrimary() {
                 component='a'
                 href='#'
                 onClick={e => {
-                  handleOpenModal(e)
+                  handleOpenLoginModal(e)
                 }}
               >
                 <CurrencyRupee />
@@ -168,7 +197,7 @@ function AppBarPrimary() {
                 component='a'
                 href='#'
                 onClick={e => {
-                  handleOpenModal(e)
+                  handleOpenLoginModal(e)
                 }}
               >
                 <Avatar />
@@ -195,7 +224,7 @@ function AppBarPrimary() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting, i) => (
-                  <MenuItem key={i} onClick={handleCloseUserMenu}>
+                  <MenuItem key={i} onClick={handleOpenComingSoonModal}>
                     <Typography
                       textAlign='center'
                       display='flex'
@@ -210,7 +239,7 @@ function AppBarPrimary() {
                 <Divider />
                 <MenuItem
                   key={4}
-                  onClick={handleCloseUserMenu}
+                  onClick={handleOpenComingSoonModal}
                   sx={{ display: 'flex', flexDirection: 'column' }}
                 >
                   <Typography textAlign='center'>
@@ -233,7 +262,11 @@ function AppBarPrimary() {
           </Toolbar>
         </Container>
       </AppBar>
-      <SubscriptionModal open={openModal} handleClose={handleCloseModal} />
+      <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
+      <ComingSoonModal
+        open={openComingSoonModal}
+        handleClose={handleCloseComingSoonModal}
+      />
     </>
   )
 }
