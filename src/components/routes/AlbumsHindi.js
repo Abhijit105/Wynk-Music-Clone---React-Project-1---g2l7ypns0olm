@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import { AllContext } from '../AllProvider'
 import AlbumsPage from '../common/AlbumsPage'
 import BestWay from '../common/BestWay'
-import Footer from '../Footer'
 import { Box } from '@mui/material'
 
 function AlbumsHindi() {
@@ -33,16 +32,16 @@ function AlbumsHindi() {
   console.log(albumsHindi)
 
   return (
-    <Box
-      padding='100px'
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      width='100%'
-    >
-      <AlbumsPage title='Top Hindi Albums' albumItems={displayedAlbums} />
-      <BestWay />
-    </Box>
+      <Box
+        padding='100px'
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+        width='100%'
+      >
+        <AlbumsPage title='Top Hindi Albums' albumItems={displayedAlbums} />
+        <BestWay />
+      </Box>
   )
 }
 

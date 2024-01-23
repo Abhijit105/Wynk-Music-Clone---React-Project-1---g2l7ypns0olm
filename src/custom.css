@@ -11,8 +11,23 @@
 
 .rhap_time {
   position: absolute;
-  bottom: 1.25em;
-  right: 10em;
+
+  color: #fff;
+}
+
+.rhap_current-time {
+  bottom: 1.45em;
+  right: 14em;
+}
+
+.rhap_slash {
+  bottom: 1.45em;
+  right: 13.5em;
+}
+
+.rhap_total-time {
+  bottom: 1.45em;
+  right: 11em;
 }
 
 .rhap_progress-bar {

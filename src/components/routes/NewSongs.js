@@ -5,9 +5,12 @@ import { Box, Typography, Grid, Button } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import SongItem from '../common/SongItem'
+import AudioPlayerComponent from '../common/AudioPlayerComponent'
 
 function NewSongs() {
   const [page, setPage] = useState(1)
+  const [playlist, setPlaylist] = useState([])
+  const [track, setTrack] = useState(0)
 
   const { newSongs } = useContext(AllContext)
 
@@ -64,7 +67,13 @@ function NewSongs() {
             </Grid>
           </Grid>
           {displayedSongs.map((song, i) => (
-            <SongItem item={song} i={i} />
+            <SongItem
+              item={song}
+              i={i}
+              onPlaylistUpdate={setPlaylist}
+              onTrackUpdate={setTrack}
+              songItems={displayedSongs}
+            />
           ))}
           {displayedSongs.length !== newSongs.length && (
             <Button
@@ -84,6 +93,11 @@ function NewSongs() {
       </Box>
       <LoginRecommendation />
       <BestWay />
+      <AudioPlayerComponent
+        playlist={playlist}
+        track={track}
+        onTrackUpdate={setTrack}
+      />
     </Box>
   )
 }

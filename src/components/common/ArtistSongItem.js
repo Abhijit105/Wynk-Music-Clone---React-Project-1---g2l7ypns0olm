@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { Box, Grid, IconButton, Typography } from '@mui/material'
+import React, { useEffect } from 'react'
+import { Grid, Box, Typography, IconButton } from '@mui/material'
 import { Favorite } from '@mui/icons-material'
+import { useState } from 'react'
+import { BASEURL } from '../../config/config'
+import LoginModal from '../../components/LoginModal'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider'
-import LoginModal from '../../components/LoginModal'
-import { BASEURL3 } from '../../config/config'
 
-function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
-  const [itemAlbum, setItemAlbum] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
+function ArtistSongItem({
+  i,
+  item,
+  onPlaylistUpdate,
+  onTrackUpdate,
+  songItems,
+}) {
+  const [artists, setArtists] = useState([])
+  const [album, setAlbum] = useState(null)
+  const [isLoadingAlbum, setIsLoadingAlbum] = useState(false)
+  const [isLoadingArtists, setIsLoadingArtists] = useState(false)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
-  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -28,58 +36,60 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
     setOpenLoginModal(false)
   }
 
-  const favoriteHandler = async function (songId) {
+  const fetchDataAlbum = async () => {
     try {
-      setIsLoadingFavorite(true)
-      const response = await fetch(`${BASEURL3}`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${webToken.token}`,
-          projectID: 'g2l7ypns0olm',
-        },
-        body: { songId: JSON.stringify(songId) },
+      setIsLoadingAlbum(true)
+      const response = await fetch(`${BASEURL}/album/${item.album}`, {
+        headers: { projectId: 'g2l7ypns0olm' },
       })
+      console.log(response)
       if (!response.ok) {
-        throw new Error('Something went wrong during setting up of favorite.')
+        throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
       console.log(data)
+      const result = data.data
+      setAlbum(result)
     } catch (err) {
       console.error(err.message)
     } finally {
-      setIsLoadingFavorite(false)
-    }
-  }
-
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/music/album/${item.album}`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      console.log(data)
-      const album = data.data
-      setItemAlbum({ ...album })
-    } catch (err) {
-      console.error(err.message)
-    } finally {
-      setIsLoading(false)
+      setIsLoadingAlbum(false)
     }
   }
 
   useEffect(() => {
-    if (!item?.album) return
-    fetchData()
+    fetchDataAlbum()
+  }, [])
+
+  const fetchDataArtists = async () => {
+    for await (const artistId of item.artist) {
+      try {
+        setIsLoadingArtists(true)
+        const response = await fetch(`${BASEURL}/artist/${artistId}`, {
+          headers: { projectId: 'g2l7ypns0olm' },
+        })
+        console.log(response)
+        if (!response.ok) {
+          throw new Error('Something went wrong while fetching songs for you.')
+        }
+        const data = await response.json()
+        console.log(data)
+        const result = data.data
+        setArtists(artists => [...artists, result])
+      } catch (err) {
+        console.error(err.message)
+      } finally {
+        setIsLoadingArtists(false)
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchDataArtists()
   }, [])
 
   console.log(item)
-  console.log(webToken.token)
+  console.log(album)
 
   return (
     <>
@@ -96,22 +106,22 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
           <Box display='flex' alignItems='center' gap='0.5em'>
             <Box
               component={'img'}
-              src={item.thumbnail}
-              alt={item.title}
+              src={item?.thumbnail}
+              alt={item?.title}
               maxWidth='3em'
               borderRadius='0.375em'
             />
-            <Typography>{item.title}</Typography>
+            <Typography>{item?.title}</Typography>
           </Box>
         </Grid>
         <Grid xl={3}>
           <Typography color='rgba(255, 255, 255, 0.7)'>
-            {item.artist.map(a => a.name).join(', ')}
+            {artists.map(a => a.name).join(', ')}
           </Typography>
         </Grid>
         <Grid xl={3}>
           <Typography color='rgba(255, 255, 255, 0.7)'>
-            {itemAlbum?.title}
+            {album?.title}
           </Typography>
         </Grid>
         <Grid xl={1}>
@@ -119,9 +129,6 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
             sx={{
               background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
             }}
-            onClick={e =>
-              webToken ? favoriteHandler(item._id) : handleOpenLoginModal(e)
-            }
           >
             <Favorite fontSize='small' />
           </IconButton>
@@ -132,4 +139,4 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
   )
 }
 
-export default SongItem
+export default ArtistSongItem

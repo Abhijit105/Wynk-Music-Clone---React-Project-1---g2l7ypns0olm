@@ -25,6 +25,8 @@ import {
   CurrencyRupee,
   GetApp,
   Language,
+  Logout,
+  MusicNote,
   Podcasts,
   Search,
   SpatialAudio,
@@ -32,6 +34,9 @@ import {
 import LoginModal from './LoginModal'
 import ComingSoonModal from './ComingSoonModal'
 import { useEffect } from 'react'
+import { useState } from 'react'
+import { useContext } from 'react'
+import { AuthContext } from './AuthProvider'
 
 const settings = [
   {
@@ -52,11 +57,13 @@ const settings = [
   },
 ]
 
-function AppBarPrimary({searchTerm, setSearchTerm}) {
+function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
+
+  const { webToken, logout } = useContext(AuthContext)
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
@@ -82,6 +89,13 @@ function AppBarPrimary({searchTerm, setSearchTerm}) {
   const handleCloseComingSoonModal = () => {
     setOpenComingSoonModal(false)
   }
+
+  const signOutHandler = function () {
+    logout()
+    navigate('/', { replace: true })
+  }
+
+  console.log(webToken)
 
   useEffect(() => {
     const navigateToSearchPage = function () {
@@ -190,19 +204,35 @@ function AppBarPrimary({searchTerm, setSearchTerm}) {
                 flexItem
                 sx={{ borderLeft: '1px solid' }}
               />
-              <Box
-                display='flex'
-                alignItems='center'
-                gap='0.6em'
-                component='a'
-                href='#'
-                onClick={e => {
-                  handleOpenLoginModal(e)
-                }}
-              >
-                <Avatar />
-                <Typography>Login</Typography>
-              </Box>
+              {webToken ? (
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  gap='0.6em'
+                  component='a'
+                  href='#'
+                  onClick={() => {
+                    navigate('/mymusic')
+                  }}
+                >
+                  <MusicNote />
+                  <Typography>My Music</Typography>
+                </Box>
+              ) : (
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  gap='0.6em'
+                  component='a'
+                  href='#'
+                  onClick={e => {
+                    handleOpenLoginModal(e)
+                  }}
+                >
+                  <Avatar />
+                  <Typography>Login</Typography>
+                </Box>
+              )}
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu}>
                   <MenuIcon />
@@ -229,13 +259,26 @@ function AppBarPrimary({searchTerm, setSearchTerm}) {
                       textAlign='center'
                       display='flex'
                       alignItems='center'
-                      gap='1rem'
+                      gap='1em'
                     >
                       {setting.icon}
                       {setting.title}
                     </Typography>
                   </MenuItem>
                 ))}
+                {webToken ? (
+                  <MenuItem key={'signout'} onClick={signOutHandler}>
+                    <Typography
+                      textAlign='center'
+                      display='flex'
+                      alignItems='center'
+                      gap='1em'
+                    >
+                      <Logout />
+                      Sign Out
+                    </Typography>
+                  </MenuItem>
+                ) : null}
                 <Divider />
                 <MenuItem
                   key={4}

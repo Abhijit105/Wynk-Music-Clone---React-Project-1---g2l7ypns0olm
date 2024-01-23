@@ -53,7 +53,10 @@ function AppBarSecondary() {
           <NavLink className='app-bar-secondary-navlink-title' to='/'>
             All
           </NavLink>
-          <NavLink className='app-bar-secondary-navlink-title' to='/trending'>
+          <NavLink
+            className='app-bar-secondary-navlink-title'
+            to='/trendingsongs'
+          >
             Trending Now
           </NavLink>
           <NavLink

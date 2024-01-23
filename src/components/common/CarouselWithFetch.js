@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Carousel from './Carousel'
 import { BASEURL } from '../../config/config'
 
-function CarouselWithFetch({ title, category, type }) {
+function CarouselWithFetch({ title, category, type, onPlaylistUpdate, onTrackUpdate }) {
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -34,7 +34,14 @@ function CarouselWithFetch({ title, category, type }) {
 
   console.log(songs)
 
-  return <Carousel title={title} items={songs} />
+  return (
+    <Carousel
+      title={title}
+      items={songs}
+      onPlaylistUpdate={onPlaylistUpdate}
+      onTrackUpdate={onTrackUpdate}
+    />
+  )
 }
 
 export default CarouselWithFetch

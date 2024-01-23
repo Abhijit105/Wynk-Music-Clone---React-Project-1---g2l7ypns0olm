@@ -1,10 +1,23 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { darkTheme } from '../App'
+import { useNavigate } from 'react-router-dom'
 
 function SearchedSongItem({ item }) {
+  const navigate = useNavigate()
+
+  const clickHandler = function (albumId) {
+    navigate(`/albums/${albumId}`)
+  }
   return (
-    <Box display='flex' alignItems='center' gap='1em' marginBottom='2.5em'>
+    <Box
+      display='flex'
+      alignItems='center'
+      gap='1em'
+      marginBottom='2.5em'
+      sx={{ cursor: 'pointer' }}
+      onClick={() => clickHandler(item.album)}
+    >
       <Box
         component={'img'}
         src={item.thumbnail}

@@ -2,10 +2,10 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { AppBar } from '@mui/material'
+import { AppBar, Box } from '@mui/material'
 
 import { createContext, useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
 import { FEATURED } from '../config/config'
 import AllProvider from './AllProvider'
@@ -30,6 +30,13 @@ import Top20 from './routes/Top20'
 import SoulSoother from './routes/SoulSoother'
 import Podcast from './routes/Podcast'
 import Search from './routes/Search'
+import Artists from './routes/Artists'
+import Album from './routes/Album'
+import Artist from './routes/Artist'
+import MyMusic from './routes/MyMusic'
+import AuthProvider from './AuthProvider'
+import RequireAuth from './RequireAuth'
+import LoginModal from './LoginModal'
 
 export const darkTheme = createTheme({
   palette: {
@@ -39,7 +46,6 @@ export const darkTheme = createTheme({
 
 function App() {
   const [allSongs, setAllSongs] = useState([])
-  const [allAlbums, setAllAlbums] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
@@ -74,42 +80,75 @@ function App() {
     !isLoading && allSongs.length < 2454 && setPage(page => page + 1)
   }, [isLoading])
 
+  useEffect(() => {}, [])
+
   console.log(page)
   console.log(allSongs)
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <AllProvider allSongs={allSongs} searchTerm={searchTerm}>
-        <BrowserRouter>
-          <AppBarPrimary
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
-          <AppBarSecondary />
-          <Routes>
-            <Route path='/' element={<All />} />
-            <Route path='/trending' element={<Trending />} />
-            <Route path='/evergreenmelodies' element={<OldSongs />} />
-            <Route path='/new' element={<NewSongs />} />
-            <Route path='/romantic' element={<RomanticSongs />} />
-            <Route path='/happy' element={<HappySongs />} />
-            <Route path='/excited' element={<ExcitedSongs />} />
-            <Route path='/sad' element={<SadSongs />} />
-            <Route path='/tophindialbums' element={<AlbumsHindi />} />
-            <Route path='/topenglishalbums' element={<AlbumsEnglish />} />
-            <Route path='/toptamilalbums' element={<AlbumsTamil />} />
-            <Route path='/toptelugualbums' element={<AlbumsTelugu />} />
-            <Route path='/topbhojpurialbums' element={<AlbumsBhojpuri />} />
-            <Route path='/top50ofthismonth' element={<Top50 />} />
-            <Route path='/top20ofthisweek' element={<Top20 />} />
-            <Route path='/soulsoother' element={<SoulSoother />} />
-            <Route path='/podcast' element={<Podcast />} />
-            <Route path='/search' element={<Search />} />
-          </Routes>
-        </BrowserRouter>
-        <Footer />
-      </AllProvider>
+      <AuthProvider>
+        <AllProvider allSongs={allSongs} searchTerm={searchTerm}>
+          <BrowserRouter>
+            <AppBarPrimary
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+            <AppBarSecondary />
+            <Routes>
+              <Route path='/' element={<All />} />
+              <Route path='/trendingsongs' element={<Trending />} />
+              <Route path='/evergreenmelodies' element={<OldSongs />} />
+              <Route path='/new' element={<NewSongs />} />
+              <Route path='/romantic' element={<RomanticSongs />} />
+              <Route path='/happy' element={<HappySongs />} />
+              <Route path='/excited' element={<ExcitedSongs />} />
+              <Route path='/sad' element={<SadSongs />} />
+              <Route path='/tophindialbums' element={<AlbumsHindi />} />
+              <Route path='/topenglishalbums' element={<AlbumsEnglish />} />
+              <Route path='/toptamilalbums' element={<AlbumsTamil />} />
+              <Route path='/toptelugualbums' element={<AlbumsTelugu />} />
+              <Route path='/topbhojpurialbums' element={<AlbumsBhojpuri />} />
+              <Route path='/topartists' element={<Artists />} />
+              <Route path='/top50ofthismonth' element={<Top50 />} />
+              <Route path='/top20ofthisweek' element={<Top20 />} />
+              <Route path='/soulsoother' element={<SoulSoother />} />
+              <Route path='/podcast' element={<Podcast />} />
+              <Route path='/search' element={<Search />} />
+              <Route
+                path='/albums'
+                element={
+                  <Box>
+                    <Outlet />
+                  </Box>
+                }
+              >
+                <Route path=':_id' element={<Album />} />
+              </Route>
+              <Route
+                path='/artists'
+                element={
+                  <Box>
+                    <Outlet />
+                  </Box>
+                }
+              >
+                <Route path=':_id' element={<Artist />} />
+              </Route>
+              <Route
+                path='/mymusic'
+                element={
+                  <RequireAuth>
+                    <MyMusic />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+          <Footer />
+        </AllProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

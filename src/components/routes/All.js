@@ -21,27 +21,15 @@ import Carousel from '../common/Carousel'
 import { BASEURL } from '../../config/config'
 import { Box, IconButton, Paper, Typography } from '@mui/material'
 import CarouselWithFetch from '../common/CarouselWithFetch'
-import AudioPlayer from 'react-h5-audio-player'
-import 'react-h5-audio-player/lib/styles.css'
-import '../../custom.css'
-import { RHAP_UI } from 'react-h5-audio-player'
-import {
-  PlaylistPlay,
-  PlaylistPlayRounded,
-  PlaylistPlayTwoTone,
-} from '@mui/icons-material'
+import AudioPlayerComponent from '../common/AudioPlayerComponent'
+import { useState } from 'react'
 
 function All() {
+  const [playlist, setPlaylist] = useState([])
+  const [track, setTrack] = useState(0)
+
   const banners = Array.from({ length: 16 }, (_, i) => `BANNER_${i + 1}.webp`)
   console.log(banners)
-
-  useEffect(() => {
-    document
-      .querySelector('.rhap_controls-section')
-      .childNodes.forEach(node => {
-        node.setAttribute('class', '')
-      })
-  }, [])
 
   const { allSongs } = useContext(AllContext)
 
@@ -92,109 +80,87 @@ function All() {
         ]}
       />
       <Box sx={{ paddingX: '100px' }}>
-        <Carousel title='Songs of 2023' items={songs2023AndAbove} />
-        <Carousel title='Year 2022' items={songs2022} />
-        <Carousel title='2021: Year in focus' items={songs2021} />
+        <Carousel
+          title='Songs of 2023'
+          items={songs2023AndAbove}
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
+        />
+        <Carousel
+          title='Year 2022'
+          items={songs2022}
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
+        />
+        <Carousel
+          title='2021: Year in focus'
+          items={songs2021}
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
+        />
         <CarouselWithFetch
           title='Trending Songs'
           category='featured'
           type='Trending songs'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
         <CarouselWithFetch
           title='Top 50 of this month'
           category='featured'
           type='Top 50 of this month'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
         <CarouselWithFetch
           title='Soul soother'
           category='featured'
           type='Soul soother'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
         <CarouselWithFetch
           title='Top 20 of this week'
           category='featured'
           type='Top 20 of this week'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
         <CarouselWithFetch
           title='Evergreen melodies'
           category='featured'
           type='Evergreen melodies'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
         <CarouselWithFetch
           title='Romantic songs'
           category='mood'
           type='romantic'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
-        <CarouselWithFetch title='Happy songs' category='mood' type='happy' />
+        <CarouselWithFetch
+          title='Happy songs'
+          category='mood'
+          type='happy'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
+        />
         <CarouselWithFetch
           title='Excited songs'
           category='mood'
           type='excited'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
         />
         <CarouselWithFetch title='Sad songs' category='mood' type='sad' />
-
-        <Box
-          sx={{
-            position: 'fixed',
-            zIndex: '2',
-            bottom: '0',
-            width: '100%',
-            left: '0',
-          }}
-        >
-          <AudioPlayer
-            customProgressBarSection={[
-              RHAP_UI.PROGRESS_BAR,
-              RHAP_UI.CURRENT_TIME,
-              <div className='rhap_time'>/</div>,
-              RHAP_UI.DURATION,
-            ]}
-            customControlsSection={[
-              <Paper
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gridTemplateRows: '1fr 1fr',
-                }}
-              >
-                <Box
-                  component={'img'}
-                  src=''
-                  alt='song image'
-                  sx={{ gridRow: '1 / 3', gridColumn: '1 / 2' }}
-                />
-                <Typography
-                  variant='subtitle1'
-                  sx={{ gridRow: '1 / 2', gridColumn: '2 / 3' }}
-                >
-                  Song name
-                </Typography>
-                <Typography
-                  variant='subtitle2'
-                  sx={{ gridRow: '2 / 3', gridColumn: '2 / 3' }}
-                >
-                  Song album
-                </Typography>
-              </Paper>,
-              RHAP_UI.ADDITIONAL_CONTROLS,
-              RHAP_UI.MAIN_CONTROLS,
-              RHAP_UI.VOLUME_CONTROLS,
-              <IconButton
-                style={{
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  backgroundColor: '#272727',
-                  padding: '0 !important',
-                  cursor: 'pointer',
-                  border: 'none',
-                }}
-              >
-                <PlaylistPlay />
-              </IconButton>,
-            ]}
-            showSkipControls={true}
-            showJumpControls={false}
-          />
-        </Box>
+        <AudioPlayerComponent
+          playlist={playlist}
+          track={track}
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
+        />
       </Box>
     </>
   )

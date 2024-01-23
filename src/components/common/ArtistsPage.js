@@ -2,11 +2,11 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function AlbumsPage({ title, albumItems }) {
+function ArtistsPage({ title, artistItems }) {
   const navigate = useNavigate()
 
-  const clickHandler = function (selectedAlbum) {
-    navigate(`/albums/${selectedAlbum._id}`)
+  const clickHandler = function (artistId) {
+    navigate(`/artists/${artistId}`)
   }
 
   return (
@@ -21,21 +21,21 @@ function AlbumsPage({ title, albumItems }) {
         gap='1em'
         justifyContent='flex-start'
       >
-        {albumItems.map((album, i) => (
+        {artistItems.map((artist, i) => (
           <Box
             key={i}
             maxWidth='12.875em'
             sx={{ cursor: 'pointer' }}
-            onClick={() => clickHandler(album)}
+            onClick={() => clickHandler(artist._id)}
           >
             <Box
               component={'img'}
-              src={album.image}
-              alt={album.title}
+              src={artist.image}
+              alt={artist.name}
               maxWidth='12.875em'
               borderRadius='1em'
             />
-            <Typography variant='h6'>{album.title}</Typography>
+            <Typography variant='h6'>{artist.name}</Typography>
           </Box>
         ))}
       </Box>
@@ -43,4 +43,4 @@ function AlbumsPage({ title, albumItems }) {
   )
 }
 
-export default AlbumsPage
+export default ArtistsPage

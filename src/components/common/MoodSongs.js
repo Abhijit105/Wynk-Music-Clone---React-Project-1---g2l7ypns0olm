@@ -3,7 +3,13 @@ import React, { useState, useEffect } from 'react'
 import SongItem from './SongItem'
 import { BASEURL } from '../../config/config'
 
-function MoodSongs({ title, type, numberOfSongs }) {
+function MoodSongs({
+  title,
+  type,
+  numberOfSongs,
+  onPlaylistUpdate,
+  onTrackUpdate,
+}) {
   const [songItems, setSongItems] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
@@ -13,7 +19,7 @@ function MoodSongs({ title, type, numberOfSongs }) {
     try {
       setIsLoading(true)
       const response = await fetch(
-        `${BASEURL}/song?filter={"mood":"${type}"}&page=${page}&limit=100`,
+        `${BASEURL}/song?filter={"mood":"${type}"}&page=${page}&limit=20`,
         {
           headers: { projectId: 'g2l7ypns0olm' },
         }
@@ -85,7 +91,13 @@ function MoodSongs({ title, type, numberOfSongs }) {
           </Grid>
         </Grid>
         {songItems.map((song, i) => (
-          <SongItem item={song} i={i} />
+          <SongItem
+            item={song}
+            i={i}
+            onPlaylistUpdate={onPlaylistUpdate}
+            onTrackUpdate={onTrackUpdate}
+            songItems={songItems}
+          />
         ))}
         {songItems.length !== numberOfSongs && (
           <Button
