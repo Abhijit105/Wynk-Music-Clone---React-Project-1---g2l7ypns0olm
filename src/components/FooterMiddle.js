@@ -3,16 +3,9 @@ import React from 'react'
 import { darkTheme } from './App'
 import { Facebook, Instagram, Twitter, YouTube } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import { FOOTERMIDDLE } from '../config/config'
 
 function FooterMiddle() {
-  const footerMiddle = [
-    'ABOUT US',
-    'PRIVACY POLICY',
-    'TERMS OF USE',
-    'CONTACT US',
-    'HELLOTUNES',
-  ]
-
   const navigate = useNavigate()
 
   const clickHandler = function () {
@@ -26,11 +19,17 @@ function FooterMiddle() {
       borderTop={`1px solid ${darkTheme.palette.divider}`}
       padding='1em'
       display='flex'
+      flexDirection={{ xs: 'column', sm: 'column', md: 'column', lg: 'row' }}
+      gap={{ xs: '1em', sm: '1em', md: '1em', lg: '0' }}
       justifyContent='space-between'
       alignItems='center'
     >
-      <Box display='flex'>
-        {footerMiddle.map((item, i, arr) => (
+      <Box
+        display='flex'
+        flexWrap={{ xs: 'wrap', sm: 'wrap', md: 'nowrap' }}
+        justifyContent={'center'}
+      >
+        {FOOTERMIDDLE.map((item, i, arr) => (
           <Typography
             key={i}
             variant='body1'

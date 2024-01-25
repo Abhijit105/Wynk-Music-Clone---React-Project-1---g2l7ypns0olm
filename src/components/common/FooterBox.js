@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 function FooterBox({ title, data, onClickLinkHandler }) {
   return (
-    <Box width='22.5%'>
+    <Box width={{ xs: '100%', sm: '45%', md: '30%', lg: '22.5%' }}>
       <Typography variant='h6'>{title}</Typography>
       <Box>
         {data.map((item, i, arr) => (

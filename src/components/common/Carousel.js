@@ -72,6 +72,7 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
         </IconButton>
         {displayedItems.map((song, i) => (
           <Box
+            key={i}
             display='flex'
             flexDirection='column'
             gap='0.5em'
@@ -82,7 +83,6 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
             }
           >
             <Box
-              key={i}
               component={'img'}
               src={song.thumbnail}
               alt='banner'

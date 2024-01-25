@@ -28,8 +28,8 @@ function AlbumSongItem({
     onTrackUpdate(i)
   }
 
-  const handleOpenLoginModal = e => {
-    e.preventDefault()
+  const handleOpenLoginModal = event => {
+    event.preventDefault()
     setOpenLoginModal(true)
   }
 
@@ -108,7 +108,11 @@ function AlbumSongItem({
             sx={{
               background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
             }}
-            onClick={favoriteHandler}
+            onClick={event =>
+              webToken
+                ? favoriteHandler(event, item._id)
+                : handleOpenLoginModal(event)
+            }
           >
             <Favorite fontSize='small' />
           </IconButton>

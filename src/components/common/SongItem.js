@@ -35,7 +35,7 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
       const response = await fetch(`${BASEURL3}`, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${webToken.token}`,
+          Authorization: `Bearer ${webToken?.token}`,
           projectId: 'g2l7ypns0olm',
           'Content-Type': 'application/json',
         },
@@ -81,7 +81,7 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
   }, [])
 
   console.log(item)
-  console.log(webToken.token)
+  console.log(webToken?.token)
 
   return (
     <>

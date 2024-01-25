@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { AppBar, Box } from '@mui/material'
 
-import { createContext, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
 import { FEATURED } from '../config/config'

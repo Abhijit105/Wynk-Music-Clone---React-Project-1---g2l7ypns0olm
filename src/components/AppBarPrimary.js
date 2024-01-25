@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import AdbIcon from '@mui/icons-material/Adb'
 import Logo from '../assets/logo/logo.png'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -25,6 +24,7 @@ import {
   CurrencyRupee,
   GetApp,
   Language,
+  Login,
   Logout,
   MusicNote,
   Password,
@@ -39,28 +39,11 @@ import { useState } from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthProvider'
 import PasswordChangeModal from './PasswordChangeModal'
-
-const settings = [
-  {
-    title: 'Download App',
-    icon: <GetApp />,
-  },
-  {
-    title: 'Select Language',
-    icon: <Language />,
-  },
-  {
-    title: 'Sound Quality',
-    icon: <SpatialAudio />,
-  },
-  {
-    title: 'Podcast',
-    icon: <Podcasts />,
-  },
-]
+import { SETTINGS, MOBILESETTINGS } from '../config/config'
 
 function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const navigate = useNavigate()
+
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
@@ -77,8 +60,8 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     setAnchorElUser(null)
   }
 
-  const handleOpenLoginModal = e => {
-    e.preventDefault()
+  const handleOpenLoginModal = event => {
+    event.preventDefault()
     setOpenLoginModal(true)
   }
 
@@ -86,7 +69,8 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     setOpenLoginModal(false)
   }
 
-  const handleOpenComingSoonModal = () => {
+  const handleOpenComingSoonModal = event => {
+    event.preventDefault()
     setOpenComingSoonModal(true)
   }
 
@@ -94,7 +78,8 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     setOpenComingSoonModal(false)
   }
 
-  const handleOpenPasswordChangeModal = () => {
+  const handleOpenPasswordChangeModal = event => {
+    event.preventDefault()
     setOpenPasswordChangeModal(true)
   }
 
@@ -102,12 +87,17 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     setOpenPasswordChangeModal(false)
   }
 
+  const searchClickHandler = function () {
+    navigate('/search')
+  }
+  const myMusicClickHandler = function()  {
+    navigate('/mymusic')
+  }
+
   const signOutHandler = function () {
     logout()
     navigate('/', { replace: true })
   }
-
-  const handleChangePassword = async function () {}
 
   console.log(webToken)
 
@@ -128,40 +118,37 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
 
   return (
     <>
-      <AppBar position='relative' sx={{ paddingX: '4em' }}>
-        <Container maxWidth='xl'>
+      <AppBar
+        position='relative'
+        sx={{ paddingX: { xs: '0', sm: '0', md: '4em' } }}
+      >
+        <Container maxWidth>
           <Toolbar
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              fontSize: '1.125em',
             }}
           >
-            <Box>
+            <Box display={'flex'} gap={'0.5em'} alignItems={'center'}>
+              <Box
+                component={'img'}
+                src={Logo}
+                alt='Wynk Logo'
+                width={'3em'}
+                borderRadius={'50%'}
+              />
               <Typography
                 variant='h6'
                 noWrap
                 component='a'
                 href='/'
                 sx={{
-                  mr: 2,
-                  display: { xs: 'none', md: 'flex' },
                   fontFamily: 'roboto',
                   fontWeight: 700,
                   fontSize: '1.375em',
                   color: 'inherit',
-                  textDecoration: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
                 }}
               >
-                <img
-                  src={Logo}
-                  alt='Wynk logo'
-                  width='32'
-                  style={{ borderRadius: '50%' }}
-                />
                 Wynk Music
               </Typography>
             </Box>
@@ -176,7 +163,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
             >
               <Paper
                 sx={{
-                  display: 'flex',
+                  display: { xs: 'none', sm: 'none', md: 'flex' },
                   alignItems: 'center',
                   gap: '1em',
                   padding: '0.25em 2em',
@@ -184,12 +171,13 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                   background: '#383838',
                 }}
               >
-                <IconButton>
+                <IconButton onClick={searchClickHandler}>
                   <Search
                     sx={{
                       position: 'absolute',
                       color: 'rgba(255, 255, 255, 0.7)',
                     }}
+                    
                   />
                 </IconButton>
                 <InputBase
@@ -199,8 +187,18 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </Paper>
+              <IconButton
+                sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+                onClick={searchClickHandler}
+              >
+                <Search
+                  sx={{
+                    color: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                />
+              </IconButton>
               <Box
-                display='flex'
+                display={{ xs: 'none', sm: 'none', md: 'flex' }}
                 alignItems='center'
                 gap='0.2em'
                 component='a'
@@ -216,25 +214,26 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                 orientation='vertical'
                 variant='middle'
                 flexItem
-                sx={{ borderLeft: '1px solid' }}
+                sx={{
+                  borderLeft: '1px solid',
+                  display: { xs: 'none', sm: 'none', md: 'flex' },
+                }}
               />
               {webToken ? (
                 <Box
-                  display='flex'
+                  display={{ xs: 'none', sm: 'none', md: 'flex' }}
                   alignItems='center'
                   gap='0.6em'
                   component='a'
                   href='#'
-                  onClick={() => {
-                    navigate('/mymusic')
-                  }}
+                  onClick={myMusicClickHandler}
                 >
                   <MusicNote />
                   <Typography>My Music</Typography>
                 </Box>
               ) : (
                 <Box
-                  display='flex'
+                  display={{ xs: 'none', sm: 'none', md: 'flex' }}
                   alignItems='center'
                   gap='0.6em'
                   component='a'
@@ -268,21 +267,73 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                 onClose={handleCloseUserMenu}
               >
                 {webToken && (
-                  <MenuItem key={5} onClick={handleChangePassword}>
+                  <MenuItem key={10}>
                     <Typography
                       textAlign='center'
                       display='flex'
                       alignItems='center'
                       gap='1em'
-                      onClick={handleOpenPasswordChangeModal}
+                      onClick={event => handleOpenPasswordChangeModal(event)}
                     >
                       <Password />
                       Change Password
                     </Typography>
                   </MenuItem>
                 )}
-                {settings.map((setting, i) => (
-                  <MenuItem key={i} onClick={handleOpenComingSoonModal}>
+                <MenuItem
+                  key={9}
+                  sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+                >
+                  <Typography
+                    textAlign='center'
+                    display='flex'
+                    alignItems='center'
+                    gap='1em'
+                    onClick={event => handleOpenLoginModal(event)}
+                  >
+                    <CurrencyRupee />
+                    Manage Subscription
+                  </Typography>
+                </MenuItem>
+                {webToken ? (
+                  <MenuItem
+                    key={8}
+                    sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+                    onClick={myMusicClickHandler}
+                  >
+                    <Typography
+                      textAlign='center'
+                      display='flex'
+                      alignItems='center'
+                      gap='1em'
+                    >
+                      <MusicNote />
+                      My Music
+                    </Typography>
+                  </MenuItem>
+                ) : (
+                  <MenuItem
+                    key={8}
+                    sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+                    onClick={event => handleOpenLoginModal(event)}
+                  >
+                    <Typography
+                      textAlign='center'
+                      display='flex'
+                      alignItems='center'
+                      gap='1em'
+                      
+                    >
+                      <Login />
+                      Login
+                    </Typography>
+                  </MenuItem>
+                )}
+                {SETTINGS.map((setting, i) => (
+                  <MenuItem
+                    key={i}
+                    onClick={event => handleOpenComingSoonModal(event)}
+                  >
                     <Typography
                       textAlign='center'
                       display='flex'
@@ -310,7 +361,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                 <Divider />
                 <MenuItem
                   key={4}
-                  onClick={handleOpenComingSoonModal}
+                  onClick={event => handleOpenComingSoonModal(event)}
                   sx={{ display: 'flex', flexDirection: 'column' }}
                 >
                   <Typography textAlign='center'>

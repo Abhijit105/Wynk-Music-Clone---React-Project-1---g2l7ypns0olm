@@ -6,8 +6,6 @@ function AllProvider({ children, allSongs, searchTerm }) {
   const [allAlbums, setAllAlbums] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
-  const [artists, setArtists] = useState([])
-  const [isLoadingArtists, setIsLoadingArtists] = useState(false)
 
   const fetchData = async () => {
     try {

@@ -9,6 +9,8 @@ function BestWay() {
   return (
     <Box
       display='flex'
+      flexDirection={{ xs: 'column', sm: 'row' }}
+      gap={{ xs: '2em', sm: '0em' }}
       alignItems='center'
       justifyContent='space-between'
       width='100%'
@@ -42,18 +44,26 @@ function BestWay() {
           Don't forget to install Wynk Music on your mobile phones
         </Typography>
       </Box>
-      <Box display='flex' gap='1em'>
+      <Box
+        display='flex'
+        gap='1em'
+        width={'auto'}
+        alignItems={'center'}
+        justifyContent={'center'}
+      >
         <Box
           component={'img'}
           src={GooglePlay}
           alt='Google Play'
           maxWidth='10em'
+          width={{ xs: '40%' }}
         ></Box>
         <Box
           component={'img'}
           src={AppStore}
           alt='App Store'
           maxWidth='10em'
+          width={{ xs: '40%' }}
         ></Box>
       </Box>
     </Box>

@@ -36,7 +36,7 @@ function Album() {
       console.log(data)
       setAlbum(data.data)
       const songsResult = data.data.songs
-      setPlaylist(songs)
+      setPlaylist(songsResult)
       const artistsResult = data.data.artists
       setArtists(artistsResult)
     } catch (err) {

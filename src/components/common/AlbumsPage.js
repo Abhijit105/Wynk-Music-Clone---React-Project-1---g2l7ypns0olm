@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import Album from '../routes/Album'
 
 function AlbumsPage({ title, albumItems }) {
   const navigate = useNavigate()
@@ -8,6 +9,7 @@ function AlbumsPage({ title, albumItems }) {
   const clickHandler = function (selectedAlbum) {
     navigate(`/albums/${selectedAlbum._id}`)
   }
+  console.log(albumItems)
 
   return (
     <Box marginBottom='4em'>

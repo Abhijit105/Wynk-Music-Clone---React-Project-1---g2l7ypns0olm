@@ -29,8 +29,8 @@ function ArtistSongItem({
     onTrackUpdate(i)
   }
 
-  const handleOpenLoginModal = e => {
-    e.preventDefault()
+  const handleOpenLoginModal = event => {
+    event.preventDefault()
     setOpenLoginModal(true)
   }
 
@@ -124,7 +124,9 @@ function ArtistSongItem({
         container
         marginBottom='1em'
         sx={{ cursor: 'pointer' }}
-        onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
+        onClick={event =>
+          webToken ? clickHandler(i) : handleOpenLoginModal(event)
+        }
       >
         <Grid xl={'auto'} marginRight='1em'>
           <Typography>{i + 1}</Typography>
@@ -156,7 +158,11 @@ function ArtistSongItem({
             sx={{
               background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
             }}
-            onClick={favoriteHandler}
+            onClick={event =>
+              webToken
+                ? favoriteHandler(event, item._id)
+                : handleOpenLoginModal(event)
+            }
           >
             <Favorite fontSize='small' />
           </IconButton>

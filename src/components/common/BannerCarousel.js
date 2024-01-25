@@ -51,10 +51,10 @@ function BannerCarousel({ items }) {
         justifyContent: 'center',
         gap: '2rem',
         width: '100%',
-        height: '280px',
+        height: { sm: '210px', md: '280px' },
         position: 'relative',
         overflow: 'hidden',
-        marginBottom: '80px',
+        marginBottom: '5em',
       }}
     >
       <IconButton
@@ -77,11 +77,15 @@ function BannerCarousel({ items }) {
           src={card}
           alt='banner'
           sx={{
+            objectFit: { xs: 'contain' },
+            objectPosition: { xs: 'center' },
             height: '100%',
             borderRadius: '1rem',
-            transform: `translate(${index * 100 + 50}%, 0)`,
+            transform: {
+              xs: `translate(${index * 100}%, 0)`,
+              sm: `translate(${index * 100 + 50}%, 0)`,
+            },
             transition: 'transform 0.3s linear',
-            // transition: index !== -16 && 'transform 0.3s linear',
           }}
         />
       ))}
