@@ -39,7 +39,7 @@ function Artists() {
   return (
     <>
       <Box
-        padding='100px'
+        padding='6em'
         display='flex'
         flexDirection='column'
         alignItems='center'

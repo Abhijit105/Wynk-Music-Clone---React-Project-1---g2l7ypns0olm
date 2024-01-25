@@ -1,7 +1,7 @@
 import { NavigateBefore, NavigateNext } from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
 import React, { useEffect, useState, useRef, useContext } from 'react'
-import { AuthContext } from '../AuthProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
 
 function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
@@ -78,7 +78,7 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
             height='100%'
             sx={{ cursor: 'pointer' }}
             onClick={e =>
-              (webToken ? songClickHandler(i) : handleOpenLoginModal(e))
+              webToken ? songClickHandler(i) : handleOpenLoginModal(e)
             }
           >
             <Box

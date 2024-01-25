@@ -14,6 +14,7 @@ function BestWay() {
       width='100%'
       padding='2em'
       borderRadius='0.5em'
+      marginBottom='4em'
       sx={{ backgroundColor: '#272727' }}
     >
       <Box

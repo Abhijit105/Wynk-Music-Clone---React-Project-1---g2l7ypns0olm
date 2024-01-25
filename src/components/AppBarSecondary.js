@@ -36,7 +36,7 @@ function AppBarSecondary() {
     <AppBar
       position='static'
       color='transparent'
-      sx={{ boxShadow: 'none', paddingX: '60px' }}
+      sx={{ boxShadow: 'none', paddingX: '4em' }}
       className='app-bar-secondary'
     >
       <Container maxWidth='xl'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, Grid } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
@@ -7,13 +7,14 @@ import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { useEffect } from 'react'
 import { BASEURL } from '../../config/config'
 import AlbumSongItem from '../common/AlbumSongItem'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function Album() {
-  const [playlist, setPlaylist] = useState([])
   const [artists, setArtists] = useState([])
-  const [track, setTrack] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [album, setAlbum] = useState(null)
+
+  const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
   const { _id } = useParams()
 
@@ -34,10 +35,10 @@ function Album() {
       const data = await response.json()
       console.log(data)
       setAlbum(data.data)
-      const songs = data.data.songs
+      const songsResult = data.data.songs
       setPlaylist(songs)
-      const artists = data.data.artists
-      setArtists(artists)
+      const artistsResult = data.data.artists
+      setArtists(artistsResult)
     } catch (err) {
       console.error(err.message)
     } finally {
@@ -141,7 +142,6 @@ function Album() {
       </Box>
       <LoginRecommendation />
       <BestWay />
-      <AudioPlayerComponent playlist={playlist} track={track} />
     </Box>
   )
 }

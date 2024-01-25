@@ -4,8 +4,9 @@ import BestWay from '../common/BestWay'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BASEURL3 } from '../../config/config'
-import { AuthContext } from '../AuthProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 import AudioPlayerComponent from '../common/AudioPlayerComponent'
+import LikedSongItem from '../common/LikedSongItem'
 
 function MyMusic() {
   const [likedSongs, setLikedSongs] = useState([])
@@ -16,11 +17,6 @@ function MyMusic() {
   const { webToken } = useContext(AuthContext)
 
   const navigate = useNavigate()
-
-  const songClickHandler = function (i) {
-    setPlaylist(likedSongs)
-    setTrack(i)
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,20 +70,14 @@ function MyMusic() {
           justifyContent='flex-start'
         >
           {likedSongs.map((song, i) => (
-            <Box
+            <LikedSongItem
               key={i}
-              maxWidth='12.875em'
-              sx={{ cursor: 'pointer' }}
-              onClick={() => songClickHandler(i)}
-            >
-              <Box
-                component={'img'}
-                src={song.thumbnail}
-                alt={song.title}
-                maxWidth='12.875em'
-                borderRadius='1em'
-              />
-            </Box>
+              item={song}
+              onPlaylistUpdate={setPlaylist}
+              onTrackUpdate={setTrack}
+              i={i}
+              songItems={likedSongs}
+            />
           ))}
         </Box>
       </Box>

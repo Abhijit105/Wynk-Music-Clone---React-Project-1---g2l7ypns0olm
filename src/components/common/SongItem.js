@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Box, Grid, IconButton, Typography } from '@mui/material'
 import { Favorite } from '@mui/icons-material'
 import { useContext } from 'react'
-import { AuthContext } from '../AuthProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
 import { BASEURL3 } from '../../config/config'
 
@@ -28,16 +28,18 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
     setOpenLoginModal(false)
   }
 
-  const favoriteHandler = async function (songId) {
+  const favoriteHandler = async function (event, songId) {
     try {
+      event.stopPropagation()
       setIsLoadingFavorite(true)
       const response = await fetch(`${BASEURL3}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${webToken.token}`,
-          projectID: 'g2l7ypns0olm',
+          projectId: 'g2l7ypns0olm',
+          'Content-Type': 'application/json',
         },
-        body: { songId: JSON.stringify(songId) },
+        body: JSON.stringify({ songId: songId }),
       })
       if (!response.ok) {
         throw new Error('Something went wrong during setting up of favorite.')
@@ -119,8 +121,10 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
             sx={{
               background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
             }}
-            onClick={e =>
-              webToken ? favoriteHandler(item._id) : handleOpenLoginModal(e)
+            onClick={event =>
+              webToken
+                ? favoriteHandler(event, item._id)
+                : handleOpenLoginModal(event)
             }
           >
             <Favorite fontSize='small' />

@@ -8,11 +8,14 @@ import { Box, Paper, Typography, IconButton } from '@mui/material'
 import { useState } from 'react'
 import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
-import { AuthContext } from '../AuthProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
-function AudioPlayerComponent({ playlist, track, onTrackUpdate }) {
+function AudioPlayerComponent() {
   const [isLoading, setIsLoading] = useState(false)
   const [album, setAlbum] = useState({})
+
+  const { playlist, track, setTrack } = useContext(PlayerContext)
 
   const { webToken } = useContext(AuthContext)
 
@@ -52,14 +55,6 @@ function AudioPlayerComponent({ playlist, track, onTrackUpdate }) {
   console.log(playlist)
   console.log(album)
   console.log(webToken)
-
-  // useEffect(() => {
-  //   document
-  //     .querySelector('.rhap_controls-section')
-  //     .childNodes.forEach(node => {
-  //       node.setAttribute('class', '')
-  //     })
-  // }, [])
 
   return (
     <Box
@@ -129,14 +124,10 @@ function AudioPlayerComponent({ playlist, track, onTrackUpdate }) {
         volume={0.8}
         onEnded={handleEnd}
         onClickNext={() =>
-          onTrackUpdate(track =>
-            track !== playlist.length - 1 ? track + 1 : 0
-          )
+          setTrack(track => (track !== playlist.length - 1 ? track + 1 : 0))
         }
         onClickPrevious={() =>
-          onTrackUpdate(track =>
-            track !== 0 ? track - 1 : playlist.length - 1
-          )
+          setTrack(track => (track !== 0 ? track - 1 : playlist.length - 1))
         }
       />
     </Box>

@@ -7,7 +7,7 @@ import { darkTheme } from './App'
 import Login from './common/Login'
 import Signup from './common/Signup'
 import { BASEURL2 } from '../config/config'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from '../contexts/AuthProvider'
 import { useNavigate } from 'react-router-dom'
 
 function LoginModal({ open, handleClose }) {
@@ -22,6 +22,7 @@ function LoginModal({ open, handleClose }) {
   const navigate = useNavigate()
 
   const signUpHandler = async function () {
+    if (!name || !email || !password) return
     const user = {
       name,
       email,
@@ -57,6 +58,7 @@ function LoginModal({ open, handleClose }) {
   }
 
   const loginHandler = async function () {
+    if (!email || !password) return
     const user = {
       email,
       password,
@@ -73,7 +75,7 @@ function LoginModal({ open, handleClose }) {
         body: JSON.stringify({ ...user }),
       })
       if (!response.ok) {
-        throw new Error('Something went wrong during sign up.')
+        throw new Error('Something went wrong during login.')
       }
       const data = await response.json()
       console.log(data)
@@ -83,6 +85,7 @@ function LoginModal({ open, handleClose }) {
       console.error(err.message)
     } finally {
       setIsLoading(false)
+      handleClose()
     }
     setName('')
     setEmail('')

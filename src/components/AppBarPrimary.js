@@ -27,6 +27,7 @@ import {
   Language,
   Logout,
   MusicNote,
+  Password,
   Podcasts,
   Search,
   SpatialAudio,
@@ -36,7 +37,8 @@ import ComingSoonModal from './ComingSoonModal'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useContext } from 'react'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from '../contexts/AuthProvider'
+import PasswordChangeModal from './PasswordChangeModal'
 
 const settings = [
   {
@@ -62,6 +64,8 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
+  const [openPasswordChangeModal, setOpenPasswordChangeModal] = useState(false)
+  React.useState(false)
 
   const { webToken, logout } = useContext(AuthContext)
 
@@ -90,10 +94,20 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     setOpenComingSoonModal(false)
   }
 
+  const handleOpenPasswordChangeModal = () => {
+    setOpenPasswordChangeModal(true)
+  }
+
+  const handleClosePasswordChangeModal = () => {
+    setOpenPasswordChangeModal(false)
+  }
+
   const signOutHandler = function () {
     logout()
     navigate('/', { replace: true })
   }
+
+  const handleChangePassword = async function () {}
 
   console.log(webToken)
 
@@ -114,7 +128,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
 
   return (
     <>
-      <AppBar position='relative' sx={{ paddingX: '60px' }}>
+      <AppBar position='relative' sx={{ paddingX: '4em' }}>
         <Container maxWidth='xl'>
           <Toolbar
             sx={{
@@ -253,6 +267,20 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
+                {webToken && (
+                  <MenuItem key={5} onClick={handleChangePassword}>
+                    <Typography
+                      textAlign='center'
+                      display='flex'
+                      alignItems='center'
+                      gap='1em'
+                      onClick={handleOpenPasswordChangeModal}
+                    >
+                      <Password />
+                      Change Password
+                    </Typography>
+                  </MenuItem>
+                )}
                 {settings.map((setting, i) => (
                   <MenuItem key={i} onClick={handleOpenComingSoonModal}>
                     <Typography
@@ -309,6 +337,10 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
       <ComingSoonModal
         open={openComingSoonModal}
         handleClose={handleCloseComingSoonModal}
+      />
+      <PasswordChangeModal
+        open={openPasswordChangeModal}
+        handleClose={handleClosePasswordChangeModal}
       />
     </>
   )

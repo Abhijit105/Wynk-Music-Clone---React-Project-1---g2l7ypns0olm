@@ -1,17 +1,17 @@
 import { Box } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import FeaturedSongs from '../common/FeaturedSongs'
 import AudioPlayerComponent from '../common/AudioPlayerComponent'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function OldSongs() {
-  const [playlist, setPlaylist] = useState([])
-  const [track, setTrack] = useState(0)
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   return (
     <Box
-      padding='100px'
+      padding='6em'
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -26,7 +26,6 @@ function OldSongs() {
       />
       <LoginRecommendation />
       <BestWay />
-      <AudioPlayerComponent playlist={playlist} track={track} onTrackUpdate={setTrack} />
     </Box>
   )
 }

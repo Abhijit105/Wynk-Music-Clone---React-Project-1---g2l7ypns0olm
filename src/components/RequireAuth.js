@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from '../contexts/AuthProvider'
 import { Navigate } from 'react-router-dom'
 
 function RequireAuth({ children }) {
-  const {webToken} = useContext(AuthContext)
+  const { webToken } = useContext(AuthContext)
 
   if (!webToken) {
     return <Navigate to='/login' />

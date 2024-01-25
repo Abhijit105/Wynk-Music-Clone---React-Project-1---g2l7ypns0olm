@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext } from 'react'
-import { AllContext } from '../AllProvider'
+import { AllContext } from '../../contexts/AllProvider'
 import AlbumsPage from '../common/AlbumsPage'
 import BestWay from '../common/BestWay'
 import { Box } from '@mui/material'
@@ -33,7 +33,7 @@ function AlbumsEnglish() {
 
   return (
     <Box
-      padding='100px'
+      padding='6em'
       display='flex'
       flexDirection='column'
       alignItems='center'

@@ -16,17 +16,19 @@ import banner14 from '../../assets/banner/BANNER_14.webp'
 import banner15 from '../../assets/banner/BANNER_15.webp'
 import banner16 from '../../assets/banner/BANNER_16.webp'
 import BannerCarousel from '../BannerCarousel'
-import { AllContext } from '../AllProvider'
+import { AllContext } from '../../contexts/AllProvider'
 import Carousel from '../common/Carousel'
 import { BASEURL } from '../../config/config'
 import { Box, IconButton, Paper, Typography } from '@mui/material'
 import CarouselWithFetch from '../common/CarouselWithFetch'
 import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { useState } from 'react'
+import About from '../About'
+import BestWay from '../common/BestWay'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function All() {
-  const [playlist, setPlaylist] = useState([])
-  const [track, setTrack] = useState(0)
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   const banners = Array.from({ length: 16 }, (_, i) => `BANNER_${i + 1}.webp`)
   console.log(banners)
@@ -79,7 +81,7 @@ function All() {
           banner16,
         ]}
       />
-      <Box sx={{ paddingX: '100px' }}>
+      <Box sx={{ paddingX: '6em' }}>
         <Carousel
           title='Songs of 2023'
           items={songs2023AndAbove}
@@ -155,12 +157,8 @@ function All() {
           onTrackUpdate={setTrack}
         />
         <CarouselWithFetch title='Sad songs' category='mood' type='sad' />
-        <AudioPlayerComponent
-          playlist={playlist}
-          track={track}
-          onPlaylistUpdate={setPlaylist}
-          onTrackUpdate={setTrack}
-        />
+        <About />
+        <BestWay />
       </Box>
     </>
   )

@@ -5,7 +5,8 @@ import { BASEURL } from '../../config/config'
 import { useState } from 'react'
 import LoginModal from '../../components/LoginModal'
 import { useContext } from 'react'
-import { AuthContext } from '../AuthProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
+import { BASEURL3 } from '../../config/config'
 
 function AlbumSongItem({
   albumName,
@@ -18,6 +19,7 @@ function AlbumSongItem({
 }) {
   const [artists, setArtists] = useState([])
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -33,6 +35,31 @@ function AlbumSongItem({
 
   const handleCloseLoginModal = () => {
     setOpenLoginModal(false)
+  }
+
+  const favoriteHandler = async function (event, songId) {
+    try {
+      event.stopPropagation()
+      setIsLoadingFavorite(true)
+      const response = await fetch(`${BASEURL3}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${webToken.token}`,
+          projectId: 'g2l7ypns0olm',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ songId: songId }),
+      })
+      if (!response.ok) {
+        throw new Error('Something went wrong during setting up of favorite.')
+      }
+      const data = await response.json()
+      console.log(data)
+    } catch (err) {
+      console.error(err.message)
+    } finally {
+      setIsLoadingFavorite(false)
+    }
   }
 
   useEffect(() => {
@@ -81,6 +108,7 @@ function AlbumSongItem({
             sx={{
               background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
             }}
+            onClick={favoriteHandler}
           >
             <Favorite fontSize='small' />
           </IconButton>

@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
-import { AllContext } from '../AllProvider'
+import { AllContext } from '../../contexts/AllProvider'
 import { Box, Typography, Grid, Button } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import SongItem from '../common/SongItem'
 import AudioPlayerComponent from '../common/AudioPlayerComponent'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function NewSongs() {
   const [page, setPage] = useState(1)
-  const [playlist, setPlaylist] = useState([])
-  const [track, setTrack] = useState(0)
+
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   const { newSongs } = useContext(AllContext)
 
@@ -20,7 +21,7 @@ function NewSongs() {
 
   return (
     <Box
-      padding='100px'
+      padding='6em'
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -93,11 +94,6 @@ function NewSongs() {
       </Box>
       <LoginRecommendation />
       <BestWay />
-      <AudioPlayerComponent
-        playlist={playlist}
-        track={track}
-        onTrackUpdate={setTrack}
-      />
     </Box>
   )
 }

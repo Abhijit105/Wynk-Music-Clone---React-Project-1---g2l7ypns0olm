@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box, Typography, Grid } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
@@ -9,12 +9,13 @@ import { useEffect } from 'react'
 import { BASEURL } from '../../config/config'
 import ArtistSongItem from '../common/ArtistSongItem'
 import { darkTheme } from '../App'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function Artist() {
   const [isLoading, setIsLoading] = useState(false)
   const [artist, setArtist] = useState(null)
-  const [playlist, setPlaylist] = useState([])
-  const [track, setTrack] = useState(0)
+
+  const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
   const { _id } = useParams()
 
@@ -122,11 +123,6 @@ function Artist() {
       </Box>
       <LoginRecommendation />
       <BestWay />
-      <AudioPlayerComponent
-        playlist={playlist}
-        track={track}
-        onTrackUpdate={setTrack}
-      />
     </Box>
   )
 }

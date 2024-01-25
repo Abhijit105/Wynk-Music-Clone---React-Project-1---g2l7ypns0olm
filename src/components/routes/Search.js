@@ -3,7 +3,7 @@ import React from 'react'
 import { useContext } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { AllContext } from '../AllProvider'
+import { AllContext } from '../../contexts/AllProvider'
 import SearchedSongs from '../common/SearchedSongs'
 import SearchedAlbums from '../common/SearchedAlbums'
 import SearchedArtists from '../common/SearchedArtists'
@@ -11,12 +11,6 @@ import { darkTheme } from '../App'
 
 function Search() {
   const [value, setValue] = useState(0)
-  const [isLoadingAlbums, setIsLoadingAlbums] = useState(false)
-  const [isLoadingArtists, setIsLoadingArtists] = useState(false)
-  const [searchedAlbums, setSearchedAlbums] = useState([])
-  const [searchedArtists, setSearchedArtists] = useState([])
-  const [pageAlbums, setPageAlbums] = useState(1)
-  const [pageArtists, setPageArtists] = useState(1)
 
   const { searchTerm } = useContext(AllContext)
 

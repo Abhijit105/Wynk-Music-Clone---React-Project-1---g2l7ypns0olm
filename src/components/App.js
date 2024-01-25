@@ -8,7 +8,7 @@ import { createContext, useEffect, useState } from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
 import { FEATURED } from '../config/config'
-import AllProvider from './AllProvider'
+import AllProvider from '../contexts/AllProvider'
 import AppBarPrimary from './AppBarPrimary'
 import AppBarSecondary from './AppBarSecondary'
 import Test from './Test'
@@ -34,9 +34,11 @@ import Artists from './routes/Artists'
 import Album from './routes/Album'
 import Artist from './routes/Artist'
 import MyMusic from './routes/MyMusic'
-import AuthProvider from './AuthProvider'
+import AuthProvider from '../contexts/AuthProvider'
 import RequireAuth from './RequireAuth'
-import LoginModal from './LoginModal'
+import FooterLink from './routes/FooterLink'
+import AudioPlayerComponent from './common/AudioPlayerComponent'
+import PlayerProvider from '../contexts/PlayerProvider'
 
 export const darkTheme = createTheme({
   palette: {
@@ -90,63 +92,67 @@ function App() {
       <CssBaseline />
       <AuthProvider>
         <AllProvider allSongs={allSongs} searchTerm={searchTerm}>
-          <BrowserRouter>
-            <AppBarPrimary
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-            />
-            <AppBarSecondary />
-            <Routes>
-              <Route path='/' element={<All />} />
-              <Route path='/trendingsongs' element={<Trending />} />
-              <Route path='/evergreenmelodies' element={<OldSongs />} />
-              <Route path='/new' element={<NewSongs />} />
-              <Route path='/romantic' element={<RomanticSongs />} />
-              <Route path='/happy' element={<HappySongs />} />
-              <Route path='/excited' element={<ExcitedSongs />} />
-              <Route path='/sad' element={<SadSongs />} />
-              <Route path='/tophindialbums' element={<AlbumsHindi />} />
-              <Route path='/topenglishalbums' element={<AlbumsEnglish />} />
-              <Route path='/toptamilalbums' element={<AlbumsTamil />} />
-              <Route path='/toptelugualbums' element={<AlbumsTelugu />} />
-              <Route path='/topbhojpurialbums' element={<AlbumsBhojpuri />} />
-              <Route path='/topartists' element={<Artists />} />
-              <Route path='/top50ofthismonth' element={<Top50 />} />
-              <Route path='/top20ofthisweek' element={<Top20 />} />
-              <Route path='/soulsoother' element={<SoulSoother />} />
-              <Route path='/podcast' element={<Podcast />} />
-              <Route path='/search' element={<Search />} />
-              <Route
-                path='/albums'
-                element={
-                  <Box>
-                    <Outlet />
-                  </Box>
-                }
-              >
-                <Route path=':_id' element={<Album />} />
-              </Route>
-              <Route
-                path='/artists'
-                element={
-                  <Box>
-                    <Outlet />
-                  </Box>
-                }
-              >
-                <Route path=':_id' element={<Artist />} />
-              </Route>
-              <Route
-                path='/mymusic'
-                element={
-                  <RequireAuth>
-                    <MyMusic />
-                  </RequireAuth>
-                }
+          <PlayerProvider>
+            <BrowserRouter>
+              <AppBarPrimary
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
               />
-            </Routes>
-          </BrowserRouter>
-          <Footer />
+              <AppBarSecondary />
+              <Routes>
+                <Route path='/' element={<All />} />
+                <Route path='/trendingsongs' element={<Trending />} />
+                <Route path='/evergreenmelodies' element={<OldSongs />} />
+                <Route path='/new' element={<NewSongs />} />
+                <Route path='/romantic' element={<RomanticSongs />} />
+                <Route path='/happy' element={<HappySongs />} />
+                <Route path='/excited' element={<ExcitedSongs />} />
+                <Route path='/sad' element={<SadSongs />} />
+                <Route path='/tophindialbums' element={<AlbumsHindi />} />
+                <Route path='/topenglishalbums' element={<AlbumsEnglish />} />
+                <Route path='/toptamilalbums' element={<AlbumsTamil />} />
+                <Route path='/toptelugualbums' element={<AlbumsTelugu />} />
+                <Route path='/topbhojpurialbums' element={<AlbumsBhojpuri />} />
+                <Route path='/topartists' element={<Artists />} />
+                <Route path='/top50ofthismonth' element={<Top50 />} />
+                <Route path='/top20ofthisweek' element={<Top20 />} />
+                <Route path='/soulsoother' element={<SoulSoother />} />
+                <Route path='/podcast' element={<Podcast />} />
+                <Route path='/search' element={<Search />} />
+                <Route path='/footerlink' element={<FooterLink />} />
+                <Route
+                  path='/albums'
+                  element={
+                    <Box>
+                      <Outlet />
+                    </Box>
+                  }
+                >
+                  <Route path=':_id' element={<Album />} />
+                </Route>
+                <Route
+                  path='/artists'
+                  element={
+                    <Box>
+                      <Outlet />
+                    </Box>
+                  }
+                >
+                  <Route path=':_id' element={<Artist />} />
+                </Route>
+                <Route
+                  path='/mymusic'
+                  element={
+                    <RequireAuth>
+                      <MyMusic />
+                    </RequireAuth>
+                  }
+                />
+              </Routes>
+              <AudioPlayerComponent />
+              <Footer />
+            </BrowserRouter>
+          </PlayerProvider>
         </AllProvider>
       </AuthProvider>
     </ThemeProvider>
