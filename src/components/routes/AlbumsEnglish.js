@@ -29,7 +29,7 @@ function AlbumsEnglish() {
 
   const displayedAlbums = albumsEnglish.slice(0, 20)
 
-  console.log(albumsEnglish)
+  // console.log(albumsEnglish)
 
   return (
     <Box

@@ -9,7 +9,7 @@ function AlbumsPage({ title, albumItems }) {
   const clickHandler = function (selectedAlbum) {
     navigate(`/albums/${selectedAlbum._id}`)
   }
-  console.log(albumItems)
+  // console.log(albumItems)
 
   return (
     <Box marginBottom='4em'>

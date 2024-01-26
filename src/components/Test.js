@@ -17,7 +17,7 @@ function Test() {
       if (!response.ok)
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const result = data.data
       setAlbums(albums => [...albums, ...result])
     } catch (err) {
@@ -66,13 +66,13 @@ function Test() {
     filterLanguage('bhojpuri', mergeLanguage(row))
   )
 
-  console.log(page)
-  console.log(albums)
-  console.log(albumsTamil)
-  console.log(albumsHindi)
-  console.log(albumsEnglish)
-  console.log(albumsTelugu)
-  console.log(albumsBhojpuri)
+  // console.log(page)
+  // console.log(albums)
+  // console.log(albumsTamil)
+  // console.log(albumsHindi)
+  // console.log(albumsEnglish)
+  // console.log(albumsTelugu)
+  // console.log(albumsBhojpuri)
 
   return <div>Test</div>
 }

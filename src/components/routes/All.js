@@ -31,11 +31,11 @@ function All() {
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   const banners = Array.from({ length: 16 }, (_, i) => `BANNER_${i + 1}.webp`)
-  console.log(banners)
+  // console.log(banners)
 
   const { allSongs } = useContext(AllContext)
 
-  console.log(allSongs)
+  // console.log(allSongs)
 
   const songs2023AndAbove = allSongs.filter(
     song => song?.album && Number(song.dateOfRelease.slice(0, 4)) >= 2023
@@ -55,9 +55,9 @@ function All() {
       Number(song.dateOfRelease.slice(0, 4)) < 2022
   )
 
-  console.log(songs2023AndAbove)
-  console.log(songs2022)
-  console.log(songs2021)
+  // console.log(songs2023AndAbove)
+  // console.log(songs2022)
+  // console.log(songs2021)
 
   return (
     <>

@@ -32,16 +32,16 @@ function AudioPlayerComponent() {
           headers: { projectId: 'g2l7ypns0olm' },
         }
       )
-      console.log(response)
+      // console.log(response)
       if (!response.ok) {
         throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const result = data.data
       setAlbum(result)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       console.error(err.message)
     } finally {
       setIsLoading(false)
@@ -52,9 +52,9 @@ function AudioPlayerComponent() {
     fetchData()
   }, [track])
 
-  console.log(playlist)
-  console.log(album)
-  console.log(webToken)
+  // console.log(playlist)
+  // console.log(album)
+  // console.log(webToken)
 
   return (
     <Box

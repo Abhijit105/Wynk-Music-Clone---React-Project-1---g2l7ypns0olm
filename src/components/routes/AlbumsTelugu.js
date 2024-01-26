@@ -30,7 +30,7 @@ function AlbumsTelugu() {
 
   const displayedAlbums = albumsTelugu.slice(0, 37)
 
-  console.log(albumsTelugu)
+  // console.log(albumsTelugu)
 
   return (
     <Box

@@ -33,7 +33,7 @@ function Album() {
       if (!response.ok)
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       setAlbum(data.data)
       const songsResult = data.data.songs
       setPlaylist(songsResult)
@@ -52,8 +52,8 @@ function Album() {
 
   const songDisplayed = playlist.at(0)
 
-  console.log(artists)
-  console.log(album)
+  // console.log(artists)
+  // console.log(album)
 
   return (
     <Box

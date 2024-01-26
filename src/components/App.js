@@ -64,7 +64,7 @@ function App() {
       if (!response.ok)
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const songs = data.data
       setAllSongs(allSongs => [...allSongs, ...songs])
     } catch (err) {
@@ -84,8 +84,8 @@ function App() {
 
   useEffect(() => {}, [])
 
-  console.log(page)
-  console.log(allSongs)
+  // console.log(page)
+  // console.log(allSongs)
 
   return (
     <ThemeProvider theme={darkTheme}>

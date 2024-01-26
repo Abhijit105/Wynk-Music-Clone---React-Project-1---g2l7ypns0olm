@@ -54,7 +54,7 @@ function AlbumSongItem({
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
     } catch (err) {
       console.error(err.message)
     } finally {
@@ -69,8 +69,8 @@ function AlbumSongItem({
     }
   }, [])
 
-  console.log(item.artist)
-  console.log(allArtists)
+  // console.log(item.artist)
+  // console.log(allArtists)
 
   return (
     <>

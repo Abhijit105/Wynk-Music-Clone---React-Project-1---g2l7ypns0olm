@@ -29,7 +29,7 @@ function AlbumsHindi() {
 
   const displayedAlbums = albumsHindi.slice(0, 10)
 
-  console.log(albumsHindi)
+  // console.log(albumsHindi)
 
   return (
     <Box

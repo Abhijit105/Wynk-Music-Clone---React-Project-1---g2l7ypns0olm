@@ -30,7 +30,7 @@ function AlbumsBhojpuri() {
 
   const displayedAlbums = albumsBhojpuri.slice(0, 8)
 
-  console.log(albumsBhojpuri)
+  // console.log(albumsBhojpuri)
 
   return (
     <Box

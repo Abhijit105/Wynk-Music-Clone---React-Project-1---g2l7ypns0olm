@@ -19,7 +19,7 @@ function AllProvider({ children, allSongs, searchTerm }) {
       if (!response.ok)
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const result = data.data
       setAllAlbums(allAlbums => [...allAlbums, ...result])
     } catch (err) {
@@ -38,8 +38,8 @@ function AllProvider({ children, allSongs, searchTerm }) {
     setPage(page => page + 1)
   }, [isLoading])
 
-  console.log(page)
-  console.log(allAlbums)
+  // console.log(page)
+  // console.log(allAlbums)
 
   const newSongs = allSongs.filter(
     song => song?.album && Number(song.dateOfRelease.slice(0, 4)) >= 2023

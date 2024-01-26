@@ -45,7 +45,7 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
     } catch (err) {
       console.error(err.message)
     } finally {
@@ -65,7 +65,7 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
       if (!response.ok)
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const album = data.data
       setItemAlbum({ ...album })
     } catch (err) {
@@ -80,8 +80,8 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
     fetchData()
   }, [])
 
-  console.log(item)
-  console.log(webToken?.token)
+  // console.log(item)
+  // console.log(webToken?.token)
 
   return (
     <>

@@ -18,7 +18,7 @@ function CarouselWithFetch({ title, category, type, onPlaylistUpdate, onTrackUpd
       if (!response.ok)
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const newSongs = data.data
       setSongs(songs => [...songs, ...newSongs])
     } catch (err) {
@@ -32,7 +32,7 @@ function CarouselWithFetch({ title, category, type, onPlaylistUpdate, onTrackUpd
     fetchData()
   }, [])
 
-  console.log(songs)
+  // console.log(songs)
 
   return (
     <Carousel

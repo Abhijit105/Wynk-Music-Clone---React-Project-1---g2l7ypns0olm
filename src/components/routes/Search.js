@@ -18,8 +18,8 @@ function Search() {
     document.querySelector('.app-bar-secondary').style.display = 'none'
   }, [])
 
-  console.log(searchTerm)
-  console.log(value)
+  // console.log(searchTerm)
+  // console.log(value)
 
   return (
     <Box paddingX='100px'>

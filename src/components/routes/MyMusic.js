@@ -32,7 +32,7 @@ function MyMusic() {
           throw new Error('Something went wrong while fetching the songs.')
         }
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const result = data.data.songs
         setLikedSongs(result)
       } catch (err) {
@@ -48,7 +48,7 @@ function MyMusic() {
     setPlaylist(likedSongs)
   }, [likedSongs])
 
-  console.log(likedSongs)
+  // console.log(likedSongs)
 
   return (
     <Box

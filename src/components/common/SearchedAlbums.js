@@ -22,7 +22,7 @@ function SearchedAlbums({ searchTerm }) {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const albums = data.data
         setSearchedAlbums(searchedAlbums => [...searchedAlbums, ...albums])
       } catch (err) {

@@ -90,7 +90,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const searchClickHandler = function () {
     navigate('/search')
   }
-  const myMusicClickHandler = function()  {
+  const myMusicClickHandler = function () {
     navigate('/mymusic')
   }
 
@@ -99,7 +99,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     navigate('/', { replace: true })
   }
 
-  console.log(webToken)
+  // console.log(webToken)
 
   useEffect(() => {
     const navigateToSearchPage = function () {
@@ -122,7 +122,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
         position='relative'
         sx={{ paddingX: { xs: '0', sm: '0', md: '4em' } }}
       >
-        <Container maxWidth>
+        <Container>
           <Toolbar
             sx={{
               display: 'flex',
@@ -177,7 +177,6 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                       position: 'absolute',
                       color: 'rgba(255, 255, 255, 0.7)',
                     }}
-                    
                   />
                 </IconButton>
                 <InputBase
@@ -322,7 +321,6 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                       display='flex'
                       alignItems='center'
                       gap='1em'
-                      
                     >
                       <Login />
                       Login

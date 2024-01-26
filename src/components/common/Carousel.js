@@ -10,7 +10,7 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
 
   const { webToken } = useContext(AuthContext)
 
-  console.log(translateX)
+  // console.log(translateX)
 
   const handleBefore = function () {
     if (translateX === -200) setTranslateX(0)
@@ -38,8 +38,8 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
 
   const displayedItems = items.slice(0, 20)
 
-  console.log(items)
-  console.log(displayedItems)
+  // console.log(items)
+  // console.log(displayedItems)
 
   return (
     <Box marginBottom='60px'>

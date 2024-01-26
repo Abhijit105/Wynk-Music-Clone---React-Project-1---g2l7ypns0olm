@@ -105,8 +105,8 @@ function AppBarSecondary() {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {LANDSCAPETABLETSNAVLINKSDATA.map(item => (
-              <MenuItem>
+            {LANDSCAPETABLETSNAVLINKSDATA.map((item, i) => (
+              <MenuItem key={i}>
                 <NavLink
                   className={'app-bar-secondary-navlink-title'}
                   to={item.link}

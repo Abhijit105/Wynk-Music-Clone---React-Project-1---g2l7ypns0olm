@@ -29,7 +29,7 @@ function MoodSongs({
         throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const songs = data.data
       setSongItems(songItems => [...songItems, ...songs])
     } catch (err) {
@@ -46,8 +46,8 @@ function MoodSongs({
 
   const songDisplayed = songItems[0]
 
-  console.log(songItems)
-  console.log(page)
+  // console.log(songItems)
+  // console.log(page)
 
   return (
     <Box

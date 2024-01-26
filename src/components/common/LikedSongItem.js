@@ -25,12 +25,12 @@ function LikedSongItem({
         const response = await fetch(`${BASEURL}/artist/${artistId}`, {
           headers: { projectId: 'g2l7ypns0olm' },
         })
-        console.log(response)
+        // console.log(response)
         if (!response.ok) {
           throw new Error('Something went wrong while fetching songs for you.')
         }
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const result = data.data
         setArtists(artists => [...artists, result])
       } catch (err) {
@@ -45,7 +45,7 @@ function LikedSongItem({
     fetchData()
   }, [])
 
-  console.log(artists)
+  // console.log(artists)
 
   return (
     <Box

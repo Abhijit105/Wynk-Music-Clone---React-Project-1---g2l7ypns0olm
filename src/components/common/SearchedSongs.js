@@ -27,7 +27,7 @@ function SearchedSongs({ searchTerm }) {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const songs = data.data
         setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
       } catch (err) {
@@ -43,7 +43,7 @@ function SearchedSongs({ searchTerm }) {
     }
   }, [searchTerm, page])
 
-  console.log(searchedSongs)
+  // console.log(searchedSongs)
 
   return (
     <Box display='flex' flexDirection='column'>

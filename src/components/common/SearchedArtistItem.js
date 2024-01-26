@@ -10,7 +10,7 @@ function SearchedArtistItem({ item }) {
     navigate(`/artists/${albumId}`)
   }
 
-  console.log(item)
+  // console.log(item)
 
   return (
     <Box

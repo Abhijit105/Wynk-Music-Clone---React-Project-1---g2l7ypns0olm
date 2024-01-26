@@ -55,7 +55,7 @@ function ArtistSongItem({
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
     } catch (err) {
       console.error(err.message)
     } finally {
@@ -69,12 +69,12 @@ function ArtistSongItem({
       const response = await fetch(`${BASEURL}/album/${item.album}`, {
         headers: { projectId: 'g2l7ypns0olm' },
       })
-      console.log(response)
+      // console.log(response)
       if (!response.ok) {
         throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const result = data.data
       setAlbum(result)
     } catch (err) {
@@ -95,12 +95,12 @@ function ArtistSongItem({
         const response = await fetch(`${BASEURL}/artist/${artistId}`, {
           headers: { projectId: 'g2l7ypns0olm' },
         })
-        console.log(response)
+        // console.log(response)
         if (!response.ok) {
           throw new Error('Something went wrong while fetching songs for you.')
         }
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const result = data.data
         setArtists(artists => [...artists, result])
       } catch (err) {
@@ -115,8 +115,8 @@ function ArtistSongItem({
     fetchDataArtists()
   }, [])
 
-  console.log(item)
-  console.log(album)
+  // console.log(item)
+  // console.log(album)
 
   return (
     <>

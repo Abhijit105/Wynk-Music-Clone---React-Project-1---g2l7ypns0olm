@@ -24,7 +24,7 @@ function BannerCarousel({ items }) {
     setCards([...items, ...items])
   }, [])
 
-  console.log(index)
+  // console.log(index)
 
   const handleBefore = function () {
     setIndex(index + 1)

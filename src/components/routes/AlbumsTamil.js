@@ -30,7 +30,7 @@ function AlbumsTamil() {
 
   const displayedAlbums = albumsTamil.slice(0, 10)
 
-  console.log(albumsTamil)
+  // console.log(albumsTamil)
 
   return (
     <Box

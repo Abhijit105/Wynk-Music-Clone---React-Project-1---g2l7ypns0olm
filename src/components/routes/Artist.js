@@ -29,7 +29,7 @@ function Artist() {
         throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const result = data.data
       setArtist(result)
     } catch (err) {
@@ -47,8 +47,8 @@ function Artist() {
     setPlaylist(artist?.songs)
   }, [artist])
 
-  console.log(artist)
-  console.log(playlist)
+  // console.log(artist)
+  // console.log(playlist)
 
   return (
     <Box
