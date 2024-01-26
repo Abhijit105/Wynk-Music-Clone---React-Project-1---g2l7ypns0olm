@@ -25,7 +25,6 @@ function MoodSongs({
         }
       )
       if (!response.ok) {
-        setError('Something went wrong while fetching songs for you.')
         throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
@@ -33,7 +32,8 @@ function MoodSongs({
       const songs = data.data
       setSongItems(songItems => [...songItems, ...songs])
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
@@ -92,6 +92,7 @@ function MoodSongs({
         </Grid>
         {songItems.map((song, i) => (
           <SongItem
+            key={i}
             item={song}
             i={i}
             onPlaylistUpdate={onPlaylistUpdate}

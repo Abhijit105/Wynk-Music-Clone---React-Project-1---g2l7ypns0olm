@@ -6,6 +6,7 @@ function AllProvider({ children, allSongs, searchTerm }) {
   const [allAlbums, setAllAlbums] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [errorAllAlbums, setErrorAllAlbums] = useState('')
 
   const fetchData = async () => {
     try {
@@ -23,13 +24,16 @@ function AllProvider({ children, allSongs, searchTerm }) {
       const result = data.data
       setAllAlbums(allAlbums => [...allAlbums, ...result])
     } catch (err) {
-      console.error(err.message)
+      setErrorAllAlbums(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if(errorAllAlbums)  return
+
     fetchData()
   }, [page])
 

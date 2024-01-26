@@ -16,7 +16,7 @@ function NavlinkList({ title, data }) {
 
   return (
     <Box
-      component={'p'}
+      component={'div'}
       sx={{
         display: 'flex',
         flexDirection: 'column',

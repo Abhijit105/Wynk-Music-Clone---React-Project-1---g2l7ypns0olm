@@ -7,6 +7,7 @@ import BestWay from '../common/BestWay'
 function Artists() {
   const [artists, setArtists] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const fetchData = async () => {
     try {
@@ -24,13 +25,16 @@ function Artists() {
       const result = data.data
       setArtists(result)
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if(error) return
+    
     fetchData()
   }, [])
 

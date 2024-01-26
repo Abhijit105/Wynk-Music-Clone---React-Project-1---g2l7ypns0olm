@@ -5,6 +5,7 @@ import { BASEURL } from '../../config/config'
 function CarouselWithFetch({ title, category, type, onPlaylistUpdate, onTrackUpdate }) {
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const fetchData = async () => {
     try {
@@ -22,13 +23,16 @@ function CarouselWithFetch({ title, category, type, onPlaylistUpdate, onTrackUpd
       const newSongs = data.data
       setSongs(songs => [...songs, ...newSongs])
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if(error) return
+
     fetchData()
   }, [])
 

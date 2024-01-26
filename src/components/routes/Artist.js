@@ -14,6 +14,7 @@ import { PlayerContext } from '../../contexts/PlayerProvider'
 function Artist() {
   const [isLoading, setIsLoading] = useState(false)
   const [artist, setArtist] = useState(null)
+  const [error, setError] = useState('')
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -33,13 +34,16 @@ function Artist() {
       const result = data.data
       setArtist(result)
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if (error) return
+
     fetchData()
   }, [])
 

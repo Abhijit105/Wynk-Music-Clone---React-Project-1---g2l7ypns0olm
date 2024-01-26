@@ -9,8 +9,10 @@ import { BASEURL3 } from '../../config/config'
 function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
   const [itemAlbum, setItemAlbum] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
+  const [errorFavorite, setErrorFavorite] = useState('')
 
   const { webToken } = useContext(AuthContext)
 
@@ -47,7 +49,8 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
       const data = await response.json()
       // console.log(data)
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
     }
@@ -69,7 +72,8 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
       const album = data.data
       setItemAlbum({ ...album })
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
@@ -77,6 +81,8 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
 
   useEffect(() => {
     if (!item?.album) return
+    if (error) return
+
     fetchData()
   }, [])
 

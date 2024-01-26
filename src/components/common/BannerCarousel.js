@@ -51,7 +51,6 @@ function BannerCarousel({ items }) {
         justifyContent: 'center',
         gap: '2rem',
         width: '100%',
-        height: { sm: '210px', md: '280px' },
         position: 'relative',
         overflow: 'hidden',
         marginBottom: '5em',
@@ -76,10 +75,11 @@ function BannerCarousel({ items }) {
           component={'img'}
           src={card}
           alt='banner'
+          width={{ xs: '100%' }}
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'center'}
           sx={{
-            objectFit: { xs: 'contain' },
-            objectPosition: { xs: 'center' },
-            height: '100%',
             borderRadius: '1rem',
             transform: {
               xs: `translate(${index * 100}%, 0)`,

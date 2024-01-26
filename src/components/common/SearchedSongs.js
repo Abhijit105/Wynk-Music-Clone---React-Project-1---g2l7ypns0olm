@@ -8,8 +8,7 @@ function SearchedSongs({ searchTerm }) {
   const [isLoading, setIsLoading] = useState(false)
   const [searchedSongs, setSearchedSongs] = useState([])
   const [page, setPage] = useState(1)
-
-  
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const controller = new AbortController()
@@ -31,7 +30,8 @@ function SearchedSongs({ searchTerm }) {
         const songs = data.data
         setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
       } catch (err) {
-        console.error(err.message)
+        setError(err.message)
+        // console.error(err.message)
       } finally {
         setIsLoading(false)
       }
@@ -49,10 +49,7 @@ function SearchedSongs({ searchTerm }) {
     <Box display='flex' flexDirection='column'>
       <Box padding='1.25em'>
         {searchedSongs.map((item, i) => (
-          <SearchedSongItem
-            key={i}
-            item={item}
-          />
+          <SearchedSongItem key={i} item={item} />
         ))}
       </Box>
       <Button

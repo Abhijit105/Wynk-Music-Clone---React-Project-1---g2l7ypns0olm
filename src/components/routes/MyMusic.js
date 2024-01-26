@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { Box, Typography } from '@mui/material'
 import BestWay from '../common/BestWay'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { BASEURL3 } from '../../config/config'
 import { AuthContext } from '../../contexts/AuthProvider'
 import AudioPlayerComponent from '../common/AudioPlayerComponent'
@@ -13,10 +12,9 @@ function MyMusic() {
   const [isLoading, setIsLoading] = useState(false)
   const [playlist, setPlaylist] = useState([])
   const [track, setTrack] = useState(0)
+  const [error, setError] = useState('')
 
   const { webToken } = useContext(AuthContext)
-
-  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +34,8 @@ function MyMusic() {
         const result = data.data.songs
         setLikedSongs(result)
       } catch (err) {
-        console.error(err.message)
+        setError(err.message)
+        // console.error(err.message)
       } finally {
         setIsLoading(false)
       }

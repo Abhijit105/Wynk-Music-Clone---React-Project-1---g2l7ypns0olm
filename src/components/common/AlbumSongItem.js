@@ -20,6 +20,7 @@ function AlbumSongItem({
   const [artists, setArtists] = useState([])
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
+  const [errorFavorite, setErrorFavorite] = useState('')
 
   const { webToken } = useContext(AuthContext)
 
@@ -56,7 +57,8 @@ function AlbumSongItem({
       const data = await response.json()
       // console.log(data)
     } catch (err) {
-      console.error(err.message)
+      setErrorFavorite(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
     }

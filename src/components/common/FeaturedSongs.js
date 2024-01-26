@@ -26,7 +26,6 @@ function FeaturedSongs({
       )
       // console.log(response)
       if (!response.ok) {
-        setError('Something went wrong while fetching songs for you.')
         throw new Error('Something went wrong while fetching songs for you.')
       }
       const data = await response.json()
@@ -34,8 +33,9 @@ function FeaturedSongs({
       const songs = data.data
       setSongItems(songItems => [...songItems, ...songs])
     } catch (err) {
+      setError(err.message)
       // console.log(err)
-      console.error(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
@@ -43,6 +43,7 @@ function FeaturedSongs({
 
   useEffect(() => {
     if (error) return
+
     fetchData()
   }, [page])
 
@@ -94,6 +95,7 @@ function FeaturedSongs({
         </Grid>
         {songItems.map((song, i) => (
           <SongItem
+          key={i}
             item={song}
             i={i}
             onPlaylistUpdate={onPlaylistUpdate}

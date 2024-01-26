@@ -12,6 +12,7 @@ function LikedSongItem({
 }) {
   const [artists, setArtists] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const songClickHandler = function (i) {
     onPlaylistUpdate(songItems)
@@ -34,7 +35,8 @@ function LikedSongItem({
         const result = data.data
         setArtists(artists => [...artists, result])
       } catch (err) {
-        console.error(err.message)
+        setError(err.message)
+        // console.error(err.message)
       } finally {
         setIsLoading(false)
       }
@@ -42,6 +44,8 @@ function LikedSongItem({
   }
 
   useEffect(() => {
+    if(error) return
+
     fetchData()
   }, [])
 

@@ -9,6 +9,8 @@ function RequireAuth({ children }) {
     return <Navigate to='/login' />
   }
 
+  if (webToken && webToken.success !== 'success') return
+
   return children
 }
 

@@ -13,6 +13,7 @@ function Album() {
   const [artists, setArtists] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [album, setAlbum] = useState(null)
+  const [error, setError] = useState('')
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -40,13 +41,16 @@ function Album() {
       const artistsResult = data.data.artists
       setArtists(artistsResult)
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if(error) return
+
     fetchData()
   }, [])
 

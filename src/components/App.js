@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { AppBar, Box } from '@mui/material'
 
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
 import { FEATURED } from '../config/config'
@@ -49,6 +49,7 @@ export const darkTheme = createTheme({
 function App() {
   const [allSongs, setAllSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [errorAllSongs, setErrorAllSongs] = useState('')
   const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -68,21 +69,22 @@ function App() {
       const songs = data.data
       setAllSongs(allSongs => [...allSongs, ...songs])
     } catch (err) {
-      console.error(err.message)
+      setErrorAllSongs(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if (errorAllSongs) return
+
     fetchData()
   }, [page])
 
   useEffect(() => {
     !isLoading && allSongs.length < 2454 && setPage(page => page + 1)
   }, [isLoading])
-
-  useEffect(() => {}, [])
 
   // console.log(page)
   // console.log(allSongs)

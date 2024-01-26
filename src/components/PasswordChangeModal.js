@@ -15,6 +15,7 @@ function PasswordChangeModal({ open, handleClose }) {
   const [passwordCurrent, setPasswordCurrent] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const { webToken, login } = useContext(AuthContext)
 
@@ -46,7 +47,8 @@ function PasswordChangeModal({ open, handleClose }) {
       const { token, status } = data
       login({ token, status })
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
       handleClose()

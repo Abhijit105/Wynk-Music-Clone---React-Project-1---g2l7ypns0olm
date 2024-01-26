@@ -18,9 +18,12 @@ function ArtistSongItem({
   const [artists, setArtists] = useState([])
   const [album, setAlbum] = useState(null)
   const [isLoadingAlbum, setIsLoadingAlbum] = useState(false)
+  const [errorAlbum, setErrorAlbum] = useState('')
   const [isLoadingArtists, setIsLoadingArtists] = useState(false)
+  const [errorArtists, setErrorArtists] = useState('')
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
+  const [errorFavorite, setErrorFavorite] = useState('')
 
   const { webToken } = useContext(AuthContext)
 
@@ -57,7 +60,8 @@ function ArtistSongItem({
       const data = await response.json()
       // console.log(data)
     } catch (err) {
-      console.error(err.message)
+      setErrorFavorite(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
     }
@@ -78,13 +82,16 @@ function ArtistSongItem({
       const result = data.data
       setAlbum(result)
     } catch (err) {
-      console.error(err.message)
+      setErrorAlbum(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoadingAlbum(false)
     }
   }
 
   useEffect(() => {
+    if(errorAlbum)  return
+
     fetchDataAlbum()
   }, [])
 
@@ -104,7 +111,8 @@ function ArtistSongItem({
         const result = data.data
         setArtists(artists => [...artists, result])
       } catch (err) {
-        console.error(err.message)
+        setErrorArtists(err.message)
+        // console.error(err.message)
       } finally {
         setIsLoadingArtists(false)
       }
@@ -112,6 +120,8 @@ function ArtistSongItem({
   }
 
   useEffect(() => {
+    if(errorArtists)  return
+
     fetchDataArtists()
   }, [])
 

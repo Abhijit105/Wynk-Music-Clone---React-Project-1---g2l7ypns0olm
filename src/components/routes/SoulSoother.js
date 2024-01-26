@@ -3,7 +3,6 @@ import React, { useContext, useState } from 'react'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import FeaturedSongs from '../common/FeaturedSongs'
-import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function SoulSoother() {

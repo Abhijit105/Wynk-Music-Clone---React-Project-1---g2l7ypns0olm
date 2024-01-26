@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import { AllContext } from '../../contexts/AllProvider'
 import AlbumsPage from '../common/AlbumsPage'
 import BestWay from '../common/BestWay'
-import Footer from '../Footer'
 import { Box } from '@mui/material'
 
 function AlbumsBhojpuri() {

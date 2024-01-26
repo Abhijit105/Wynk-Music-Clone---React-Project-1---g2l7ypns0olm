@@ -16,6 +16,7 @@ function LoginModal({ open, handleClose }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const { webToken, login, logout } = useContext(AuthContext)
 
@@ -47,7 +48,8 @@ function LoginModal({ open, handleClose }) {
       const { token, status } = data
       login({ token, status })
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
       handleClose()
@@ -82,7 +84,8 @@ function LoginModal({ open, handleClose }) {
       const { token, status } = data
       login({ token, status })
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
       handleClose()

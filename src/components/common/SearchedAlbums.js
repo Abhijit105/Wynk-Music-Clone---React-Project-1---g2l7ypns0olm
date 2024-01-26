@@ -6,6 +6,7 @@ function SearchedAlbums({ searchTerm }) {
   const [isLoading, setIsLoading] = useState(false)
   const [searchedAlbums, setSearchedAlbums] = useState([])
   const [page, setPage] = useState(1)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const controller = new AbortController()
@@ -26,7 +27,8 @@ function SearchedAlbums({ searchTerm }) {
         const albums = data.data
         setSearchedAlbums(searchedAlbums => [...searchedAlbums, ...albums])
       } catch (err) {
-        console.error(err.message)
+        setError(err.message)
+        // console.error(err.message)
       } finally {
         setIsLoading(false)
       }

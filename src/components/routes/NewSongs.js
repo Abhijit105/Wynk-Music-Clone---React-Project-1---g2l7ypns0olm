@@ -69,6 +69,7 @@ function NewSongs() {
           </Grid>
           {displayedSongs.map((song, i) => (
             <SongItem
+            key={i}
               item={song}
               i={i}
               onPlaylistUpdate={setPlaylist}

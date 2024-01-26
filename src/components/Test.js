@@ -4,6 +4,7 @@ function Test() {
   const [albums, setAlbums] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const fetchData = async () => {
     try {
@@ -21,13 +22,16 @@ function Test() {
       const result = data.data
       setAlbums(albums => [...albums, ...result])
     } catch (err) {
-      console.error(err.message)
+      setError(err.message)
+      // console.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    if(error) return
+
     fetchData()
   }, [page])
 
