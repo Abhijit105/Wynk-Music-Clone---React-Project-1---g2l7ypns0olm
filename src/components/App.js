@@ -1,17 +1,12 @@
-import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { AppBar, Box } from '@mui/material'
-
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
-import { FEATURED } from '../config/config'
 import AllProvider from '../contexts/AllProvider'
 import AppBarPrimary from './AppBarPrimary'
 import AppBarSecondary from './AppBarSecondary'
-import Test from './Test'
 import Trending from './routes/TrendingSongs'
 import Footer from './Footer'
 import OldSongs from './routes/OldSongs'
@@ -39,6 +34,8 @@ import RequireAuth from './RequireAuth'
 import FooterLink from './routes/FooterLink'
 import AudioPlayerComponent from './common/AudioPlayerComponent'
 import PlayerProvider from '../contexts/PlayerProvider'
+import BannerLink from './routes/BannerLink'
+import Subscription from './routes/Subscription'
 
 export const darkTheme = createTheme({
   palette: {
@@ -103,6 +100,8 @@ function App() {
               <AppBarSecondary />
               <Routes>
                 <Route path='/' element={<All />} />
+                <Route path='/search' element={<Search />} />
+                <Route path='/subscription' element={<Subscription />} />
                 <Route path='/trendingsongs' element={<Trending />} />
                 <Route path='/evergreenmelodies' element={<OldSongs />} />
                 <Route path='/new' element={<NewSongs />} />
@@ -120,7 +119,7 @@ function App() {
                 <Route path='/top20ofthisweek' element={<Top20 />} />
                 <Route path='/soulsoother' element={<SoulSoother />} />
                 <Route path='/podcast' element={<Podcast />} />
-                <Route path='/search' element={<Search />} />
+                <Route path='/bannerlink' element={<BannerLink />} />
                 <Route path='/footerlink' element={<FooterLink />} />
                 <Route
                   path='/albums'
@@ -151,8 +150,8 @@ function App() {
                   }
                 />
               </Routes>
-              <AudioPlayerComponent />
               <Footer />
+              <AudioPlayerComponent />
             </BrowserRouter>
           </PlayerProvider>
         </AllProvider>

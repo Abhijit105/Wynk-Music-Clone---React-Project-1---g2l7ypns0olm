@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Grid, IconButton, Typography, Snackbar } from '@mui/material'
 import { Favorite } from '@mui/icons-material'
 import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
 import { BASEURL3 } from '../../config/config'
+import ImagePlayBox from './ImagePlayBox'
 
 function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
   const [itemAlbum, setItemAlbum] = useState({})
@@ -13,6 +14,8 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
   const [errorFavorite, setErrorFavorite] = useState('')
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [messageSnackbar, setMessageSnackbar] = useState('')
 
   const { webToken } = useContext(AuthContext)
 
@@ -28,6 +31,14 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
 
   const handleCloseLoginModal = () => {
     setOpenLoginModal(false)
+  }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenSnackbar(false)
   }
 
   const favoriteHandler = async function (event, songId) {
@@ -47,9 +58,11 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
+      setMessageSnackbar(data.message)
+      setOpenSnackbar(true)
       // console.log(data)
     } catch (err) {
-      setError(err.message)
+      setErrorFavorite(err.message)
       // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
@@ -96,33 +109,41 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
         marginBottom='1em'
         sx={{ cursor: 'pointer' }}
         onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
+        justifyContent={'end'}
       >
-        <Grid xl={'auto'} marginRight='1em'>
+        <Grid item xl={'auto'} marginRight='1em' flexShrink={'1'}>
           <Typography>{i + 1}</Typography>
         </Grid>
-        <Grid xl={4}>
+        <Grid item xl={5}>
           <Box display='flex' alignItems='center' gap='0.5em'>
-            <Box
+            {/* <Box
               component={'img'}
               src={item.thumbnail}
               alt={item.title}
               maxWidth='3em'
               borderRadius='0.375em'
+            /> */}
+            <ImagePlayBox
+              src={item.thumbnail}
+              alt={item.title}
+              width={'3em'}
+              key={i}
+              borderRadius={'0.375em'}
             />
             <Typography>{item.title}</Typography>
           </Box>
         </Grid>
-        <Grid xl={3}>
+        <Grid item xl={3}>
           <Typography color='rgba(255, 255, 255, 0.7)'>
             {item.artist.map(a => a.name).join(', ')}
           </Typography>
         </Grid>
-        <Grid xl={3}>
+        <Grid item xl={3}>
           <Typography color='rgba(255, 255, 255, 0.7)'>
             {itemAlbum?.title}
           </Typography>
         </Grid>
-        <Grid xl={1}>
+        <Grid item xl={'auto'}>
           <IconButton
             sx={{
               background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
@@ -138,6 +159,12 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
         </Grid>
       </Grid>
       <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={(event, reason) => handleCloseSnackbar(event, reason)}
+        message={messageSnackbar}
+      />
     </>
   )
 }

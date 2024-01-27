@@ -34,90 +34,88 @@ function AppBarSecondary() {
     <AppBar
       position='static'
       color='transparent'
-      sx={{ paddingX: { xs: '0', sm: '0', md: '4em' } }}
+      sx={{ paddingX: { xs: '0', sm: '0', md: '2em', lg: '4em' } }}
       className='app-bar-secondary'
     >
-      <Container maxWidth='xl'>
-        <Toolbar
-          sx={{
-            display: { xs: 'none', sm: 'none', md: ' none', lg: 'flex' },
-            justifyContent: 'flex-start',
-            gap: { xs: '0', sm: '1em', md: '1.5em', lg: '2em', xl: '2.5em' },
-            alignItems: 'center',
-            fontSize: '1.125em',
-            color: 'rgba(255, 255, 255, 0.7)',
-          }}
+      <Toolbar
+        sx={{
+          display: { xs: 'none', sm: 'none', md: ' none', lg: 'flex' },
+          justifyContent: 'flex-start',
+          gap: { xs: '0', sm: '1em', md: '1.5em', lg: '2em', xl: '2.5em' },
+          alignItems: 'center',
+          fontSize: '1.125em',
+          color: 'rgba(255, 255, 255, 0.7)',
+        }}
+      >
+        <NavLink className='app-bar-secondary-navlink-title' to='/'>
+          All
+        </NavLink>
+        <NavLink
+          className='app-bar-secondary-navlink-title'
+          to='/trendingsongs'
         >
-          <NavLink className='app-bar-secondary-navlink-title' to='/'>
-            All
-          </NavLink>
-          <NavLink
-            className='app-bar-secondary-navlink-title'
-            to='/trendingsongs'
-          >
-            Trending Now
-          </NavLink>
-          <NavLink
-            className='app-bar-secondary-navlink-title'
-            to='/evergreenmelodies'
-          >
-            Old Songs
-          </NavLink>
-          <NavLink className='app-bar-secondary-navlink-title' to='/new'>
-            New Songs
-          </NavLink>
-          <NavlinkList title='Moods' data={MOODSDATA} />
-          <NavlinkList title='Top Albums' data={TOPALBUMSDATA} />
-          <NavLink className='app-bar-secondary-navlink-title' to='/topartists'>
-            Top Artists
-          </NavLink>
-          <NavlinkList title='Top Playlists' data={TOPPLAYLISTSDATA} />
-          <NavLink className='app-bar-secondary-navlink-title' to='/podcast'>
-            Podcast
-          </NavLink>
-        </Toolbar>
-        <Toolbar
+          Trending Now
+        </NavLink>
+        <NavLink
+          className='app-bar-secondary-navlink-title'
+          to='/evergreenmelodies'
+        >
+          Old Songs
+        </NavLink>
+        <NavLink className='app-bar-secondary-navlink-title' to='/new'>
+          New Songs
+        </NavLink>
+        <NavlinkList title='Moods' data={MOODSDATA} />
+        <NavlinkList title='Top Albums' data={TOPALBUMSDATA} />
+        <NavLink className='app-bar-secondary-navlink-title' to='/topartists'>
+          Top Artists
+        </NavLink>
+        <NavlinkList title='Top Playlists' data={TOPPLAYLISTSDATA} />
+        <NavLink className='app-bar-secondary-navlink-title' to='/podcast'>
+          Podcast
+        </NavLink>
+      </Toolbar>
+      <Toolbar
+        sx={{
+          color: 'rgba(255, 255, 255, 0.7)',
+          display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
+        }}
+      >
+        <Tooltip title='Open settings'>
+          <IconButton onClick={event => handleOpenUserMenu(event)}>
+            <MoreVert />
+          </IconButton>
+        </Tooltip>
+        <Menu
           sx={{
-            color: 'rgba(255, 255, 255, 0.7)',
+            mt: '45px',
             display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
           }}
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
         >
-          <Tooltip title='Open settings'>
-            <IconButton onClick={event => handleOpenUserMenu(event)}>
-              <MoreVert />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{
-              mt: '45px',
-              display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
-            }}
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {LANDSCAPETABLETSNAVLINKSDATA.map((item, i) => (
-              <MenuItem key={i}>
-                <NavLink
-                  className={'app-bar-secondary-navlink-title'}
-                  to={item.link}
-                >
-                  {item.title}
-                </NavLink>
-              </MenuItem>
-            ))}
-          </Menu>
-        </Toolbar>
-      </Container>
+          {LANDSCAPETABLETSNAVLINKSDATA.map((item, i) => (
+            <MenuItem key={i}>
+              <NavLink
+                className={'app-bar-secondary-navlink-title'}
+                to={item.link}
+              >
+                {item.title}
+              </NavLink>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Toolbar>
     </AppBar>
   )
 }

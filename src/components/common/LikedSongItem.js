@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Box, Typography } from '@mui/material'
 import { darkTheme } from '../App'
 import { BASEURL } from '../../config/config'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
-function LikedSongItem({
-  item,
-  onPlaylistUpdate,
-  onTrackUpdate,
-  i,
-  songItems,
-}) {
+function LikedSongItem({ item, i, songItems }) {
   const [artists, setArtists] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
+
   const songClickHandler = function (i) {
-    onPlaylistUpdate(songItems)
-    onTrackUpdate(i)
+    setPlaylist(songItems)
+    setTrack(i)
   }
 
   const fetchData = async () => {
@@ -44,7 +41,7 @@ function LikedSongItem({
   }
 
   useEffect(() => {
-    if(error) return
+    if (error) return
 
     fetchData()
   }, [])

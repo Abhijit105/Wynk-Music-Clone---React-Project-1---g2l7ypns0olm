@@ -6,10 +6,8 @@ function RequireAuth({ children }) {
   const { webToken } = useContext(AuthContext)
 
   if (!webToken) {
-    return <Navigate to='/login' />
+    return null
   }
-
-  if (webToken && webToken.success !== 'success') return
 
   return children
 }

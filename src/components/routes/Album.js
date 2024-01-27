@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, Grid } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
-import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { useEffect } from 'react'
 import { BASEURL } from '../../config/config'
 import AlbumSongItem from '../common/AlbumSongItem'
@@ -49,7 +48,7 @@ function Album() {
   }
 
   useEffect(() => {
-    if(error) return
+    if (error) return
 
     fetchData()
   }, [])
@@ -113,21 +112,24 @@ function Album() {
             color='rgba(255, 255, 255, 0.7)'
             marginBottom='1em'
             flexGrow='1'
+            justifyContent={'end'}
           >
-            <Grid xl={'auto'} marginRight='1em'>
+            <Grid xl={'auto'} marginRight='1em' key={1}>
               <Typography>#</Typography>
             </Grid>
-            <Grid xl={5}>
+            <Grid xl={5} key={2}>
               <Typography>Track</Typography>
             </Grid>
-            <Grid xl={3}>
+            <Grid xl={3} key={3}>
               <Typography>Artists</Typography>
             </Grid>
-            <Grid xl={3}>
+            <Grid xl={3} key={4}>
               <Typography>Album</Typography>
             </Grid>
-            <Grid xl={1}>
-              <Typography>&nbsp;</Typography>
+            <Grid xl={'auto'} key={5}>
+              <Typography>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </Typography>
             </Grid>
           </Grid>
           {playlist.map((song, i) => (

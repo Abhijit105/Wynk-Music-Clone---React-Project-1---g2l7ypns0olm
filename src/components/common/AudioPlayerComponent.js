@@ -48,99 +48,96 @@ function AudioPlayerComponent() {
     } finally {
       setIsLoading(false)
     }
-
-    useEffect(() => {
-      if (playlist.at(track)?.album) return
-      if (error) return
-
-      fetchData()
-    }, [track])
-
-    // console.log(playlist)
-    // console.log(album)
-    // console.log(webToken)
-
-    return (
-      <Box
-        sx={{
-          position: 'fixed',
-          zIndex: '2',
-          bottom: '0',
-          width: '100%',
-          left: '0',
-        }}
-      >
-        <AudioPlayer
-          customProgressBarSection={[
-            RHAP_UI.PROGRESS_BAR,
-            RHAP_UI.CURRENT_TIME,
-            <div className='rhap_time rhap_slash'>/</div>,
-            RHAP_UI.DURATION,
-          ]}
-          customControlsSection={[
-            <Paper
-              sx={{
-                backgroundColor: '#272727',
-                marginLeft: '1em',
-                display: 'flex',
-                gap: '0.75em',
-                padding: '0.5em',
-                borderRadius: '1em',
-              }}
-            >
-              <Box
-                component={'img'}
-                src={playlist?.at(track)?.thumbnail}
-                alt={playlist?.at(track)?.title}
-                width='3em'
-                borderRadius='0.5em'
-              />
-              <Box
-                display='flex'
-                flexDirection='column'
-                justifyContent='center'
-              >
-                <Typography fontSize='1em'>
-                  {playlist?.at(track)?.title}
-                </Typography>
-                <Typography
-                  fontSize='0.75em'
-                  color={darkTheme.palette.text.secondary}
-                >
-                  {album?.title}
-                </Typography>
-              </Box>
-            </Paper>,
-            RHAP_UI.ADDITIONAL_CONTROLS,
-            RHAP_UI.MAIN_CONTROLS,
-            RHAP_UI.VOLUME_CONTROLS,
-            <IconButton
-              style={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                backgroundColor: '#272727',
-                padding: '0 !important',
-                cursor: 'pointer',
-                border: 'none',
-              }}
-            >
-              <PlaylistPlay />
-            </IconButton>,
-          ]}
-          showSkipControls={true}
-          showJumpControls={false}
-          src={webToken && playlist?.at(track)?.audio_url}
-          volume={0.8}
-          onEnded={handleEnd}
-          onClickNext={() =>
-            setTrack(track => (track !== playlist.length - 1 ? track + 1 : 0))
-          }
-          onClickPrevious={() =>
-            setTrack(track => (track !== 0 ? track - 1 : playlist.length - 1))
-          }
-        />
-      </Box>
-    )
   }
+
+  useEffect(() => {
+    if (playlist.at(track)?.album) return
+    if (error) return
+
+    fetchData()
+  }, [track])
+
+  // console.log(playlist)
+  // console.log(album)
+  // console.log(webToken)
+
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        zIndex: '2',
+        bottom: '0',
+        width: '100%',
+        left: '0',
+      }}
+      className='audio-player-component'
+    >
+      <AudioPlayer
+        customProgressBarSection={[
+          RHAP_UI.PROGRESS_BAR,
+          RHAP_UI.CURRENT_TIME,
+          <div className='rhap_time rhap_slash'>/</div>,
+          RHAP_UI.DURATION,
+        ]}
+        customControlsSection={[
+          <Paper
+            sx={{
+              backgroundColor: '#272727',
+              marginLeft: '1em',
+              display: 'flex',
+              gap: '0.75em',
+              padding: '0.5em',
+              borderRadius: '1em',
+            }}
+          >
+            <Box
+              component={'img'}
+              src={playlist?.at(track)?.thumbnail}
+              alt={playlist?.at(track)?.title}
+              width='3em'
+              borderRadius='0.5em'
+            />
+            <Box display='flex' flexDirection='column' justifyContent='center'>
+              <Typography fontSize='1em'>
+                {playlist?.at(track)?.title}
+              </Typography>
+              <Typography
+                fontSize='0.75em'
+                color={darkTheme.palette.text.secondary}
+              >
+                {album?.title}
+              </Typography>
+            </Box>
+          </Paper>,
+          RHAP_UI.ADDITIONAL_CONTROLS,
+          RHAP_UI.MAIN_CONTROLS,
+          RHAP_UI.VOLUME_CONTROLS,
+          <IconButton
+            style={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              backgroundColor: '#272727',
+              padding: '0 !important',
+              cursor: 'pointer',
+              border: 'none',
+            }}
+          >
+            <PlaylistPlay />
+          </IconButton>,
+        ]}
+        showSkipControls={true}
+        showJumpControls={false}
+        src={webToken && playlist?.at(track)?.audio_url}
+        volume={0.8}
+        onEnded={handleEnd}
+        onClickNext={() =>
+          setTrack(track => (track !== playlist.length - 1 ? track + 1 : 0))
+        }
+        onClickPrevious={() =>
+          setTrack(track => (track !== 0 ? track - 1 : playlist.length - 1))
+        }
+      />
+    </Box>
+  )
 }
 
 export default AudioPlayerComponent

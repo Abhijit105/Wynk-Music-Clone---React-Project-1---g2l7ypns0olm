@@ -99,6 +99,10 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     navigate('/', { replace: true })
   }
 
+  const manageSubscriptionClickHandler = function () {
+    navigate('/subscription')
+  }
+
   // console.log(webToken)
 
   useEffect(() => {
@@ -120,267 +124,276 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     <>
       <AppBar
         position='relative'
-        sx={{ paddingX: { xs: '0', sm: '0', md: '4em' } }}
+        sx={{
+          paddingX: { xs: '0', sm: '0', md: '2em', lg: '4em' },
+          paddingY: '0.5em',
+        }}
+        className='app-bar-primary'
       >
-        <Container>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box
+            display={'flex'}
+            gap={'0.5em'}
+            alignItems={'center'}
+            component={'a'}
+            href='/'
           >
-            <Box display={'flex'} gap={'0.5em'} alignItems={'center'}>
-              <Box
-                component={'img'}
-                src={Logo}
-                alt='Wynk Logo'
-                width={'3em'}
-                borderRadius={'50%'}
-              />
-              <Typography
-                variant='h6'
-                noWrap
-                component='a'
-                href='/'
-                sx={{
-                  fontFamily: 'roboto',
-                  fontWeight: 700,
-                  fontSize: '1.375em',
-                  color: 'inherit',
-                }}
-              >
-                Wynk Music
-              </Typography>
-            </Box>
-
             <Box
+              component={'img'}
+              src={Logo}
+              alt='Wynk Logo'
+              width={'3em'}
+              borderRadius={'50%'}
+            />
+            <Typography
+              variant='h6'
+              noWrap
+              component='span'
               sx={{
-                flexGrow: 0,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
+                fontFamily: 'roboto',
+                fontWeight: 700,
+                fontSize: '1.375em',
+                color: 'inherit',
               }}
             >
-              <Paper
-                sx={{
-                  display: { xs: 'none', sm: 'none', md: 'flex' },
-                  alignItems: 'center',
-                  gap: '1em',
-                  padding: '0.25em 2em',
-                  borderRadius: '100px',
-                  background: '#383838',
-                }}
-              >
-                <IconButton onClick={searchClickHandler}>
-                  <Search
-                    sx={{
-                      position: 'absolute',
-                      color: 'rgba(255, 255, 255, 0.7)',
-                    }}
-                  />
-                </IconButton>
-                <InputBase
-                  placeholder='Search Songs'
-                  sx={{ backgroundColor: 'transparent' }}
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                />
-              </Paper>
-              <IconButton
-                sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
-                onClick={searchClickHandler}
-              >
+              Wynk Music
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+            }}
+          >
+            <Paper
+              sx={{
+                display: { xs: 'none', sm: 'none', md: 'flex' },
+                alignItems: 'center',
+                gap: '1em',
+                padding: '0.25em 2em',
+                borderRadius: '100px',
+                background: '#383838',
+              }}
+            >
+              <IconButton onClick={searchClickHandler}>
                 <Search
                   sx={{
+                    position: 'absolute',
                     color: 'rgba(255, 255, 255, 0.7)',
                   }}
                 />
               </IconButton>
+              <InputBase
+                placeholder='Search Songs'
+                sx={{ backgroundColor: 'transparent' }}
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+              />
+            </Paper>
+            <IconButton
+              sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+              onClick={searchClickHandler}
+            >
+              <Search
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              />
+            </IconButton>
+            <Box
+              display={{ xs: 'none', sm: 'none', md: 'flex' }}
+              alignItems='center'
+              gap='0.2em'
+              component='a'
+              href='#'
+              onClick={e => {
+                webToken
+                  ? manageSubscriptionClickHandler()
+                  : handleOpenLoginModal(e)
+              }}
+            >
+              <CurrencyRupee />
+              <Typography>Manage Subscription</Typography>
+            </Box>
+            <Divider
+              orientation='vertical'
+              variant='middle'
+              flexItem
+              sx={{
+                borderLeft: '1px solid',
+                display: { xs: 'none', sm: 'none', md: 'flex' },
+              }}
+            />
+            {webToken ? (
               <Box
                 display={{ xs: 'none', sm: 'none', md: 'flex' }}
                 alignItems='center'
-                gap='0.2em'
+                gap='0.6em'
+                component='a'
+                href='#'
+                onClick={myMusicClickHandler}
+              >
+                <MusicNote />
+                <Typography>My Music</Typography>
+              </Box>
+            ) : (
+              <Box
+                display={{ xs: 'none', sm: 'none', md: 'flex' }}
+                alignItems='center'
+                gap='0.6em'
                 component='a'
                 href='#'
                 onClick={e => {
                   handleOpenLoginModal(e)
                 }}
               >
-                <CurrencyRupee />
-                <Typography>Manage Subscription</Typography>
+                <Avatar />
+                <Typography>Login</Typography>
               </Box>
-              <Divider
-                orientation='vertical'
-                variant='middle'
-                flexItem
-                sx={{
-                  borderLeft: '1px solid',
-                  display: { xs: 'none', sm: 'none', md: 'flex' },
-                }}
-              />
-              {webToken ? (
-                <Box
-                  display={{ xs: 'none', sm: 'none', md: 'flex' }}
-                  alignItems='center'
-                  gap='0.6em'
-                  component='a'
-                  href='#'
-                  onClick={myMusicClickHandler}
-                >
-                  <MusicNote />
-                  <Typography>My Music</Typography>
-                </Box>
-              ) : (
-                <Box
-                  display={{ xs: 'none', sm: 'none', md: 'flex' }}
-                  alignItems='center'
-                  gap='0.6em'
-                  component='a'
-                  href='#'
-                  onClick={e => {
-                    handleOpenLoginModal(e)
-                  }}
-                >
-                  <Avatar />
-                  <Typography>Login</Typography>
-                </Box>
+            )}
+            <Tooltip title='Open settings'>
+              <IconButton onClick={handleOpenUserMenu}>
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {webToken && (
+                <MenuItem key={10}>
+                  <Typography
+                    textAlign='center'
+                    display='flex'
+                    alignItems='center'
+                    gap='1em'
+                    onClick={event => handleOpenPasswordChangeModal(event)}
+                  >
+                    <Password />
+                    Change Password
+                  </Typography>
+                </MenuItem>
               )}
-              <Tooltip title='Open settings'>
-                <IconButton onClick={handleOpenUserMenu}>
-                  <MenuIcon />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+              <MenuItem
+                key={9}
+                sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
               >
-                {webToken && (
-                  <MenuItem key={10}>
-                    <Typography
-                      textAlign='center'
-                      display='flex'
-                      alignItems='center'
-                      gap='1em'
-                      onClick={event => handleOpenPasswordChangeModal(event)}
-                    >
-                      <Password />
-                      Change Password
-                    </Typography>
-                  </MenuItem>
-                )}
+                <Typography
+                  textAlign='center'
+                  display='flex'
+                  alignItems='center'
+                  gap='1em'
+                  onClick={event => handleOpenLoginModal(event)}
+                >
+                  <CurrencyRupee />
+                  Manage Subscription
+                </Typography>
+              </MenuItem>
+              {webToken ? (
                 <MenuItem
-                  key={9}
+                  key={8}
                   sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+                  onClick={myMusicClickHandler}
                 >
                   <Typography
                     textAlign='center'
                     display='flex'
                     alignItems='center'
                     gap='1em'
-                    onClick={event => handleOpenLoginModal(event)}
                   >
-                    <CurrencyRupee />
-                    Manage Subscription
+                    <MusicNote />
+                    My Music
                   </Typography>
                 </MenuItem>
-                {webToken ? (
-                  <MenuItem
-                    key={8}
-                    sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
-                    onClick={myMusicClickHandler}
-                  >
-                    <Typography
-                      textAlign='center'
-                      display='flex'
-                      alignItems='center'
-                      gap='1em'
-                    >
-                      <MusicNote />
-                      My Music
-                    </Typography>
-                  </MenuItem>
-                ) : (
-                  <MenuItem
-                    key={8}
-                    sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
-                    onClick={event => handleOpenLoginModal(event)}
-                  >
-                    <Typography
-                      textAlign='center'
-                      display='flex'
-                      alignItems='center'
-                      gap='1em'
-                    >
-                      <Login />
-                      Login
-                    </Typography>
-                  </MenuItem>
-                )}
-                {SETTINGS.map((setting, i) => (
-                  <MenuItem
-                    key={i}
-                    onClick={event => handleOpenComingSoonModal(event)}
-                  >
-                    <Typography
-                      textAlign='center'
-                      display='flex'
-                      alignItems='center'
-                      gap='1em'
-                    >
-                      {setting.icon}
-                      {setting.title}
-                    </Typography>
-                  </MenuItem>
-                ))}
-                {webToken ? (
-                  <MenuItem key={'signout'} onClick={signOutHandler}>
-                    <Typography
-                      textAlign='center'
-                      display='flex'
-                      alignItems='center'
-                      gap='1em'
-                    >
-                      <Logout />
-                      Sign Out
-                    </Typography>
-                  </MenuItem>
-                ) : null}
-                <Divider />
+              ) : (
                 <MenuItem
-                  key={4}
-                  onClick={event => handleOpenComingSoonModal(event)}
-                  sx={{ display: 'flex', flexDirection: 'column' }}
+                  key={8}
+                  sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+                  onClick={event => handleOpenLoginModal(event)}
                 >
-                  <Typography textAlign='center'>
-                    Join Wynk for Artists
-                  </Typography>
                   <Typography
-                    component='p'
-                    fontSize='10px'
-                    marginTop='1rem'
-                    textAlign='left'
-                    fontWeight='300'
+                    textAlign='center'
+                    display='flex'
+                    alignItems='center'
+                    gap='1em'
                   >
-                    Sign up as an Artist on Wynk
-                    <br /> Studio and release your original
-                    <br /> songs on Wynk
+                    <Login />
+                    Login
                   </Typography>
                 </MenuItem>
-              </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
+              )}
+              {SETTINGS.map((setting, i) => (
+                <MenuItem
+                  key={i}
+                  onClick={event => handleOpenComingSoonModal(event)}
+                >
+                  <Typography
+                    textAlign='center'
+                    display='flex'
+                    alignItems='center'
+                    gap='1em'
+                  >
+                    {setting.icon}
+                    {setting.title}
+                  </Typography>
+                </MenuItem>
+              ))}
+              {webToken ? (
+                <MenuItem key={'signout'} onClick={signOutHandler}>
+                  <Typography
+                    textAlign='center'
+                    display='flex'
+                    alignItems='center'
+                    gap='1em'
+                  >
+                    <Logout />
+                    Sign Out
+                  </Typography>
+                </MenuItem>
+              ) : null}
+              <Divider />
+              <MenuItem
+                key={4}
+                onClick={event => handleOpenComingSoonModal(event)}
+                sx={{ display: 'flex', flexDirection: 'column' }}
+              >
+                <Typography textAlign='center'>
+                  Join Wynk for Artists
+                </Typography>
+                <Typography
+                  component='p'
+                  fontSize='10px'
+                  marginTop='1rem'
+                  textAlign='left'
+                  fontWeight='300'
+                >
+                  Sign up as an Artist on Wynk
+                  <br /> Studio and release your original
+                  <br /> songs on Wynk
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
       </AppBar>
       <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
       <ComingSoonModal

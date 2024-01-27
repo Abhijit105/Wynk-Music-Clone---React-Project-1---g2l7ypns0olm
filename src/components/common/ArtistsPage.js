@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import ImagePlayBox from './ImagePlayBox'
 
 function ArtistsPage({ title, artistItems }) {
   const navigate = useNavigate()
@@ -28,12 +29,18 @@ function ArtistsPage({ title, artistItems }) {
             sx={{ cursor: 'pointer' }}
             onClick={() => clickHandler(artist._id)}
           >
-            <Box
+            {/* <Box
               component={'img'}
               src={artist.image}
               alt={artist.name}
               maxWidth='12.875em'
               borderRadius='1em'
+            /> */}
+            <ImagePlayBox
+              src={artist.image}
+              alt={artist.name}
+              width={'12.875em'}
+              borderRadius={'1em'}
             />
             <Typography variant='h6'>{artist.name}</Typography>
           </Box>

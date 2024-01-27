@@ -64,7 +64,7 @@ function FeaturedSongs({
         component={'img'}
         src={songDisplayed?.thumbnail}
         alt={songDisplayed?.title}
-        maxWidth='280px'
+        width='20%'
         borderRadius='1em'
       />
       <Box flexGrow='1' display='flex' flexDirection='column'>
@@ -76,26 +76,29 @@ function FeaturedSongs({
           color='rgba(255, 255, 255, 0.7)'
           marginBottom='1em'
           flexGrow='1'
+          justifyContent={'end'}
         >
-          <Grid xl={'auto'} marginRight='1em'>
+          <Grid item xl={'auto'} marginRight='1em'>
             <Typography>#</Typography>
           </Grid>
-          <Grid xl={5}>
+          <Grid item xl={5}>
             <Typography>Track</Typography>
           </Grid>
-          <Grid xl={3}>
+          <Grid item xl={3}>
             <Typography>Artists</Typography>
           </Grid>
-          <Grid xl={3}>
+          <Grid item xl={3}>
             <Typography>Album</Typography>
           </Grid>
-          <Grid xl={1}>
-            <Typography>&nbsp;</Typography>
+          <Grid item xl={'auto'}>
+            <Typography>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </Typography>
           </Grid>
         </Grid>
         {songItems.map((song, i) => (
           <SongItem
-          key={i}
+            key={i}
             item={song}
             i={i}
             onPlaylistUpdate={onPlaylistUpdate}

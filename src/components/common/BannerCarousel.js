@@ -1,10 +1,17 @@
 import { NavigateBefore, NavigateNext } from '@mui/icons-material'
 import { Box, IconButton, Slide } from '@mui/material'
 import React, { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function BannerCarousel({ items }) {
   const [cards, setCards] = useState([])
   const [index, setIndex] = useState(0)
+
+  const navigate = useNavigate()
+
+  const clickHandler = function () {
+    navigate('/bannerlink')
+  }
 
   let intervalTimer
 
@@ -86,7 +93,9 @@ function BannerCarousel({ items }) {
               sm: `translate(${index * 100 + 50}%, 0)`,
             },
             transition: 'transform 0.3s linear',
+            cursor: 'pointer',
           }}
+          onClick={clickHandler}
         />
       ))}
       <IconButton

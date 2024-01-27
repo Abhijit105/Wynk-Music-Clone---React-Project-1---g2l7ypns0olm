@@ -80,7 +80,11 @@ function All() {
           banner16,
         ]}
       />
-      <Box sx={{ paddingX: '6em' }}>
+      <Box
+        sx={{
+          paddingX: { xs: '0', sm: '0', md: '4em', lg: '6em' },
+        }}
+      >
         <Carousel
           title='Songs of 2023'
           items={songs2023AndAbove}

@@ -97,20 +97,21 @@ function Artist() {
             color='rgba(255, 255, 255, 0.7)'
             marginBottom='1em'
             flexGrow='1'
+            justifyContent={'end'}
           >
-            <Grid xl={'auto'} marginRight='1em'>
+            <Grid xl={'auto'} marginRight='1em' key={1}>
               <Typography>#</Typography>
             </Grid>
-            <Grid xl={5}>
+            <Grid xl={5} key={2}>
               <Typography>Track</Typography>
             </Grid>
-            <Grid xl={3}>
+            <Grid xl={3} key={3}>
               <Typography>Artists</Typography>
             </Grid>
-            <Grid xl={3}>
+            <Grid xl={3} key={4}>
               <Typography>Album</Typography>
             </Grid>
-            <Grid xl={1}>
+            <Grid xl={'auto'} key={5}>
               <Typography>&nbsp;</Typography>
             </Grid>
           </Grid>

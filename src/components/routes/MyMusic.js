@@ -4,14 +4,11 @@ import BestWay from '../common/BestWay'
 import { useState } from 'react'
 import { BASEURL3 } from '../../config/config'
 import { AuthContext } from '../../contexts/AuthProvider'
-import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import LikedSongItem from '../common/LikedSongItem'
 
 function MyMusic() {
   const [likedSongs, setLikedSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [playlist, setPlaylist] = useState([])
-  const [track, setTrack] = useState(0)
   const [error, setError] = useState('')
 
   const { webToken } = useContext(AuthContext)
@@ -43,15 +40,11 @@ function MyMusic() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    setPlaylist(likedSongs)
-  }, [likedSongs])
-
   // console.log(likedSongs)
 
   return (
     <Box
-      padding='100px'
+      padding='6em'
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -69,23 +62,11 @@ function MyMusic() {
           justifyContent='flex-start'
         >
           {likedSongs.map((song, i) => (
-            <LikedSongItem
-              key={i}
-              item={song}
-              onPlaylistUpdate={setPlaylist}
-              onTrackUpdate={setTrack}
-              i={i}
-              songItems={likedSongs}
-            />
+            <LikedSongItem key={i} item={song} i={i} songItems={likedSongs} />
           ))}
         </Box>
       </Box>
       <BestWay />
-      <AudioPlayerComponent
-        onTrackUpdate={setTrack}
-        playlist={playlist}
-        track={track}
-      />
     </Box>
   )
 }

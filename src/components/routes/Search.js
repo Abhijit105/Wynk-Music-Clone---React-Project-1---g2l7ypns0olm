@@ -16,6 +16,10 @@ function Search() {
 
   useEffect(() => {
     document.querySelector('.app-bar-secondary').style.display = 'none'
+
+    return () => {
+      document.querySelector('.app-bar-secondary').style.display = 'flex'
+    }
   }, [])
 
   // console.log(searchTerm)

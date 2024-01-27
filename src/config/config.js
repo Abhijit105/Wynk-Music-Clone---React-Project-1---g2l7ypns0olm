@@ -5,6 +5,8 @@ import {
   Podcasts,
   CurrencyRupee,
   Login,
+  Check,
+  Close,
 } from '@mui/icons-material'
 
 export const BASEURL = 'https://academics.newtonschool.co/api/v1/music'
@@ -284,6 +286,29 @@ export const FOOTERMIDDLE = [
   'TERMS OF USE',
   'CONTACT US',
   'HELLOTUNES',
+]
+
+export const SUBSCRIPTIONDATA = [
+  {
+    title: 'Unlimited Streaming',
+    nowIcon: <Check sx={{ color: 'rgb(235, 29, 34)' }} />,
+    premiumIcon: <Check sx={{ color: 'rgb(235, 29, 34)' }} />,
+  },
+  {
+    title: 'Unlimited Hellotunes',
+    nowIcon: <Close />,
+    premiumIcon: <Check sx={{ color: 'rgb(235, 29, 34)' }} />,
+  },
+  {
+    title: 'Unlimited Downloads',
+    nowIcon: <Check sx={{ color: 'rgb(235, 29, 34)' }} />,
+    premiumIcon: <Check sx={{ color: 'rgb(235, 29, 34)' }} />,
+  },
+  {
+    title: 'Ad-free music',
+    nowIcon: <Close />,
+    premiumIcon: <Check sx={{ color: 'rgb(235, 29, 34)' }} />,
+  },
 ]
 
 // https://academics.newtonschool.co/api/v1/music/artist?filter={"languages":"bhojpuri"}

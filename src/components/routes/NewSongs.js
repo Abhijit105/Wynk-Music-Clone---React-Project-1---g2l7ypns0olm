@@ -50,6 +50,7 @@ function NewSongs() {
             color='rgba(255, 255, 255, 0.7)'
             marginBottom='1em'
             flexGrow='1'
+            justifyContent={'end'}
           >
             <Grid xl={'auto'} marginRight='1em'>
               <Typography>#</Typography>
@@ -63,13 +64,15 @@ function NewSongs() {
             <Grid xl={3}>
               <Typography>Album</Typography>
             </Grid>
-            <Grid xl={1}>
-              <Typography>&nbsp;</Typography>
+            <Grid xl={'auto'}>
+              <Typography>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </Typography>
             </Grid>
           </Grid>
           {displayedSongs.map((song, i) => (
             <SongItem
-            key={i}
+              key={i}
               item={song}
               i={i}
               onPlaylistUpdate={setPlaylist}

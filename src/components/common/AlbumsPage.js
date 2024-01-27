@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import Album from '../routes/Album'
+import ImagePlayBox from './ImagePlayBox'
 
 function AlbumsPage({ title, albumItems }) {
   const navigate = useNavigate()
@@ -30,12 +31,18 @@ function AlbumsPage({ title, albumItems }) {
             sx={{ cursor: 'pointer' }}
             onClick={() => clickHandler(album)}
           >
-            <Box
+            {/* <Box
               component={'img'}
               src={album.image}
               alt={album.title}
               maxWidth='12.875em'
               borderRadius='1em'
+            /> */}
+            <ImagePlayBox
+              src={album.image}
+              alt={album.title}
+              width={'12.875em'}
+              borderRadius={'1em'}
             />
             <Typography variant='h6'>{album.title}</Typography>
           </Box>

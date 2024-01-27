@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import FeaturedSongs from '../common/FeaturedSongs'
-import { useState } from 'react'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function TrendingSongs() {
