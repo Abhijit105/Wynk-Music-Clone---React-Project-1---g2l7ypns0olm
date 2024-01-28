@@ -11,7 +11,7 @@ function HappySongs() {
 
   return (
     <Box
-      padding='6em'
+      padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
       display='flex'
       flexDirection='column'
       alignItems='center'

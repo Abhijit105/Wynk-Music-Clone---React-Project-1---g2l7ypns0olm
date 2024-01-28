@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
 import { AllContext } from '../../contexts/AllProvider'
-import { Box, Typography, Grid, Button } from '@mui/material'
+import { Box, Typography, Grid, Button, useMediaQuery } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import SongItem from '../common/SongItem'
@@ -19,9 +19,14 @@ function NewSongs() {
 
   const songDisplayed = displayedSongs.at(0)
 
+  const matchesExtraSmallScreen = useMediaQuery(theme =>
+    theme.breakpoints.up('xs')
+  )
+  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
+
   return (
     <Box
-      padding='6em'
+    padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -29,6 +34,7 @@ function NewSongs() {
     >
       <Box
         display='flex'
+        flexDirection={{ xs: 'column', md: 'row' }}
         gap='2em'
         marginBottom='40px'
         alignItems='flex-start'
@@ -38,38 +44,64 @@ function NewSongs() {
           component={'img'}
           src={songDisplayed?.thumbnail}
           alt={songDisplayed?.title}
-          maxWidth='280px'
+          width={{ xs: '50%', sm: '50%', md: '20%' }}
           borderRadius='1em'
         />
-        <Box flexGrow='1' display='flex' flexDirection='column'>
+        <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
           <Typography variant='h4' marginBottom='1em'>
             New Songs
           </Typography>
-          <Grid
-            container
-            color='rgba(255, 255, 255, 0.7)'
-            marginBottom='1em'
-            flexGrow='1'
-            justifyContent={'end'}
-          >
-            <Grid xl={'auto'} marginRight='1em'>
-              <Typography>#</Typography>
+          {matchesMediumScreen && (
+            <Grid
+              container
+              color='rgba(255, 255, 255, 0.7)'
+              marginBottom='1em'
+              flexGrow='1'
+              justifyContent={'end'}
+              flexWrap={'nowrap'}
+            >
+              <Grid item md={'auto'} marginRight='1em'>
+                <Typography>#</Typography>
+              </Grid>
+              <Grid item md={5}>
+                <Typography>Track</Typography>
+              </Grid>
+              <Grid item md={4}>
+                <Typography>Artists</Typography>
+              </Grid>
+              <Grid item md={3}>
+                <Typography>Album</Typography>
+              </Grid>
+              <Grid item md={'auto'}>
+                <Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid xl={5}>
-              <Typography>Track</Typography>
+          )}
+          {!matchesMediumScreen && matchesExtraSmallScreen && (
+            <Grid
+              container
+              color='rgba(255, 255, 255, 0.7)'
+              marginBottom='1em'
+              flexGrow='1'
+              justifyContent={'end'}
+              flexWrap={'nowrap'}
+            >
+              <Grid xs={'auto'} sm={'auto'} marginRight='1em'>
+                <Typography>#</Typography>
+              </Grid>
+              <Grid xs={12} sm={12}>
+                <Typography>Track &</Typography>
+                <Typography>Artists</Typography>
+              </Grid>
+              <Grid xs={'auto'} sm={'auto'}>
+                <Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid xl={3}>
-              <Typography>Artists</Typography>
-            </Grid>
-            <Grid xl={3}>
-              <Typography>Album</Typography>
-            </Grid>
-            <Grid xl={'auto'}>
-              <Typography>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </Typography>
-            </Grid>
-          </Grid>
+          )}
           {displayedSongs.map((song, i) => (
             <SongItem
               key={i}

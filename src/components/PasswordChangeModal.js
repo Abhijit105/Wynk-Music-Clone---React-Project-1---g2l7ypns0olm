@@ -66,23 +66,27 @@ function PasswordChangeModal({ open, handleClose }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: '40em',
-          maxHeight: '30em',
+          width: '41.67%',
+          height: '68.18%',
           backgroundColor: darkTheme.palette.background.default,
           color: '#272727',
           boxShadow: '0 0 0 500px #17191d',
           display: 'grid',
-          gridTemplateColumns: '3fr 4fr',
-          gridTemplateRows: '1fr',
+          gridTemplateColumns: { xs: '1', lg: '42.1875% 57.8125%' },
+          gridTemplateRows: '100%',
           borderRadius: '1em',
           overflow: 'hidden',
+          overflowY: 'auto',
+          justifyContent: 'center',
         }}
       >
         <Box
           component={'img'}
           src={ModalImage}
           alt='Wynk promotion'
-          maxHeight='480px'
+          width={'100%'}
+          height={'100%'}
+          display={{ xs: 'none', lg: 'flex' }}
         ></Box>
         <Box
           sx={{
@@ -94,10 +98,11 @@ function PasswordChangeModal({ open, handleClose }) {
             color: darkTheme.palette.text.primary,
           }}
         >
-          <Typography variant='body1'>
-            Get a personalised experience, and access all your music
-          </Typography>
-          <Typography variant='body1' textTransform='uppercase'>
+          <Typography
+            variant='body1'
+            textTransform='uppercase'
+            textAlign={'center'}
+          >
             Change Password
           </Typography>
           <Box borderTop={`1px solid ${darkTheme.palette.divider}`}>
@@ -183,18 +188,6 @@ function PasswordChangeModal({ open, handleClose }) {
                 Change Password
               </Button>
             </Box>
-          </Box>
-          <Box
-            sx={{
-              marginTop: 'auto',
-              display: 'flex',
-              gap: '1rem',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography variant='body2'>Available on</Typography>
-            <Box component={'img'} src={GooglePlay} height='1.5rem' />
-            <Box component={'img'} src={AppStore} height='1.5rem' />
           </Box>
         </Box>
       </Box>

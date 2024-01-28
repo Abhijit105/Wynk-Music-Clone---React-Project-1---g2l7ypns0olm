@@ -28,7 +28,7 @@ function AudioPlayerComponent() {
     try {
       setIsLoading(true)
       const response = await fetch(
-        `${BASEURL}/album/${playlist.at(track)?.album}`,
+        `${BASEURL}/album/${playlist.at(track)?.album || ''}`,
         {
           headers: { projectId: 'g2l7ypns0olm' },
         }

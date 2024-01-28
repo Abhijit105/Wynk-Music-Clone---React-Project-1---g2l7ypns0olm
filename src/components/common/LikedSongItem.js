@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material'
 import { darkTheme } from '../App'
 import { BASEURL } from '../../config/config'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import ImagePlayBox from './ImagePlayBox'
 
 function LikedSongItem({ item, i, songItems }) {
   const [artists, setArtists] = useState([])
@@ -50,18 +51,30 @@ function LikedSongItem({ item, i, songItems }) {
 
   return (
     <Box
-      maxWidth='12.875em'
+      width={{
+        xs: 'calc((100% - 0em) / 1)',
+        sm: 'calc((100% - 1em) / 2)',
+        md: 'calc((100% - 3em) / 4)',
+        lg: 'calc((100% - 4em) / 5)',
+        xl: 'calc((100% - 5em) / 6)',
+      }}
       display='flex'
       flexDirection='column'
       sx={{ cursor: 'pointer' }}
       onClick={() => songClickHandler(i)}
     >
-      <Box
+      {/* <Box
         component={'img'}
         src={item.thumbnail}
         alt={item.title}
-        maxWidth='12.875em'
+        width='100%'
         borderRadius='1em'
+      /> */}
+      <ImagePlayBox
+        src={item.thumbnail}
+        alt={item.title}
+        width={'100%'}
+        borderRadius={'1em'}
       />
       <Typography variant='subtitle1'>{item.title}</Typography>
       <Typography variant='subtitle2' color={darkTheme.palette.text.secondary}>

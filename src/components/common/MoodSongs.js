@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import SongItem from './SongItem'
 import { BASEURL } from '../../config/config'
@@ -49,9 +49,21 @@ function MoodSongs({
   // console.log(songItems)
   // console.log(page)
 
+  const matchesExtraSmallScreen = useMediaQuery(theme =>
+    theme.breakpoints.up('xs')
+  )
+  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
+
   return (
     <Box
       display='flex'
+      flexDirection={{
+        xs: 'column',
+        sm: 'column',
+        md: 'row',
+        lg: 'row',
+        xl: 'row',
+      }}
       gap='2em'
       marginBottom='40px'
       alignItems='flex-start'
@@ -61,38 +73,64 @@ function MoodSongs({
         component={'img'}
         src={songDisplayed?.thumbnail}
         alt={songDisplayed?.title}
-        maxWidth='280px'
+        width={{ xs: '50%', sm: '50%', md: '20%' }}
         borderRadius='1em'
       />
-      <Box flexGrow='1' display='flex' flexDirection='column'>
+      <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
         <Typography variant='h4' marginBottom='1em'>
           {title}
         </Typography>
-        <Grid
-          container
-          color='rgba(255, 255, 255, 0.7)'
-          marginBottom='1em'
-          flexGrow='1'
-          justifyContent={'end'}
-        >
-          <Grid item xl={'auto'} marginRight='1em'>
-            <Typography>#</Typography>
+        {matchesMediumScreen && (
+          <Grid
+            container
+            color='rgba(255, 255, 255, 0.7)'
+            marginBottom='1em'
+            flexGrow='1'
+            justifyContent={'end'}
+            flexWrap={'nowrap'}
+          >
+            <Grid item md={'auto'} marginRight='1em'>
+              <Typography>#</Typography>
+            </Grid>
+            <Grid item md={5}>
+              <Typography>Track</Typography>
+            </Grid>
+            <Grid item md={4}>
+              <Typography>Artists</Typography>
+            </Grid>
+            <Grid item md={3}>
+              <Typography>Album</Typography>
+            </Grid>
+            <Grid item md={'auto'}>
+              <Typography>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xl={5}>
-            <Typography>Track</Typography>
+        )}
+        {!matchesMediumScreen && matchesExtraSmallScreen && (
+          <Grid
+            container
+            color='rgba(255, 255, 255, 0.7)'
+            marginBottom='1em'
+            flexGrow='1'
+            justifyContent={'end'}
+            flexWrap={'nowrap'}
+          >
+            <Grid item xs={'auto'} sm={'auto'} marginRight='1em'>
+              <Typography>#</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Typography>Track &</Typography>
+              <Typography>Artists</Typography>
+            </Grid>
+            <Grid item xs={'auto'} sm={'auto'}>
+              <Typography>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xl={3}>
-            <Typography>Artists</Typography>
-          </Grid>
-          <Grid item xl={3}>
-            <Typography>Album</Typography>
-          </Grid>
-          <Grid item xl={'auto'}>
-            <Typography>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </Typography>
-          </Grid>
-        </Grid>
+        )}
         {songItems.map((song, i) => (
           <SongItem
             key={i}

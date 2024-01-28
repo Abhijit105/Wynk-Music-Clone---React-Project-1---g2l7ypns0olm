@@ -1,12 +1,10 @@
 import {
   Modal,
-  TextField,
   Typography,
   Box,
-  OutlinedInput,
-  Button,
   Card,
   CardContent,
+  useMediaQuery,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DownloadAppModalImage from '../assets/img/downloadappmodalimage.png'
@@ -18,6 +16,14 @@ import ComingSoonImage from '../assets/img/coming-soon.jpg'
 function ComingSoonModal({ open, handleClose }) {
   const [displaySignUp, setDisplaySignUp] = useState(false)
 
+  console.log(window.innerWidth)
+  console.log(window.innerHeight)
+
+  const matchesExtraSmallScreen = useMediaQuery(theme =>
+    theme.breakpoints.up('xs')
+  )
+  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -26,23 +32,26 @@ function ComingSoonModal({ open, handleClose }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: '40em',
-          maxHeight: '30em',
+          width: '41.67%',
+          height: '68.18%',
           backgroundColor: darkTheme.palette.background.default,
           color: '#272727',
           boxShadow: '0 0 0 500px #17191d',
           display: 'grid',
-          gridTemplateColumns: '3fr 4fr',
-          gridTemplateRows: '1fr',
+          gridTemplateColumns: { xs: '1', sm: '42.1875% 57.8125%' },
+          gridTemplateRows: '100%',
           borderRadius: '1em',
           overflow: 'hidden',
+          justifyContent: 'center',
         }}
       >
         <Box
           component={'img'}
           src={DownloadAppModalImage}
           alt='Wynk promotion'
-          maxHeight='480px'
+          width={'100%'}
+          height={'100%'}
+          display={{ xs: 'none', sm: 'flex' }}
         ></Box>
         <Box
           sx={{
@@ -52,6 +61,8 @@ function ComingSoonModal({ open, handleClose }) {
             flexDirection: 'column',
             alignItems: 'center',
             color: darkTheme.palette.text.primary,
+            width: '100%',
+            justifyContent: 'space-between',
           }}
         >
           <Card
@@ -64,8 +75,8 @@ function ComingSoonModal({ open, handleClose }) {
             }}
           >
             <CardContent>
-              <Typography variant='h4'>
-                This feature is currently available.
+              <Typography fontSize={{ xs: '0.75em', md: '1em', xl: '1.25em' }}>
+                Coming Soon
               </Typography>
             </CardContent>
           </Card>
@@ -75,6 +86,8 @@ function ComingSoonModal({ open, handleClose }) {
               display: 'flex',
               gap: '1rem',
               justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: { xs: 'column', lg: 'row' },
             }}
           >
             <Typography variant='body2'>Available on</Typography>

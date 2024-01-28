@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Grid, IconButton, Typography, Snackbar } from '@mui/material'
+import {
+  Box,
+  Grid,
+  IconButton,
+  Typography,
+  Snackbar,
+  useMediaQuery,
+} from '@mui/material'
 import { Favorite } from '@mui/icons-material'
 import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
@@ -102,62 +109,130 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
   // console.log(item)
   // console.log(webToken?.token)
 
+  const matchesExtraSmallScreen = useMediaQuery(theme =>
+    theme.breakpoints.up('xs')
+  )
+  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
+
   return (
     <>
-      <Grid
-        container
-        marginBottom='1em'
-        sx={{ cursor: 'pointer' }}
-        onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
-        justifyContent={'end'}
-      >
-        <Grid item xl={'auto'} marginRight='1em' flexShrink={'1'}>
-          <Typography>{i + 1}</Typography>
-        </Grid>
-        <Grid item xl={5}>
-          <Box display='flex' alignItems='center' gap='0.5em'>
-            {/* <Box
+      {matchesMediumScreen && (
+        <Grid
+          container
+          marginBottom='1em'
+          sx={{ cursor: 'pointer' }}
+          onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
+          justifyContent={'end'}
+          flexWrap={'nowrap'}
+        >
+          <Grid
+            item
+            md={'auto'}
+            lg={'auto'}
+            xl={'auto'}
+            marginRight='1em'
+            flexShrink={'1'}
+          >
+            <Typography>{i + 1}</Typography>
+          </Grid>
+          <Grid item md={5} lg={5} xl={5}>
+            <Box display='flex' alignItems='center' gap='0.5em'>
+              {/* <Box
               component={'img'}
               src={item.thumbnail}
               alt={item.title}
               maxWidth='3em'
               borderRadius='0.375em'
             /> */}
-            <ImagePlayBox
+              <ImagePlayBox
+                src={item.thumbnail}
+                alt={item.title}
+                width={'3em'}
+                key={i}
+                borderRadius={'0.375em'}
+              />
+              <Typography>{item.title}</Typography>
+            </Box>
+          </Grid>
+          <Grid item md={4} lg={4} xl={4}>
+            <Typography color='rgba(255, 255, 255, 0.7)'>
+              {item.artist.map(a => a.name).join(', ')}
+            </Typography>
+          </Grid>
+          <Grid item md={3} lg={3} xl={3}>
+            <Typography color='rgba(255, 255, 255, 0.7)'>
+              {itemAlbum?.title}
+            </Typography>
+          </Grid>
+          <Grid item md={'auto'} lg={'auto'} xl={'auto'}>
+            <IconButton
+              sx={{
+                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+              }}
+              onClick={event =>
+                webToken
+                  ? favoriteHandler(event, item._id)
+                  : handleOpenLoginModal(event)
+              }
+            >
+              <Favorite fontSize='small' />
+            </IconButton>
+          </Grid>
+        </Grid>
+      )}
+      {!matchesMediumScreen && matchesExtraSmallScreen && (
+        <Grid
+          container
+          marginBottom='1em'
+          sx={{ cursor: 'pointer' }}
+          onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
+          justifyContent={'end'}
+          flexWrap={'nowrap'}
+        >
+          <Grid item xs={'auto'} sm={'auto'} marginRight='1em' flexShrink={'1'}>
+            <Typography>{i + 1}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Box display='flex' alignItems='center' gap='0.5em'>
+              {/* <Box
+              component={'img'}
               src={item.thumbnail}
               alt={item.title}
-              width={'3em'}
-              key={i}
-              borderRadius={'0.375em'}
-            />
-            <Typography>{item.title}</Typography>
-          </Box>
+              maxWidth='3em'
+              borderRadius='0.375em'
+            /> */}
+              <ImagePlayBox
+                src={item.thumbnail}
+                alt={item.title}
+                width={'3em'}
+                key={i}
+                borderRadius={'0.375em'}
+              />
+              <Box>
+                <Typography>{item.title}</Typography>
+                <Typography color='rgba(255, 255, 255, 0.7)'>
+                  {item.artist.map(a => a.name).join(', ')}
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={'auto'} sm={'auto'}>
+            <IconButton
+              sx={{
+                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+              }}
+              onClick={event =>
+                webToken
+                  ? favoriteHandler(event, item._id)
+                  : handleOpenLoginModal(event)
+              }
+            >
+              <Favorite fontSize='small' />
+            </IconButton>
+          </Grid>
         </Grid>
-        <Grid item xl={3}>
-          <Typography color='rgba(255, 255, 255, 0.7)'>
-            {item.artist.map(a => a.name).join(', ')}
-          </Typography>
-        </Grid>
-        <Grid item xl={3}>
-          <Typography color='rgba(255, 255, 255, 0.7)'>
-            {itemAlbum?.title}
-          </Typography>
-        </Grid>
-        <Grid item xl={'auto'}>
-          <IconButton
-            sx={{
-              background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
-            }}
-            onClick={event =>
-              webToken
-                ? favoriteHandler(event, item._id)
-                : handleOpenLoginModal(event)
-            }
-          >
-            <Favorite fontSize='small' />
-          </IconButton>
-        </Grid>
-      </Grid>
+      )}
+
       <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
       <Snackbar
         open={openSnackbar}

@@ -59,11 +59,11 @@ export const TOPPLAYLISTSDATA = [
   'Evergreen melodies',
 ]
 
-export const LANDSCAPETABLETSNAVLINKSDATA = [
+export const NAVLINKSDATA = [
   { title: 'All', link: '/' },
   {
     title: 'Trending Now',
-    link: '/trending',
+    link: '/trendingsongs',
   },
   {
     title: 'Old Songs',
@@ -119,7 +119,7 @@ export const LANDSCAPETABLETSNAVLINKSDATA = [
   },
   {
     title: 'Top 50 of This Month',
-    link: '/top50',
+    link: '/top50ofthismonth',
   },
   {
     title: 'Soul Soother',
@@ -127,7 +127,7 @@ export const LANDSCAPETABLETSNAVLINKSDATA = [
   },
   {
     title: 'Top 20 of This Week',
-    link: '/top20',
+    link: '/top20ofthisweek',
   },
   {
     title: 'Evergreen Melodies',

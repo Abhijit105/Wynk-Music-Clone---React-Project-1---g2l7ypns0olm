@@ -103,23 +103,26 @@ function LoginModal({ open, handleClose }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: '40em',
-          maxHeight: '30em',
+          width: '41.67%',
+          height: '68.18%',
           backgroundColor: darkTheme.palette.background.default,
           color: '#272727',
           boxShadow: '0 0 0 500px #17191d',
           display: 'grid',
-          gridTemplateColumns: '3fr 4fr',
-          gridTemplateRows: '1fr',
+          gridTemplateColumns: { xs: '1', md: '42.1875% 57.8125%' },
+          gridTemplateRows: '100%',
           borderRadius: '1em',
           overflow: 'hidden',
+          justifyContent: 'center',
         }}
       >
         <Box
           component={'img'}
           src={ModalImage}
           alt='Wynk promotion'
-          maxHeight='480px'
+          width={'100%'}
+          height={'100%'}
+          display={{ xs: 'none', md: 'flex' }}
         ></Box>
         <Box
           sx={{
@@ -131,7 +134,7 @@ function LoginModal({ open, handleClose }) {
             color: darkTheme.palette.text.primary,
           }}
         >
-          <Typography variant='body1'>
+          <Typography variant='body1' display={{ xs: 'none', sm: 'flex' }}>
             Get a personalised experience, and access all your music
           </Typography>
           <Tabs
@@ -172,6 +175,9 @@ function LoginModal({ open, handleClose }) {
               display: 'flex',
               gap: '1rem',
               justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: { xs: 'column', lg: 'row' },
+              display: { xs: 'none', lg: 'flex' },
             }}
           >
             <Typography variant='body2'>Available on</Typography>

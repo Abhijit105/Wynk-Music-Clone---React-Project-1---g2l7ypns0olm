@@ -32,13 +32,12 @@ function AllProvider({ children, allSongs, searchTerm }) {
   }
 
   useEffect(() => {
-    if(errorAllAlbums)  return
+    if (page > 4) return
 
     fetchData()
   }, [page])
 
   useEffect(() => {
-    if (isLoading || allAlbums.length >= 400) return
     setPage(page => page + 1)
   }, [isLoading])
 

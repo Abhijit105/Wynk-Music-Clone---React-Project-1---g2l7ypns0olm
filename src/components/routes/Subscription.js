@@ -16,12 +16,19 @@ import { darkTheme } from '../App'
 import { useState } from 'react'
 import { CheckCircle } from '@mui/icons-material'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Subscription() {
   const [selectedBox, setSelectedBox] = useState(1)
 
   const helloTuneClickHandler = function () {
     setSelectedBox(4)
+  }
+
+  const navigate = useNavigate()
+
+  const clickHandler = function () {
+    navigate('/payment')
   }
 
   useEffect(() => {
@@ -67,7 +74,14 @@ function Subscription() {
           marginBottom: '1.5em',
         }}
       >
-        <Box padding={'1em 1em 0'}>
+        <Box
+          padding={'1em 1em 0'}
+          width={'100%'}
+          display={'flex'}
+          flexDirection={'column'}
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
           <Box display={'flex'} alignItems={'center'}>
             <Typography variant='h5' color={'rgb(235, 29, 34)'}>
               Go Premium
@@ -97,14 +111,14 @@ function Subscription() {
             </Grid>
             <Divider sx={{ marginBottom: '1em' }} />
             {SUBSCRIPTIONDATA.map((item, i) => (
-              <Grid container marginBottom='1em' justifyContent={'end'}>
-                <Grid item key={i + '1'} xl={5}>
+              <Grid container key={i} marginBottom='1em' justifyContent={'end'}>
+                <Grid item key={crypto.randomUUID()} xl={5}>
                   <Typography>{item.title}</Typography>
                 </Grid>
-                <Grid item key={i + '2'} xl={3}>
+                <Grid item key={crypto.randomUUID()} xl={3}>
                   {item.nowIcon}
                 </Grid>
-                <Grid item key={i + '3'} xl={3}>
+                <Grid item key={crypto.randomUUID()} xl={3}>
                   {item.premiumIcon}
                 </Grid>
               </Grid>
@@ -196,7 +210,7 @@ function Subscription() {
           </Typography>
           <Typography fontSize={'0.75em'}>
             {SUBSCRIPTIONDATA.map((item, i, arr) =>
-              i != arr.length - 1 ? `${item.title} ` : item.title
+              i != arr.length - 1 ? `${item.title}&nbsp;|&nbsp;` : item.title
             )}
           </Typography>
         </Box>
@@ -221,8 +235,8 @@ function Subscription() {
         />
       </Paper>
       <Box component={'ul'} alignSelf={'flex-start'} marginBottom={'8em'}>
-        <li>All amounts are inclusive of 18% GST</li>
-        <li>
+        <li key={crypto.randomUUID()}>All amounts are inclusive of 18% GST</li>
+        <li key={crypto.randomUUID()}>
           By clicking on continue button, you agree to Wynk's{' '}
           <Link href='https://www.wynk.in/assets/webview/tos.html?coo=IN'>
             Terms of Service
@@ -233,7 +247,7 @@ function Subscription() {
           </Link>
           .
         </li>
-        <li>
+        <li key={crypto.randomUUID()}>
           Get monthly hellotunes plan at ₹19. An auto-renewal plan, cancel
           anytime on app.
         </li>
@@ -258,7 +272,12 @@ function Subscription() {
             {selectedBox === 4 && '₹19'}
           </Typography>
         </Box>
-        <Button variant='contained' color={'info'} sx={{ padding: '1em 2em' }}>
+        <Button
+          variant='contained'
+          color={'info'}
+          sx={{ padding: '1em 2em' }}
+          onClick={clickHandler}
+        >
           Continue
         </Button>
       </Box>

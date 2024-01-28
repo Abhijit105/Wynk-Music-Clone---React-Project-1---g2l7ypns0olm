@@ -15,28 +15,27 @@ function ComingSoon() {
 
   return (
     <>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        alignItems={'center'}
+        justifyContent={'center'}
       >
         <Box
           component={'img'}
           alt='coming soon text'
           src={ComingSoonImage}
-          maxWidth='40em'
+          width={'41.67%'}
           borderRadius='1em'
         />
-        <CardContent>
-          <Typography variant='h4'>
-            This feature is currently available.
-          </Typography>
-        </CardContent>
+
+        <Typography fontSize={{ xs: '1em', md: '1.5em', xl: '2em' }}>
+          This feature is currently available.
+        </Typography>
+
         <Button onClick={() => navigate('/')}>Back to Home</Button>
-      </Card>
+      </Box>
     </>
   )
 }

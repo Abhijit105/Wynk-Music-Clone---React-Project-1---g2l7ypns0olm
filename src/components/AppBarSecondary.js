@@ -15,7 +15,7 @@ import {
   TOPALBUMSDATA,
   MOODSDATA,
   TOPPLAYLISTSDATA,
-  LANDSCAPETABLETSNAVLINKSDATA,
+  NAVLINKSDATA,
 } from '../config/config'
 import { MoreVert } from '@mui/icons-material'
 
@@ -104,7 +104,7 @@ function AppBarSecondary() {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {LANDSCAPETABLETSNAVLINKSDATA.map((item, i) => (
+          {NAVLINKSDATA.map((item, i) => (
             <MenuItem key={i}>
               <NavLink
                 className={'app-bar-secondary-navlink-title'}

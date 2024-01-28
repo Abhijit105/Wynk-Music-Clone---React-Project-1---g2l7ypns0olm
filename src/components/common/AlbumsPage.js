@@ -27,7 +27,13 @@ function AlbumsPage({ title, albumItems }) {
         {albumItems.map((album, i) => (
           <Box
             key={i}
-            maxWidth='12.875em'
+            width={{
+              xs: 'calc((100% - 0em) / 1)',
+              sm: 'calc((100% - 1em) / 2)',
+              md: 'calc((100% - 3em) / 4)',
+              lg: 'calc((100% - 4em) / 5)',
+              xl: 'calc((100% - 5em) / 6)',
+            }}
             sx={{ cursor: 'pointer' }}
             onClick={() => clickHandler(album)}
           >
@@ -41,7 +47,7 @@ function AlbumsPage({ title, albumItems }) {
             <ImagePlayBox
               src={album.image}
               alt={album.title}
-              width={'12.875em'}
+              width={'100%'}
               borderRadius={'1em'}
             />
             <Typography variant='h6'>{album.title}</Typography>
