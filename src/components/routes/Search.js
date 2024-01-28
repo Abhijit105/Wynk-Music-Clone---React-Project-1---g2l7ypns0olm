@@ -12,8 +12,6 @@ import { darkTheme } from '../App'
 function Search() {
   const [value, setValue] = useState(0)
 
-  const { searchTerm } = useContext(AllContext)
-
   useEffect(() => {
     document.querySelector('.app-bar-secondary').style.display = 'none'
 
@@ -42,9 +40,9 @@ function Search() {
         paddingX='11.75em'
         borderTop={`1px solid ${darkTheme.palette.divider}`}
       >
-        {value === 0 && <SearchedSongs searchTerm={searchTerm} />}
-        {value === 1 && <SearchedAlbums searchTerm={searchTerm} />}
-        {value === 2 && <SearchedArtists searchTerm={searchTerm} />}
+        {value === 0 && <SearchedSongs />}
+        {value === 1 && <SearchedAlbums />}
+        {value === 2 && <SearchedArtists />}
       </Box>
     </Box>
   )

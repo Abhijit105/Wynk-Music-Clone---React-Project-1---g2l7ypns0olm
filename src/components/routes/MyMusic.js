@@ -40,7 +40,7 @@ function MyMusic() {
     fetchData()
   }, [])
 
-  // console.log(likedSongs)
+  console.log(likedSongs)
 
   return (
     <Box

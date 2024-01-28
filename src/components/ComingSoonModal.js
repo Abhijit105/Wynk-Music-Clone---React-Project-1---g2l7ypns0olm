@@ -16,8 +16,8 @@ import ComingSoonImage from '../assets/img/coming-soon.jpg'
 function ComingSoonModal({ open, handleClose }) {
   const [displaySignUp, setDisplaySignUp] = useState(false)
 
-  console.log(window.innerWidth)
-  console.log(window.innerHeight)
+  // console.log(window.innerWidth)
+  // console.log(window.innerHeight)
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')

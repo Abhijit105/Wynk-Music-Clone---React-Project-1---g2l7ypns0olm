@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Box, Button } from '@mui/material'
 import SearchedArtistItem from './SearchedArtistItem'
+import { AllContext } from '../../contexts/AllProvider'
 
-function SearchedArtists({ searchTerm }) {
+function SearchedArtists() {
   const [isLoading, setIsLoading] = useState(false)
   const [searchedArtists, setSearchedArtists] = useState([])
   const [page, setPage] = useState(1)
   const [error, setError] = useState('')
+
+  const { searchTerm } = useContext(AllContext)
+
+  const clickHandler = function () {
+    setPage(page => page + 1)
+  }
 
   useEffect(() => {
     const controller = new AbortController()
@@ -25,7 +32,8 @@ function SearchedArtists({ searchTerm }) {
         const data = await response.json()
         // console.log(data)
         const artists = data.data
-        setSearchedArtists(searchedArtists => [...searchedArtists, ...artists])
+        // setSearchedArtists(searchedArtists => [...searchedArtists, ...artists])
+        setSearchedArtists(artists)
       } catch (err) {
         setError(err.message)
         // console.error(err.message)
@@ -38,7 +46,35 @@ function SearchedArtists({ searchTerm }) {
     return () => {
       controller.abort()
     }
-  }, [searchTerm, page])
+  }, [searchTerm])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(
+          `https://academics.newtonschool.co/api/v1/music/artist?search={"name":"${searchTerm}"}&page=${page}&limit=20`,
+          {
+            headers: { projectId: 'g2l7ypns0olm' },
+          },
+          { signal: controller.signal }
+        )
+        if (!response.ok)
+          throw new Error('Something went wrong while fetching songs for you.')
+        const data = await response.json()
+        // console.log(data)
+        const artists = data.data
+        setSearchedArtists(searchedArtists => [...searchedArtists, ...artists])
+        // setSearchedArtists(artists)
+      } catch (err) {
+        setError(err.message)
+        // console.error(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [page])
 
   return (
     <Box display='flex' flexDirection='column'>
@@ -47,11 +83,15 @@ function SearchedArtists({ searchTerm }) {
           <SearchedArtistItem key={i} item={item} />
         ))}
       </Box>
-      <Button variant='contained' onClick={() => setPage(page => page + 1)} sx={{
+      <Button
+        variant='contained'
+        onClick={clickHandler}
+        sx={{
           alignSelf: 'center',
           backgroundColor: '#272727',
         }}
-        color='inherit'>
+        color='inherit'
+      >
         Show More
       </Button>
     </Box>

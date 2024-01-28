@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import SearchedSongItem from './SearchedSongItem'
 import { Box, Button } from '@mui/material'
 import { darkTheme } from '../App'
 import { useNavigate } from 'react-router-dom'
+import { AllContext } from '../../contexts/AllProvider'
 
-function SearchedSongs({ searchTerm }) {
+function SearchedSongs() {
   const [isLoading, setIsLoading] = useState(false)
   const [searchedSongs, setSearchedSongs] = useState([])
   const [page, setPage] = useState(1)
   const [error, setError] = useState('')
+
+  const { searchTerm } = useContext(AllContext)
+
+  const clickHandler = function () {
+    setPage(page => page + 1)
+  }
 
   useEffect(() => {
     const controller = new AbortController()
@@ -26,9 +33,10 @@ function SearchedSongs({ searchTerm }) {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        // console.log(data)
+        console.log(data)
         const songs = data.data
-        setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
+        // setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
+        setSearchedSongs(songs)
       } catch (err) {
         setError(err.message)
         // console.error(err.message)
@@ -41,7 +49,35 @@ function SearchedSongs({ searchTerm }) {
     return () => {
       controller.abort()
     }
-  }, [searchTerm, page])
+  }, [searchTerm])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(
+          `https://academics.newtonschool.co/api/v1/music/song?search={"title":"${searchTerm}"}&page=${page}&limit=20`,
+          {
+            headers: { projectId: 'g2l7ypns0olm' },
+          }
+        )
+
+        if (!response.ok)
+          throw new Error('Something went wrong while fetching songs for you.')
+        const data = await response.json()
+        console.log(data)
+        const songs = data.data
+        setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
+        // setSearchedSongs(songs)
+      } catch (err) {
+        setError(err.message)
+        // console.error(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [page])
 
   // console.log(searchedSongs)
 
@@ -54,7 +90,7 @@ function SearchedSongs({ searchTerm }) {
       </Box>
       <Button
         variant='contained'
-        onClick={() => setPage(page => page + 1)}
+        onClick={clickHandler}
         sx={{
           alignSelf: 'center',
           backgroundColor: '#272727',

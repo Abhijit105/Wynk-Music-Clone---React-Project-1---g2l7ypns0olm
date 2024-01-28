@@ -1,15 +1,29 @@
-import { AppBar, Box, Toolbar, Typography, createTheme } from '@mui/material'
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  IconButton,
+  ThemeProvider,
+  Toolbar,
+  Typography,
+  createTheme,
+} from '@mui/material'
 import React, { useEffect } from 'react'
 import { ReactComponent as WynkImage } from '../../assets/img/WynkImage.svg'
-import { darkTheme } from '../App'
-import UpaImage from '../../assets/img/upi.png'
-import { ReactComponent as RibbonImage } from '../../assets/img/Ribbon.svg'
+import PaymentComponent1 from '../common/PaymentComponent1'
 
-const lightTheme = createTheme({
+export const lightTheme = createTheme({
   palette: {
-    primary: {
-      main: '#fff',
+    background: {
+      default: '#fff',
+      paper: '#111',
     },
+    text: {
+      primary: '#111',
+      secondary: 'rgb(0, 0, 0, 0.7)',
+      disabled: 'rgb(0, 0, 0, 0.5)',
+    },
+    divider: 'rgb(0, 0, 0, 0.12)',
   },
 })
 
@@ -29,8 +43,15 @@ function Payment() {
   }, [])
 
   return (
-    <>
-      <AppBar sx={{ paddingY: '0.5em', marginBottom: '2em' }}>
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
+      <AppBar
+        sx={{
+          paddingY: '0.5em',
+          marginBottom: '2em',
+          backgroundColor: lightTheme.palette.background.paper,
+        }}
+      >
         <Toolbar
           sx={{
             position: 'relative',
@@ -53,42 +74,29 @@ function Payment() {
         </Toolbar>
       </AppBar>
       <Box
+        width={'100%'}
+        height={'100vh'}
         display={'grid'}
         gridTemplateColumns={'1fr 1fr'}
+        justifyItems={'center'}
         columnGap={'4em'}
         color={'111'}
         sx={{ backgroundColor: '#fff', height: '100vh' }}
       >
-        <Box marginTop={'10em'}>
-          <Box border={`1px solid ${darkTheme.palette.divider}`}>
-            <Box>
-              <RibbonImage />
-              <Typography
-                textTransform={'uppercase'}
-                color={darkTheme.palette.text.secondary}
-              >
-                Recommended Options
-              </Typography>
-            </Box>
-            <Box>
-              <Box component={'img'} url={UpaImage} />
-              <Box>
-                <Typography>VPA</Typography>
-                <Typography
-                  color={darkTheme.palette.text.secondary}
-                  fontSize={'0.75em'}
-                >
-                  9876543210@airtel
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box border={`1px solid ${darkTheme.palette.divider}`}></Box>
-          <Box border={`1px solid ${darkTheme.palette.divider}`}></Box>
+        <Box
+          marginTop={'8em'}
+          width={'100%'}
+          height={'100vh'}
+          display={'flex'}
+          flexDirection={'column'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          gap={'1em'}
+        >
+          <PaymentComponent1 />
         </Box>
-        <Box></Box>
       </Box>
-    </>
+    </ThemeProvider>
   )
 }
 

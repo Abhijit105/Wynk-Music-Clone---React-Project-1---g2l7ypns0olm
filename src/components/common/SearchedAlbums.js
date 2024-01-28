@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Box, Button } from '@mui/material'
 import SearchedAlbumItem from './SearchedAlbumItem'
+import { AllContext } from '../../contexts/AllProvider'
 
-function SearchedAlbums({ searchTerm }) {
+function SearchedAlbums() {
   const [isLoading, setIsLoading] = useState(false)
   const [searchedAlbums, setSearchedAlbums] = useState([])
   const [page, setPage] = useState(1)
   const [error, setError] = useState('')
+
+  const { searchTerm } = useContext(AllContext)
+
+  const clickHandler = function () {
+    setPage(page => page + 1)
+  }
 
   useEffect(() => {
     const controller = new AbortController()
@@ -25,7 +32,8 @@ function SearchedAlbums({ searchTerm }) {
         const data = await response.json()
         // console.log(data)
         const albums = data.data
-        setSearchedAlbums(searchedAlbums => [...searchedAlbums, ...albums])
+        // setSearchedAlbums(searchedAlbums => [...searchedAlbums, ...albums])
+        setSearchedAlbums(albums)
       } catch (err) {
         setError(err.message)
         // console.error(err.message)
@@ -38,7 +46,34 @@ function SearchedAlbums({ searchTerm }) {
     return () => {
       controller.abort()
     }
-  }, [searchTerm, page])
+  }, [searchTerm])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(
+          `https://academics.newtonschool.co/api/v1/music/album?search={"title":"${searchTerm}"}&page=${page}&limit=20`,
+          {
+            headers: { projectId: 'g2l7ypns0olm' },
+          }
+        )
+        if (!response.ok)
+          throw new Error('Something went wrong while fetching songs for you.')
+        const data = await response.json()
+        // console.log(data)
+        const albums = data.data
+        setSearchedAlbums(searchedAlbums => [...searchedAlbums, ...albums])
+        // setSearchedAlbums(albums)
+      } catch (err) {
+        setError(err.message)
+        // console.error(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [page])
 
   return (
     <Box display='flex' flexDirection='column'>
@@ -49,7 +84,7 @@ function SearchedAlbums({ searchTerm }) {
       </Box>
       <Button
         variant='contained'
-        onClick={() => setPage(page => page + 1)}
+        onClick={clickHandler}
         sx={{
           alignSelf: 'center',
           backgroundColor: '#272727',
