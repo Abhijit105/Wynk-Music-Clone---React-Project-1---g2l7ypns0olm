@@ -4,13 +4,16 @@ import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import MoodSongs from '../common/MoodSongs'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 function ExcitedSongs() {
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
+  const { webToken } = useContext(AuthContext)
+
   return (
     <Box
-    padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
+      padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -23,7 +26,7 @@ function ExcitedSongs() {
         onPlaylistUpdate={setPlaylist}
         onTrackUpdate={setTrack}
       />
-      <LoginRecommendation />
+      {!webToken && <LoginRecommendation />}
       <BestWay />
     </Box>
   )

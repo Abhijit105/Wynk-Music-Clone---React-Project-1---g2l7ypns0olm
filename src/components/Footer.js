@@ -13,7 +13,7 @@ function Footer() {
   }
 
   return (
-    <Box marginBottom='2em' padding='6em' className='footer'>
+    <Box marginBottom='6em' paddingX='6em' className='footer'>
       <FooterTop onClickLinkHandler={onClickLinkHandler} />
       <FooterMiddle />
       <FooterBottom />

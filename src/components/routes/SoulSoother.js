@@ -4,9 +4,12 @@ import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import FeaturedSongs from '../common/FeaturedSongs'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 function SoulSoother() {
   const { setPlaylist, setTrack } = useContext(PlayerContext)
+
+  const { webToken } = useContext(AuthContext)
 
   return (
     <Box
@@ -23,7 +26,7 @@ function SoulSoother() {
         onPlaylistUpdate={setPlaylist}
         onTrackUpdate={setTrack}
       />
-      <LoginRecommendation />
+      {!webToken && <LoginRecommendation />}
       <BestWay />
     </Box>
   )

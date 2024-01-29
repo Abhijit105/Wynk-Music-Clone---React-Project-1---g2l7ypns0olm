@@ -17,13 +17,17 @@ function LoginModal({ open, handleClose }) {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
 
   const { webToken, login, logout } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
   const signUpHandler = async function () {
-    if (!name || !email || !password) return
+    if (!name || !email || !password) {
+      setMessage('Enter all the fields')
+      return
+    }
     const user = {
       name,
       email,
@@ -60,7 +64,10 @@ function LoginModal({ open, handleClose }) {
   }
 
   const loginHandler = async function () {
-    if (!email || !password) return
+    if (!email || !password) {
+      setMessage('Enter all the fields')
+      return
+    }
     const user = {
       email,
       password,
@@ -76,6 +83,7 @@ function LoginModal({ open, handleClose }) {
         },
         body: JSON.stringify({ ...user }),
       })
+      // console.log(response)
       if (!response.ok) {
         throw new Error('Something went wrong during login.')
       }
@@ -88,12 +96,29 @@ function LoginModal({ open, handleClose }) {
       // console.error(err.message)
     } finally {
       setIsLoading(false)
-      handleClose()
     }
     setName('')
     setEmail('')
     setPassword('')
   }
+
+  useEffect(() => {
+    setEmail('')
+    setPassword('')
+    setMessage('')
+  }, [])
+
+  useEffect(() => {
+    if (!webToken) return
+
+    handleClose()
+  }, [webToken])
+
+  useEffect(() => {
+    if (!error) return
+
+    setMessage('Invalid username or password')
+  }, [error])
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -155,6 +180,7 @@ function LoginModal({ open, handleClose }) {
                 password={password}
                 onPasswordUpdate={setPassword}
                 onClickHandler={loginHandler}
+                message={message}
               />
             )}
             {value === 1 && (

@@ -10,6 +10,7 @@ import ArtistSongItem from '../common/ArtistSongItem'
 import { darkTheme } from '../App'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { PlayArrow } from '@mui/icons-material'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 function Artist() {
   const [isLoading, setIsLoading] = useState(false)
@@ -21,7 +22,9 @@ function Artist() {
 
   const { _id } = useParams()
 
-  const clickHandler = function () {
+  const { webToken } = useContext(AuthContext)
+
+  const playSongsClickHandler = function () {
     setPlaylist(songs)
     setTrack(0)
   }
@@ -117,7 +120,7 @@ function Artist() {
               color: darkTheme.palette.text.primary,
               marginBottom: '1em',
             }}
-            onClick={clickHandler}
+            onClick={playSongsClickHandler}
           >
             <Box display={'flex'} alignItems={'center'}>
               <PlayArrow /> <Typography>Play Songs</Typography>
@@ -194,7 +197,7 @@ function Artist() {
           ))}
         </Box>
       </Box>
-      <LoginRecommendation />
+      {!webToken && <LoginRecommendation />}
       <BestWay />
     </Box>
   )

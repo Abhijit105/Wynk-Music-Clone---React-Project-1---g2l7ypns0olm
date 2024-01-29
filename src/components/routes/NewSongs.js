@@ -6,9 +6,9 @@ import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import SongItem from '../common/SongItem'
 import { PlayerContext } from '../../contexts/PlayerProvider'
-import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 function NewSongs() {
   const [page, setPage] = useState(1)
@@ -21,9 +21,15 @@ function NewSongs() {
 
   const songDisplayed = displayedSongs.at(0)
 
-  const clickHandler = function () {
+  const { webToken } = useContext(AuthContext)
+
+  const playSongsClickHandler = function () {
     setPlaylist(displayedSongs)
     setTrack(0)
+  }
+
+  const showMoreClickHandler = function () {
+    setPage(page => page + 1)
   }
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
@@ -73,7 +79,7 @@ function NewSongs() {
               color: darkTheme.palette.text.primary,
               marginBottom: '1em',
             }}
-            onClick={clickHandler}
+            onClick={playSongsClickHandler}
           >
             <Box display={'flex'} alignItems={'center'}>
               <PlayArrow /> <Typography>Play Songs</Typography>
@@ -142,21 +148,22 @@ function NewSongs() {
           ))}
           {displayedSongs.length !== newSongs.length && (
             <Button
-              variant='outlined'
+              variant='contained'
               sx={{
                 color: 'inherit',
                 borderRadius: '100px',
                 borderColor: 'inherit',
                 alignSelf: 'center',
+                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
               }}
-              onClick={() => setPage(page => page + 1)}
+              onClick={showMoreClickHandler}
             >
               Show More
             </Button>
           )}
         </Box>
       </Box>
-      <LoginRecommendation />
+      {!webToken && <LoginRecommendation />}
       <BestWay />
     </Box>
   )

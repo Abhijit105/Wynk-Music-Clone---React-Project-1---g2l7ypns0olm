@@ -9,6 +9,7 @@ import AlbumSongItem from '../common/AlbumSongItem'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 function Album() {
   const [artists, setArtists] = useState([])
@@ -22,7 +23,9 @@ function Album() {
 
   const navigate = useNavigate()
 
-  const clickHandler = function () {
+  const { webToken } = useContext(AuthContext)
+
+  const playSongsClickHandler = function () {
     setPlaylist(songItems)
     setTrack(0)
   }
@@ -143,7 +146,7 @@ function Album() {
               color: darkTheme.palette.text.primary,
               marginBottom: '1em',
             }}
-            onClick={clickHandler}
+            onClick={playSongsClickHandler}
           >
             <Box display={'flex'} alignItems={'center'}>
               <PlayArrow /> <Typography>Play Songs</Typography>
@@ -250,7 +253,7 @@ function Album() {
           </Box>
         ))}
       </Box>
-      <LoginRecommendation />
+      {!webToken && <LoginRecommendation />}
       <BestWay />
     </Box>
   )

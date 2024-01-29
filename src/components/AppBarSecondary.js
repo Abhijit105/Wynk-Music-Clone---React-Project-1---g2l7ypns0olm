@@ -109,6 +109,7 @@ function AppBarSecondary() {
               <NavLink
                 className={'app-bar-secondary-navlink-title'}
                 to={item.link}
+                onClick={handleCloseUserMenu}
               >
                 {item.title}
               </NavLink>

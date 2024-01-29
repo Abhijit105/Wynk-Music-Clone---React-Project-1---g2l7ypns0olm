@@ -17,9 +17,13 @@ function MoodSongs({
   const [page, setPage] = useState(1)
   const [error, setError] = useState('')
 
-  const clickHandler = function () {
+  const playSongsClickHandler = function () {
     onPlaylistUpdate(songItems)
     onTrackUpdate(0)
+  }
+
+  const showMoreClickHandler = function() {
+    setPage(page => page + 1)
   }
 
   const fetchData = async () => {
@@ -99,7 +103,7 @@ function MoodSongs({
             color: darkTheme.palette.text.primary,
             marginBottom: '1em',
           }}
-          onClick={clickHandler}
+          onClick={playSongsClickHandler}
         >
           <Box display={'flex'} alignItems={'center'}>
             <PlayArrow /> <Typography>Play Songs</Typography>
@@ -168,14 +172,15 @@ function MoodSongs({
         ))}
         {songItems.length !== numberOfSongs && (
           <Button
-            variant='outlined'
+            variant='contained'
             sx={{
               color: 'inherit',
               borderRadius: '100px',
               borderColor: 'inherit',
               alignSelf: 'center',
+              background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
             }}
-            onClick={() => setPage(page => page + 1)}
+            onClick={showMoreClickHandler}
           >
             Show More
           </Button>

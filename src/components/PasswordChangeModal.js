@@ -177,13 +177,9 @@ function PasswordChangeModal({ open, handleClose }) {
               sx={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}
             >
               <Button
-                color='error'
+                color='inherit'
                 variant='contained'
                 onClick={passwordChangeHandler}
-                sx={{
-                  backgroundColor: darkTheme.palette.action.active,
-                  color: darkTheme.palette.background.default,
-                }}
               >
                 Change Password
               </Button>

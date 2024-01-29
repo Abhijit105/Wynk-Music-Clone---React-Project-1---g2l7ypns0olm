@@ -76,7 +76,7 @@ function SearchedAlbums() {
   }, [page])
 
   return (
-    <Box display='flex' flexDirection='column'>
+    <Box display='flex' flexDirection='column' marginBottom={'4em'}>
       <Box padding='1.25em'>
         {searchedAlbums.map((item, i) => (
           <SearchedAlbumItem key={i} item={item} />
@@ -87,7 +87,7 @@ function SearchedAlbums() {
         onClick={clickHandler}
         sx={{
           alignSelf: 'center',
-          backgroundColor: '#272727',
+          background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
         }}
         color='inherit'
       >

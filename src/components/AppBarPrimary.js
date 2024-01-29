@@ -40,6 +40,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthProvider'
 import PasswordChangeModal from './PasswordChangeModal'
 import { SETTINGS, MOBILESETTINGS } from '../config/config'
+import { PlayerContext } from '../contexts/PlayerProvider'
 
 function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const navigate = useNavigate()
@@ -52,6 +53,8 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
 
   const { webToken, logout } = useContext(AuthContext)
 
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
+
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
   }
@@ -63,6 +66,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const handleOpenLoginModal = event => {
     event.preventDefault()
     setOpenLoginModal(true)
+    handleCloseUserMenu()
   }
 
   const handleCloseLoginModal = () => {
@@ -72,6 +76,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const handleOpenComingSoonModal = event => {
     event.preventDefault()
     setOpenComingSoonModal(true)
+    handleCloseUserMenu()
   }
 
   const handleCloseComingSoonModal = () => {
@@ -81,6 +86,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const handleOpenPasswordChangeModal = event => {
     event.preventDefault()
     setOpenPasswordChangeModal(true)
+    handleCloseUserMenu()
   }
 
   const handleClosePasswordChangeModal = () => {
@@ -96,7 +102,10 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
 
   const signOutHandler = function () {
     logout()
+    setPlaylist([])
+    setTrack(undefined)
     navigate('/', { replace: true })
+    handleCloseUserMenu()
   }
 
   const manageSubscriptionClickHandler = function () {

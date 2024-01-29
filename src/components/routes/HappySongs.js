@@ -3,11 +3,13 @@ import React, { useContext, useState } from 'react'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import MoodSongs from '../common/MoodSongs'
-import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 function HappySongs() {
   const { setPlaylist, setTrack } = useContext(PlayerContext)
+
+  const { webToken } = useContext(AuthContext)
 
   return (
     <Box
@@ -24,7 +26,7 @@ function HappySongs() {
         onPlaylistUpdate={setPlaylist}
         onTrackUpdate={setTrack}
       />
-      <LoginRecommendation />
+      {!webToken && <LoginRecommendation />}
       <BestWay />
     </Box>
   )

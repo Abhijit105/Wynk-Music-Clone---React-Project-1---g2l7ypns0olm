@@ -61,15 +61,7 @@ function Signup({
         />
       </Box>
       <Box sx={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-        <Button
-          color='error'
-          variant='contained'
-          onClick={onClickHandler}
-          sx={{
-            backgroundColor: darkTheme.palette.action.active,
-            color: darkTheme.palette.background.default,
-          }}
-        >
+        <Button color='inherit' variant='contained' onClick={onClickHandler}>
           Sign Up
         </Button>
       </Box>

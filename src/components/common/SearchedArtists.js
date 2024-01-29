@@ -77,7 +77,7 @@ function SearchedArtists() {
   }, [page])
 
   return (
-    <Box display='flex' flexDirection='column'>
+    <Box display='flex' flexDirection='column' marginBottom={'4em'}>
       <Box padding='1.25em'>
         {searchedArtists.map((item, i) => (
           <SearchedArtistItem key={i} item={item} />
@@ -88,7 +88,7 @@ function SearchedArtists() {
         onClick={clickHandler}
         sx={{
           alignSelf: 'center',
-          backgroundColor: '#272727',
+          background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
         }}
         color='inherit'
       >

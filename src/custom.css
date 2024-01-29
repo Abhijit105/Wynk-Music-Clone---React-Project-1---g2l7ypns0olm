@@ -1,41 +1,11 @@
 .rhap_container {
   background-color: #272727;
-  width: 100%;
-  padding: 0;
-}
-
-.rhap_progress-container {
-  margin: 0;
-  position: relative;
 }
 
 .rhap_time {
-  position: absolute;
-
   color: #fff;
 }
 
-.rhap_current-time {
-  bottom: 1.45em;
-  right: 14em;
-}
-
-.rhap_slash {
-  bottom: 1.45em;
-  right: 13.5em;
-}
-
-.rhap_total-time {
-  bottom: 1.45em;
-  right: 11em;
-}
-
-.rhap_progress-bar {
-  width: 100%;
-}
-
-.rhap_controls-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.rhap_repeat-button {
+  display: none;
 }

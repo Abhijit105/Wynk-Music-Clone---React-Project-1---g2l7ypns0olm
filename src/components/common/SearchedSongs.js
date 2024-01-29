@@ -82,7 +82,7 @@ function SearchedSongs() {
   // console.log(searchedSongs)
 
   return (
-    <Box display='flex' flexDirection='column'>
+    <Box display='flex' flexDirection='column' marginBottom={'4em'}>
       <Box padding='1.25em'>
         {searchedSongs.map((item, i) => (
           <SearchedSongItem key={i} item={item} />
@@ -93,7 +93,7 @@ function SearchedSongs() {
         onClick={clickHandler}
         sx={{
           alignSelf: 'center',
-          backgroundColor: '#272727',
+          background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
         }}
         color='inherit'
       >

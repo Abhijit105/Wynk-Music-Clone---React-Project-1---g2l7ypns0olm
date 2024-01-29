@@ -3,7 +3,7 @@ import 'react-h5-audio-player/lib/styles.css'
 import '../../custom.css'
 import { RHAP_UI } from 'react-h5-audio-player'
 import { PlaylistPlay } from '@mui/icons-material'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { Box, Paper, Typography, IconButton } from '@mui/material'
 import { useState } from 'react'
 import { BASEURL } from '../../config/config'
@@ -20,8 +20,18 @@ function AudioPlayerComponent() {
 
   const { webToken } = useContext(AuthContext)
 
+  // const player = useRef()
+
   const handleEnd = function () {
     setTrack(track < playlist.length - 1 ? track + 1 : 0)
+  }
+
+  const clickNextHandler = function () {
+    setTrack(track => (track !== playlist.length - 1 ? track + 1 : 0))
+  }
+
+  const clickPreviousHandler = function () {
+    setTrack(track => (track !== 0 ? track - 1 : playlist.length - 1))
   }
 
   const fetchData = async () => {
@@ -57,6 +67,7 @@ function AudioPlayerComponent() {
     fetchData()
   }, [track])
 
+  // console.log('component rendered')
   // console.log(playlist)
   // console.log(track)
   // console.log(playlist.at(track))
@@ -115,32 +126,30 @@ function AudioPlayerComponent() {
           RHAP_UI.ADDITIONAL_CONTROLS,
           RHAP_UI.MAIN_CONTROLS,
           RHAP_UI.VOLUME_CONTROLS,
-          <IconButton
-            style={{
-              color: 'rgba(255, 255, 255, 0.7)',
-              backgroundColor: '#272727',
-              padding: '0 !important',
-              cursor: 'pointer',
-              border: 'none',
-            }}
-          >
-            <PlaylistPlay />
-          </IconButton>,
+          // <IconButton
+          //   style={{
+          //     color: 'rgba(255, 255, 255, 0.7)',
+          //     backgroundColor: '#272727',
+          //     padding: '0 !important',
+          //     cursor: 'pointer',
+          //     border: 'none',
+          //   }}
+          // >
+          //   <PlaylistPlay />
+          // </IconButton>,
         ]}
         showSkipControls={true}
         showJumpControls={false}
+        showDownloadProgress
+        autoPlay={false}
         src={webToken && playlist?.at(track)?.audio_url}
         volume={0.8}
         onEnded={handleEnd}
-        onClickNext={() =>
-          setTrack(track => (track !== playlist.length - 1 ? track + 1 : 0))
-        }
-        onClickPrevious={() =>
-          setTrack(track => (track !== 0 ? track - 1 : playlist.length - 1))
-        }
+        onClickNext={clickNextHandler}
+        onClickPrevious={clickPreviousHandler}
       />
     </Box>
   )
 }
 
-export default AudioPlayerComponent
+export default React.memo(AudioPlayerComponent)

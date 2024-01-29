@@ -1,8 +1,17 @@
-import React from 'react'
-import { Box, TextField, Button } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Box, TextField, Button, Typography } from '@mui/material'
 import { darkTheme } from '../App'
 
-function Login({email, onEmailUpdate, password, onPasswordUpdate, onClickHandler}) {
+function Login({
+  email,
+  onEmailUpdate,
+  password,
+  onPasswordUpdate,
+  onClickHandler,
+  message,
+}) {
+  
+
   return (
     <>
       <Box sx={{ marginBottom: '0.5em' }}>
@@ -37,19 +46,24 @@ function Login({email, onEmailUpdate, password, onPasswordUpdate, onClickHandler
           }}
         />
       </Box>
-      <Box sx={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.25rem',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '1em',
+        }}
+      >
         <Button
-          color='error'
+          color='inherit'
           variant='contained'
-          sx={{
-            backgroundColor: darkTheme.palette.action.active,
-            color: darkTheme.palette.background.default,
-          }}
           onClick={onClickHandler}
         >
           Login
         </Button>
-        
+        <Typography>{message}</Typography>
       </Box>
     </>
   )
