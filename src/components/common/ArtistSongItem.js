@@ -15,6 +15,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function ArtistSongItem({
   i,
@@ -37,9 +38,11 @@ function ArtistSongItem({
 
   const { webToken } = useContext(AuthContext)
 
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
+
   const clickHandler = function (i) {
-    onPlaylistUpdate(songItems)
-    onTrackUpdate(i)
+    setPlaylist(songItems)
+    setTrack(i)
   }
 
   const handleOpenLoginModal = event => {

@@ -33,8 +33,8 @@ function Artists() {
   }
 
   useEffect(() => {
-    if(error) return
-    
+    if (error) return
+
     fetchData()
   }, [])
 

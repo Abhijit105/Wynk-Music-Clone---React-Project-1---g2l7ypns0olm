@@ -37,6 +37,7 @@ import PlayerProvider from '../contexts/PlayerProvider'
 import BannerLink from './routes/BannerLink'
 import Subscription from './routes/Subscription'
 import Payment from './routes/Payment'
+import Pay from './routes/Pay'
 
 export const darkTheme = createTheme({
   palette: {
@@ -104,6 +105,7 @@ function App() {
                 <Route path='/search' element={<Search />} />
                 <Route path='/subscription' element={<Subscription />} />
                 <Route path='/payment' element={<Payment />} />
+                <Route path='/pay' element={<Pay />} />
                 <Route path='/trendingsongs' element={<Trending />} />
                 <Route path='/evergreenmelodies' element={<OldSongs />} />
                 <Route path='/new' element={<NewSongs />} />

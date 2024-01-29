@@ -5,8 +5,10 @@ import { Box, Typography, Grid, Button, useMediaQuery } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import SongItem from '../common/SongItem'
-import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { BASEURL } from '../../config/config'
+import { darkTheme } from '../App'
+import { PlayArrow } from '@mui/icons-material'
 
 function NewSongs() {
   const [page, setPage] = useState(1)
@@ -19,6 +21,11 @@ function NewSongs() {
 
   const songDisplayed = displayedSongs.at(0)
 
+  const clickHandler = function () {
+    setPlaylist(displayedSongs)
+    setTrack(0)
+  }
+
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
   )
@@ -26,7 +33,7 @@ function NewSongs() {
 
   return (
     <Box
-    padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
+      padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -48,9 +55,30 @@ function NewSongs() {
           borderRadius='1em'
         />
         <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
-          <Typography variant='h4' marginBottom='1em'>
+          <Typography variant='h4' marginBottom='0.25em'>
             New Songs
           </Typography>
+          <Typography
+            color={darkTheme.palette.text.secondary}
+            marginBottom='1em'
+          >
+            Made by Abhijit105
+          </Typography>
+          <Button
+            variant='contained'
+            sx={{
+              alignSelf: 'flex-start',
+              borderRadius: '100px',
+              background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+              color: darkTheme.palette.text.primary,
+              marginBottom: '1em',
+            }}
+            onClick={clickHandler}
+          >
+            <Box display={'flex'} alignItems={'center'}>
+              <PlayArrow /> <Typography>Play Songs</Typography>
+            </Box>
+          </Button>
           {matchesMediumScreen && (
             <Grid
               container

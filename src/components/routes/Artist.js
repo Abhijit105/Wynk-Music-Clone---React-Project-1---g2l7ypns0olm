@@ -1,24 +1,30 @@
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Typography, Grid, useMediaQuery } from '@mui/material'
+import { Box, Typography, Grid, useMediaQuery, Button } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
-import AudioPlayerComponent from '../common/AudioPlayerComponent'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { BASEURL } from '../../config/config'
 import ArtistSongItem from '../common/ArtistSongItem'
 import { darkTheme } from '../App'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { PlayArrow } from '@mui/icons-material'
 
 function Artist() {
   const [isLoading, setIsLoading] = useState(false)
   const [artist, setArtist] = useState(null)
+  const [songs, setSongs] = useState([])
   const [error, setError] = useState('')
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
   const { _id } = useParams()
+
+  const clickHandler = function () {
+    setPlaylist(songs)
+    setTrack(0)
+  }
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
@@ -38,6 +44,8 @@ function Artist() {
       // console.log(data)
       const result = data.data
       setArtist(result)
+      const songsResult = data.data.songs
+      setSongs(songsResult)
     } catch (err) {
       setError(err.message)
       // console.error(err.message)
@@ -52,16 +60,12 @@ function Artist() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    setPlaylist(artist?.songs)
-  }, [artist])
-
   // console.log(artist)
-  // console.log(playlist)
+  // console.log(songs)
 
   return (
     <Box
-    padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
+      padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -75,12 +79,12 @@ function Artist() {
         alignItems='flex-start'
         width='100%'
       >
-        <Box maxWidth='280px'>
+        <Box width={{ xs: '100%', md: '20%' }}>
           <Box
             component={'img'}
             src={artist?.image}
             alt={artist?.name}
-            maxWidth='280px'
+            width={'100%'}
             borderRadius='50%'
             marginBottom='2em'
           />
@@ -95,9 +99,30 @@ function Artist() {
           </Typography>
         </Box>
         <Box flexGrow='1' display='flex' flexDirection='column'>
-          <Typography variant='h4' marginBottom='1em'>
+          <Typography variant='h4' marginBottom='0.25em'>
             {artist?.name}
           </Typography>
+          <Typography
+            color={darkTheme.palette.text.secondary}
+            marginBottom='1em'
+          >
+            Made by Abhijit105 | {songs.length} songs
+          </Typography>
+          <Button
+            variant='contained'
+            sx={{
+              alignSelf: 'flex-start',
+              borderRadius: '100px',
+              background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+              color: darkTheme.palette.text.primary,
+              marginBottom: '1em',
+            }}
+            onClick={clickHandler}
+          >
+            <Box display={'flex'} alignItems={'center'}>
+              <PlayArrow /> <Typography>Play Songs</Typography>
+            </Box>
+          </Button>
           {matchesMediumScreen && (
             <Grid
               container
@@ -159,14 +184,12 @@ function Artist() {
               </Grid>
             </Grid>
           )}
-          {playlist?.map((song, i) => (
+          {songs?.map((song, i) => (
             <ArtistSongItem
               key={song._id}
               item={song}
               i={i}
-              onPlaylistUpdate={setPlaylist}
-              onTrackUpdate={setTrack}
-              songItems={playlist}
+              songItems={songs}
             />
           ))}
         </Box>

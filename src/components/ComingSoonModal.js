@@ -75,7 +75,10 @@ function ComingSoonModal({ open, handleClose }) {
             }}
           >
             <CardContent>
-              <Typography fontSize={{ xs: '0.75em', md: '1em', xl: '1.25em' }}>
+              <Typography
+                fontSize={{ xs: '0.75em', md: '1em', xl: '1.25em' }}
+                color={darkTheme.palette.text.primary}
+              >
                 Coming Soon
               </Typography>
             </CardContent>

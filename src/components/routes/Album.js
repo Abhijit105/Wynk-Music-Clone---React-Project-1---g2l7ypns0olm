@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Typography, Grid, useMediaQuery } from '@mui/material'
+import { Box, Typography, Grid, useMediaQuery, Button } from '@mui/material'
 import LoginRecommendation from '../common/LoginRecommendation'
 import BestWay from '../common/BestWay'
 import { useEffect } from 'react'
 import { BASEURL } from '../../config/config'
 import AlbumSongItem from '../common/AlbumSongItem'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { darkTheme } from '../App'
+import { PlayArrow } from '@mui/icons-material'
 
 function Album() {
   const [artists, setArtists] = useState([])
@@ -19,6 +21,11 @@ function Album() {
   const { _id } = useParams()
 
   const navigate = useNavigate()
+
+  const clickHandler = function () {
+    setPlaylist(songItems)
+    setTrack(0)
+  }
 
   const artistClickHandler = function (artistId) {
     navigate(`/artists/${artistId}`)
@@ -39,7 +46,8 @@ function Album() {
         throw new Error('Something went wrong while fetching songs for you.')
       const data = await response.json()
       // console.log(data)
-      setAlbum(data.data)
+      const result = data.data
+      setAlbum(result)
       const songsResult = data.data.songs
       setPlaylist(songsResult)
       const artistsResult = data.data.artists
@@ -60,12 +68,14 @@ function Album() {
 
   const songDisplayed = playlist.at(0)
 
+  const slicedArtists = artists.slice(0, 4)
+
   // console.log(artists)
   // console.log(album)
 
   return (
     <Box
-    padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
+      padding={{ xs: '1.25em', sm: '2em', md: '4em', lg: '6em', xl: '6em' }}
       display='flex'
       flexDirection='column'
       alignItems='center'
@@ -115,9 +125,30 @@ function Album() {
           </Box>
         </Box>
         <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
-          <Typography variant='h4' marginBottom='1em'>
+          <Typography variant='h4' marginBottom='0.25emem'>
             {album?.title}
           </Typography>
+          <Typography
+            color={darkTheme.palette.text.secondary}
+            marginBottom='1em'
+          >
+            Made by Abhijit105 | {playlist.length} songs
+          </Typography>
+          <Button
+            variant='contained'
+            sx={{
+              alignSelf: 'flex-start',
+              borderRadius: '100px',
+              background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+              color: darkTheme.palette.text.primary,
+              marginBottom: '1em',
+            }}
+            onClick={clickHandler}
+          >
+            <Box display={'flex'} alignItems={'center'}>
+              <PlayArrow /> <Typography>Play Songs</Typography>
+            </Box>
+          </Button>
           {matchesMediumScreen && (
             <Grid
               container
@@ -185,8 +216,6 @@ function Album() {
               item={song}
               albumName={album?.title}
               i={i}
-              onPlaylistUpdate={setPlaylist}
-              onTrackUpdate={setTrack}
               songItems={playlist}
               allArtists={artists}
               isLoading={isLoading}
@@ -195,6 +224,7 @@ function Album() {
         </Box>
       </Box>
       <Box
+        marginBottom={'2em'}
         display={{ xs: 'flex', md: 'none' }}
         flexDirection='row'
         gap='1em'

@@ -2,7 +2,6 @@ import {
   AppBar,
   Box,
   CssBaseline,
-  IconButton,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -11,6 +10,10 @@ import {
 import React, { useEffect } from 'react'
 import { ReactComponent as WynkImage } from '../../assets/img/WynkImage.svg'
 import PaymentComponent1 from '../common/PaymentComponent1'
+import PaymentComponent2 from '../common/PaymentComponent2'
+import PaymentComponent3 from '../common/PaymentComponent3'
+import PaymentComponent4 from '../common/PaymentComponent4'
+import PaymentComponent5 from '../common/PaymentComponent5'
 
 export const lightTheme = createTheme({
   palette: {
@@ -77,23 +80,36 @@ function Payment() {
         width={'100%'}
         height={'100vh'}
         display={'grid'}
-        gridTemplateColumns={'1fr 1fr'}
-        justifyItems={'center'}
-        columnGap={'4em'}
-        color={'111'}
+        gridTemplateColumns={'3fr 2fr'}
+        columnGap={{ md: '2em', lg: '4em' }}
         sx={{ backgroundColor: '#fff', height: '100vh' }}
       >
         <Box
-          marginTop={'8em'}
+          marginTop={'10em'}
+          width={'100%'}
+          height={'100vh'}
+          display={'flex'}
+          flexDirection={'column'}
+          alignItems={{ xs: 'center', md: 'flex-end' }}
+          justifyContent={'flex-start'}
+          gap={'1em'}
+        >
+          <PaymentComponent1 />
+          <PaymentComponent2 />
+          <PaymentComponent3 />
+        </Box>
+        <Box
+          marginTop={'10em'}
           width={'100%'}
           height={'100vh'}
           display={'flex'}
           flexDirection={'column'}
           alignItems={'center'}
-          justifyContent={'center'}
+          justifyContent={'flex-start'}
           gap={'1em'}
         >
-          <PaymentComponent1 />
+          <PaymentComponent4 />
+          <PaymentComponent5 />
         </Box>
       </Box>
     </ThemeProvider>

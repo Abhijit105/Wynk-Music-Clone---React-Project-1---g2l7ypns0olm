@@ -13,7 +13,7 @@ import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function AudioPlayerComponent() {
   const [isLoading, setIsLoading] = useState(false)
-  const [album, setAlbum] = useState({})
+  const [album, setAlbum] = useState(null)
   const [error, setError] = useState('')
 
   const { playlist, track, setTrack } = useContext(PlayerContext)
@@ -51,13 +51,16 @@ function AudioPlayerComponent() {
   }
 
   useEffect(() => {
-    if (playlist.at(track)?.album) return
     if (error) return
 
+    // console.log('fetching')
     fetchData()
   }, [track])
 
   // console.log(playlist)
+  // console.log(track)
+  // console.log(playlist.at(track))
+  // console.log(playlist.at(track)?.album || '')
   // console.log(album)
   // console.log(webToken)
 

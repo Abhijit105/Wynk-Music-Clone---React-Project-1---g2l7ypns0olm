@@ -2,6 +2,8 @@ import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import SongItem from './SongItem'
 import { BASEURL } from '../../config/config'
+import { darkTheme } from '../App'
+import { PlayArrow } from '@mui/icons-material'
 
 function MoodSongs({
   title,
@@ -14,6 +16,11 @@ function MoodSongs({
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [error, setError] = useState('')
+
+  const clickHandler = function () {
+    onPlaylistUpdate(songItems)
+    onTrackUpdate(0)
+  }
 
   const fetchData = async () => {
     try {
@@ -77,9 +84,27 @@ function MoodSongs({
         borderRadius='1em'
       />
       <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
-        <Typography variant='h4' marginBottom='1em'>
+        <Typography variant='h4' marginBottom='0.25em'>
           {title}
         </Typography>
+        <Typography color={darkTheme.palette.text.secondary} marginBottom='1em'>
+          Made by Abhijit105 | {numberOfSongs} songs
+        </Typography>
+        <Button
+          variant='contained'
+          sx={{
+            alignSelf: 'flex-start',
+            borderRadius: '100px',
+            background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+            color: darkTheme.palette.text.primary,
+            marginBottom: '1em',
+          }}
+          onClick={clickHandler}
+        >
+          <Box display={'flex'} alignItems={'center'}>
+            <PlayArrow /> <Typography>Play Songs</Typography>
+          </Box>
+        </Button>
         {matchesMediumScreen && (
           <Grid
             container

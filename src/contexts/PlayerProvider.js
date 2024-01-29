@@ -4,7 +4,7 @@ export const PlayerContext = createContext()
 
 function PlayerProvider({ children }) {
   const [playlist, setPlaylist] = useState([])
-  const [track, setTrack] = useState(0)
+  const [track, setTrack] = useState(undefined)
 
   return (
     <PlayerContext.Provider value={{ playlist, setPlaylist, track, setTrack }}>

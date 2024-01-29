@@ -19,7 +19,14 @@ gradient
 #ff0d55
 */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
 html {
+  box-sizing: border-box;
   min-height: 100vh;
 }
 

@@ -4,13 +4,20 @@ import { ReactComponent as RibbonImage } from '../../assets/img/Ribbon.svg'
 import { NavigateNext } from '@mui/icons-material'
 import { Box, Typography, IconButton } from '@mui/material'
 import { lightTheme } from '../routes/Payment'
+import { useNavigate } from 'react-router-dom'
 
 function PaymentComponent1() {
+  const navigate = useNavigate()
+
+  const payHandler = function () {
+    navigate('/pay')
+  }
+
   return (
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
       width={'70%'}
-      height={'25%'}
+      minHeight={'22.5%'}
       padding={'1em'}
       display={'flex'}
       flexDirection={'column'}
@@ -28,7 +35,7 @@ function PaymentComponent1() {
       </Box>
       <Box display={'flex'} justifyContent={'space-between'}>
         <Box display={'flex'} gap={'1em'}>
-          <Box component={'img'} src={UpiImage} width={'2em'} />
+          <Box component={'img'} src={UpiImage} width={'2.5em'} />
           <Box>
             <Typography>VPA</Typography>
             <Typography
@@ -39,7 +46,7 @@ function PaymentComponent1() {
             </Typography>
           </Box>
         </Box>
-        <IconButton>
+        <IconButton onClick={payHandler}>
           <NavigateNext />
         </IconButton>
       </Box>
