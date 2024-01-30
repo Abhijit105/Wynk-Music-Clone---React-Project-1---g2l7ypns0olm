@@ -14,7 +14,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
-import  { PlayerContext } from '../../contexts/PlayerProvider'
+import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function AlbumSongItem({
   albumName,
@@ -33,7 +33,7 @@ function AlbumSongItem({
 
   const { webToken } = useContext(AuthContext)
 
-  const {setPlaylist, setTrack} = useContext(PlayerContext)
+  const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   const clickHandler = function (i) {
     setPlaylist(songItems)
@@ -79,6 +79,8 @@ function AlbumSongItem({
       // console.log(data)
     } catch (err) {
       setErrorFavorite(err.message)
+      setMessageSnackbar(err.message)
+      setOpenSnackbar(true)
       // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
@@ -193,7 +195,11 @@ function AlbumSongItem({
               <Box>
                 <Typography>{item.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
-                  {artists.map(a => a.name).join(', ')}
+                  {artists
+                    .slice(0, 4)
+                    .map(a => a.name)
+                    .join(', ')}
+                  {artists.length > 4 ? '...' : ''}
                 </Typography>
               </Box>
             </Box>

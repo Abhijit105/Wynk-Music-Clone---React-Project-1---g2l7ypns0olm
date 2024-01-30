@@ -6,9 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import Logo from '../assets/logo/logo.png'
@@ -17,9 +15,8 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField'
-import { InputBase, OutlinedInput, Paper } from '@mui/material'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { InputBase, OutlinedInput, Paper, Snackbar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import {
   CurrencyRupee,
   GetApp,
@@ -43,13 +40,14 @@ import { SETTINGS, MOBILESETTINGS } from '../config/config'
 import { PlayerContext } from '../contexts/PlayerProvider'
 
 function AppBarPrimary({ searchTerm, setSearchTerm }) {
-  const navigate = useNavigate()
-
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
   const [openPasswordChangeModal, setOpenPasswordChangeModal] = useState(false)
-  React.useState(false)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [messageSnackbar, setMessageSnackbar] = useState('')
+
+  const navigate = useNavigate()
 
   const { webToken, logout } = useContext(AuthContext)
 
@@ -106,6 +104,16 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     setTrack(undefined)
     navigate('/', { replace: true })
     handleCloseUserMenu()
+    setMessageSnackbar('sign out successful')
+    setOpenSnackbar(true)
+  }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenSnackbar(false)
   }
 
   const manageSubscriptionClickHandler = function () {
@@ -412,6 +420,12 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
       <PasswordChangeModal
         open={openPasswordChangeModal}
         handleClose={handleClosePasswordChangeModal}
+      />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={(event, reason) => handleCloseSnackbar(event, reason)}
+        message={messageSnackbar}
       />
     </>
   )

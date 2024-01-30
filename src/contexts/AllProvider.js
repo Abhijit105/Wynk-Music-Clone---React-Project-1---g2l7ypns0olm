@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from 'react'
 
 export const AllContext = createContext()
 
-function AllProvider({ children, allSongs, searchTerm }) {
+function AllProvider({ children, allSongs, searchTerm, isLoadingAllSongs }) {
   const [allAlbums, setAllAlbums] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)

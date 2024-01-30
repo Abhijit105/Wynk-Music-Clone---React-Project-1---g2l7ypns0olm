@@ -1,5 +1,11 @@
 import { NavigateBefore, NavigateNext } from '@mui/icons-material'
-import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
+import {
+  Box,
+  IconButton,
+  Skeleton,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
@@ -79,22 +85,21 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
 
   // console.log(items)
   // console.log(displayedItems)
-  // console.log(window.innerWidth - 16)
-  // console.log(window.innerWidth - 16 - 2 * 6 * 16)
-  // console.log((window.innerWidth - 16 - (2 * 6 + 4 * 2) * 16) / 5)
+  // console.log(window.innerWidth - 16.8)
+  // console.log(window.innerWidth - 16.8 - 2 * 6 * 16)
+  // console.log((window.innerWidth - 16.8 - (2 * 6 + 4 * 2) * 16) / 5)
 
   return (
-    <Box marginBottom='60px'>
+    <Box marginBottom='4em'>
       <Typography variant='h5' marginBottom={'1em'}>
         {title}
       </Typography>
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'flex-start',
           width: '100%',
-          height: '256px',
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -118,38 +123,38 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
             key={i}
             display='flex'
             flexDirection='column'
-            height='100%'
             flexShrink={'0'}
             alignItems={'flex-start'}
             justifyContent={'flex-start'}
             width={{
               xs: `${
-                (((window.innerWidth - 16) / 16 - 2 * 6) /
-                  (1 * ((window.innerWidth - 16) / 16 - 2 * 6))) *
+                (((window.innerWidth - 16.8) / 16 - 2 * 6) /
+                  (1 * ((window.innerWidth - 16.8) / 16 - 2 * 6))) *
                 100
               }%`,
               sm: `${
-                (((window.innerWidth - 16) / 16 - 2 * 6) /
-                  (2 * ((window.innerWidth - 16) / 16 - 2 * 6))) *
+                (((window.innerWidth - 16.8) / 16 - 2 * 6) /
+                  (2 * ((window.innerWidth - 16.8) / 16 - 2 * 6))) *
                 100
               }%`,
               md: `${
-                (((window.innerWidth - 16) / 16 - 2 * 6) /
-                  (4 * ((window.innerWidth - 16) / 16 - 2 * 6))) *
+                (((window.innerWidth - 16.8) / 16 - 2 * 6) /
+                  (4 * ((window.innerWidth - 16.8) / 16 - 2 * 6))) *
                 100
               }%`,
               lg: `${
-                (((window.innerWidth - 16) / 16 - 2 * 6) /
-                  (5 * ((window.innerWidth - 16) / 16 - 2 * 6))) *
+                (((window.innerWidth - 16.8) / 16 - 2 * 6) /
+                  (5 * ((window.innerWidth - 16.8) / 16 - 2 * 6))) *
                 100
               }%`,
               xl: `${
-                (((window.innerWidth - 16) / 16 - 2 * 6) /
-                  (6 * ((window.innerWidth - 16) / 16 - 2 * 6))) *
+                (((window.innerWidth - 16.8) / 16 - 2 * 6) /
+                  (6 * ((window.innerWidth - 16.8) / 16 - 2 * 6))) *
                 100
               }%`,
             }}
             // width = (((window.innerWidth - widthOfScrollBar) / 16)em - ((2 * paddingX)em) - (((n - 1) * gap)em)) / (n * ((window.innerWidth - 16) / 16)em - ((2 * paddingX)em))
+            borderRadius={'1em'}
             sx={{
               cursor: 'pointer',
               transform: `translate(${translateX}%, 0)`,

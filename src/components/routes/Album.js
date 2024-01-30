@@ -16,6 +16,7 @@ function Album() {
   const [isLoading, setIsLoading] = useState(false)
   const [album, setAlbum] = useState(null)
   const [error, setError] = useState('')
+  const [songs, setSongs] = useState([])
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -26,7 +27,7 @@ function Album() {
   const { webToken } = useContext(AuthContext)
 
   const playSongsClickHandler = function () {
-    setPlaylist(songItems)
+    setPlaylist(songs)
     setTrack(0)
   }
 
@@ -52,7 +53,7 @@ function Album() {
       const result = data.data
       setAlbum(result)
       const songsResult = data.data.songs
-      setPlaylist(songsResult)
+      setSongs(songsResult)
       const artistsResult = data.data.artists
       setArtists(artistsResult)
     } catch (err) {
@@ -69,7 +70,7 @@ function Album() {
     fetchData()
   }, [])
 
-  const songDisplayed = playlist.at(0)
+  const songDisplayed = songs.at(0)
 
   const slicedArtists = artists.slice(0, 4)
 
@@ -92,12 +93,12 @@ function Album() {
         alignItems='flex-start'
         width='100%'
       >
-        <Box width={{ xs: '100%', md: '20%' }}>
+        <Box width={{ xs: '50%', md: '20%' }} flexShrink={'0'} flexGrow='1'>
           <Box
             component={'img'}
             src={songDisplayed?.thumbnail}
             alt={songDisplayed?.title}
-            width={{ xs: '50%', md: '100%' }}
+            width={'100%'}
             borderRadius='1em'
             marginBottom='2em'
           />
@@ -135,7 +136,7 @@ function Album() {
             color={darkTheme.palette.text.secondary}
             marginBottom='1em'
           >
-            Made by Abhijit105 | {playlist.length} songs
+            Made by Abhijit105 | {songs.length} songs
           </Typography>
           <Button
             variant='contained'
@@ -213,13 +214,13 @@ function Album() {
               </Grid>
             </Grid>
           )}
-          {playlist.map((song, i) => (
+          {songs.map((song, i) => (
             <AlbumSongItem
               key={song._id}
               item={song}
               albumName={album?.title}
               i={i}
-              songItems={playlist}
+              songItems={songs}
               allArtists={artists}
               isLoading={isLoading}
             />

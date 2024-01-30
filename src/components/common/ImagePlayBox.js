@@ -22,8 +22,8 @@ function ImagePlayBox({ src, alt, width, borderRadius }) {
       onMouseLeave={mouseLeaveHandler}
       display={'flex'}
       alignItems={'center'}
-      justifyContent={'center'}
       overflow={'hidden'}
+      flexShrink={'0'}
     >
       <Box
         component={'img'}
@@ -37,13 +37,10 @@ function ImagePlayBox({ src, alt, width, borderRadius }) {
           width={width}
           height={'100%'}
           position={'absolute'}
-          top={'50%'}
-          left={'50%'}
-          borderRadius={`${0.15 * width}`}
+          borderRadius={borderRadius}
           sx={{
             background:
               'linear-gradient(to bottom, rgb(0, 0, 0, 0.35), rgb(0, 0, 0, 0.35))',
-            transform: 'translate(-50%, -50%)',
           }}
         >
           <IconButton

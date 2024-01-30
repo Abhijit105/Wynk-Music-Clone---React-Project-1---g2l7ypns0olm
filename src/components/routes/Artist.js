@@ -82,7 +82,7 @@ function Artist() {
         alignItems='flex-start'
         width='100%'
       >
-        <Box width={{ xs: '100%', md: '20%' }}>
+        <Box width={{ xs: '50%', md: '20%' }} flexShrink={'0'} flexGrow='1'>
           <Box
             component={'img'}
             src={artist?.image}

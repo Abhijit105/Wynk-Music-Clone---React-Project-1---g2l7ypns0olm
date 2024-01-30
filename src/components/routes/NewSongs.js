@@ -52,6 +52,7 @@ function NewSongs() {
         marginBottom='40px'
         alignItems='flex-start'
         width='100%'
+        flexShrink={'0'} flexGrow='1'
       >
         <Box
           component={'img'}
@@ -122,14 +123,14 @@ function NewSongs() {
               justifyContent={'end'}
               flexWrap={'nowrap'}
             >
-              <Grid xs={'auto'} sm={'auto'} marginRight='1em'>
+              <Grid item xs={'auto'} sm={'auto'} marginRight='1em'>
                 <Typography>#</Typography>
               </Grid>
-              <Grid xs={12} sm={12}>
+              <Grid item xs={12} sm={12}>
                 <Typography>Track &</Typography>
                 <Typography>Artists</Typography>
               </Grid>
-              <Grid xs={'auto'} sm={'auto'}>
+              <Grid item xs={'auto'} sm={'auto'}>
                 <Typography>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </Typography>

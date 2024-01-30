@@ -22,7 +22,7 @@ function FeaturedSongs({
     onTrackUpdate(0)
   }
 
-  const showMoreClickHandler = function() {
+  const showMoreClickHandler = function () {
     setPage(page => page + 1)
   }
 
@@ -82,6 +82,8 @@ function FeaturedSongs({
       marginBottom='40px'
       alignItems='flex-start'
       width='100%'
+      flexShrink={'0'}
+      flexGrow='1'
     >
       <Box
         component={'img'}

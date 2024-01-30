@@ -21,7 +21,7 @@ function PaymentComponent5() {
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
       width={{ xs: '90%', md: '75%', lg: '50%' }}
-      minHeight={'10%'}
+      height={'4.5em'}
       padding={'1em'}
       display={'flex'}
       flexDirection={'row'}
@@ -30,7 +30,7 @@ function PaymentComponent5() {
       borderRadius={'0.5em'}
     >
       <Tag />
-      <Typography>Have a promo code?</Typography>
+      <Typography lineHeight={'1'}>Have a promo code?</Typography>
       <Button onClick={event => handleOpenComingSoonModal(event)}>Apply</Button>
       <ComingSoonModal
         open={openComingSoonModal}

@@ -20,7 +20,7 @@ function PaymentComponent3() {
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
       width={'70%'}
-      minHeight={'20%'}
+      height={'8.5em'}
       padding={'1em'}
       display={'flex'}
       flexDirection={'column'}

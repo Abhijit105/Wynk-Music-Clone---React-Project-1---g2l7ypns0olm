@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Subscription() {
   const [selectedBox, setSelectedBox] = useState(1)
+  const [amount, setAmount] = useState(undefined)
 
   const helloTuneClickHandler = function () {
     setSelectedBox(4)
@@ -28,8 +29,15 @@ function Subscription() {
   const navigate = useNavigate()
 
   const clickHandler = function () {
-    navigate('/payment')
+    navigate(`/payment?amount=${amount}`)
   }
+
+  useEffect(() => {
+    selectedBox === 1 && setAmount(399)
+    selectedBox === 2 && setAmount(129)
+    selectedBox === 3 && setAmount(49)
+    selectedBox === 4 && setAmount(19)
+  }, [selectedBox])
 
   useEffect(() => {
     document.querySelector('.app-bar-primary').style.display = 'none'
@@ -96,35 +104,45 @@ function Subscription() {
               container
               color={darkTheme.palette.text.disabled}
               flexGrow='1'
-              justifyContent={'end'}
+              justifyContent={'space-between'}
               fontStyle={'italic'}
             >
-              <Grid item key={crypto.randomUUID()} xl={5}>
+              <Grid item key={crypto.randomUUID()} xs={6} md={8}>
                 <Typography>Benefits</Typography>
               </Grid>
-              <Grid item key={crypto.randomUUID()} xl={3}>
+              <Grid item key={crypto.randomUUID()} xs={3} md={2}>
                 <Typography>Now</Typography>
               </Grid>
-              <Grid item key={crypto.randomUUID()} xl={3}>
+              <Grid item key={crypto.randomUUID()} xs={3} md={2}>
                 <Typography>Premium</Typography>
               </Grid>
             </Grid>
             <Divider sx={{ marginBottom: '1em' }} />
             {SUBSCRIPTIONDATA.map((item, i) => (
-              <Grid container key={i} marginBottom='1em' justifyContent={'end'}>
-                <Grid item key={crypto.randomUUID()} xl={5}>
+              <Grid
+                container
+                key={i}
+                marginBottom='1em'
+                justifyContent={'space-between'}
+              >
+                <Grid item key={crypto.randomUUID()} xs={6} md={8}>
                   <Typography>{item.title}</Typography>
                 </Grid>
-                <Grid item key={crypto.randomUUID()} xl={3}>
+                <Grid item key={crypto.randomUUID()} xs={3} md={2}>
                   {item.nowIcon}
                 </Grid>
-                <Grid item key={crypto.randomUUID()} xl={3}>
+                <Grid item key={crypto.randomUUID()} xs={3} md={2}>
                   {item.premiumIcon}
                 </Grid>
               </Grid>
             ))}
           </Box>
-          <Box display={'flex'} gap={'2em'} marginBottom={'1em'}>
+          <Box
+            display={'flex'}
+            flexDirection={{ xs: 'column', md: 'row' }}
+            gap={{ xs: '1em', lg: '2em' }}
+            marginBottom={'1em'}
+          >
             <SubscriptionCardItem
               key={crypto.randomUUID()}
               topText='Yearly'
@@ -210,7 +228,7 @@ function Subscription() {
           </Typography>
           <Typography fontSize={'0.75em'}>
             {SUBSCRIPTIONDATA.map((item, i, arr) =>
-              i != arr.length - 1 ? `${item.title}&nbsp;|&nbsp;` : item.title
+              i != arr.length - 1 ? `${item.title} | ` : item.title
             )}
           </Typography>
         </Box>

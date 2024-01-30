@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, TextField, Button } from '@mui/material'
+import { Box, TextField, Button, Typography } from '@mui/material'
 import { darkTheme } from '../App'
 
 function Signup({
@@ -10,6 +10,7 @@ function Signup({
   password,
   onPasswordUpdate,
   onClickHandler,
+  message,
 }) {
   return (
     <>
@@ -60,10 +61,20 @@ function Signup({
           }}
         />
       </Box>
-      <Box sx={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.25em',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '1em',
+        }}
+      >
         <Button color='inherit' variant='contained' onClick={onClickHandler}>
           Sign Up
         </Button>
+        <Typography>{message}</Typography>
       </Box>
     </>
   )

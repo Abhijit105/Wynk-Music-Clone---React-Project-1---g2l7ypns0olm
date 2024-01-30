@@ -17,13 +17,7 @@ import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 
-function ArtistSongItem({
-  i,
-  item,
-  onPlaylistUpdate,
-  onTrackUpdate,
-  songItems,
-}) {
+function ArtistSongItem({ i, item, songItems }) {
   const [artists, setArtists] = useState([])
   const [album, setAlbum] = useState(null)
   const [isLoadingAlbum, setIsLoadingAlbum] = useState(false)
@@ -89,6 +83,8 @@ function ArtistSongItem({
       // console.log(data)
     } catch (err) {
       setErrorFavorite(err.message)
+      setMessageSnackbar(err.message)
+      setOpenSnackbar(true)
       // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
@@ -193,7 +189,11 @@ function ArtistSongItem({
           </Grid>
           <Grid item key={crypto.randomUUID()} md={4}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {artists.map(a => a.name).join(', ')}
+              {artists
+                .slice(0, 4)
+                .map(a => a.name)
+                .join(', ')}
+              {artists.length > 4 ? '...' : ''}
             </Typography>
           </Grid>
           <Grid item key={crypto.randomUUID()} md={3}>

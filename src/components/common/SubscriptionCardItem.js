@@ -20,7 +20,7 @@ function SubscriptionCardItem({
   return (
     <Box
       position={'relative'}
-      width={'10em'}
+      width={{ xs: '14em', md: '10em' }}
       // display={'flex'}
       // flexDirection={'column'}
       // alignItems={'center'}

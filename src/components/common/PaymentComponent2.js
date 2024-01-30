@@ -30,7 +30,7 @@ function PaymentComponent2() {
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
       width={'70%'}
-      minHeight={'40%'}
+      height={'17.5em'}
       padding={'1em'}
       display={'flex'}
       flexDirection={'column'}
@@ -70,7 +70,7 @@ function PaymentComponent2() {
         <IconButton onClick={plusHandler}>
           <Add sx={{ fontSize: '2em' }} />
         </IconButton>
-        <Box width={'100%'}>
+        <Box width={'100%'} overflow={'hidden'}>
           <Box
             display={'flex'}
             alignItems={'center'}
@@ -82,13 +82,13 @@ function PaymentComponent2() {
             </IconButton>
           </Box>
           {displayForm && (
-            <Box>
+            <Box display={'flex'} flexDirection={'column'}>
               <TextField
                 type='text'
                 placeholder='Enter UPI ID. Eg: 9876543210@upi'
                 size='small'
                 fullWidth
-                sx={{ marginBottom: '1em', width: '100%' }}
+                sx={{ marginBottom: '1em', width: '100%', flexShrink: '1' }}
               />
               <Box
                 display={'flex'}
@@ -104,7 +104,7 @@ function PaymentComponent2() {
               </Box>
               <Button
                 variant='contained'
-                sx={{ backgroundColor: '#111' }}
+                sx={{ backgroundColor: '#111', flexShrink: '1' }}
                 fullWidth
                 onClick={event => handleOpenComingSoonModal(event)}
               >

@@ -31,6 +31,8 @@ export const lightTheme = createTheme({
 })
 
 function Payment() {
+  
+
   useEffect(() => {
     document.querySelector('.app-bar-primary').style.display = 'none'
     document.querySelector('.app-bar-secondary').style.display = 'none'
@@ -44,6 +46,8 @@ function Payment() {
       document.querySelector('.audio-player-component').style.display = 'flex'
     }
   }, [])
+
+  
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -78,7 +82,7 @@ function Payment() {
       </AppBar>
       <Box
         width={'100%'}
-        height={'100vh'}
+        minHeight={'100vh'}
         display={'grid'}
         gridTemplateColumns={'3fr 2fr'}
         columnGap={{ md: '2em', lg: '4em' }}

@@ -13,11 +13,13 @@ function PaymentComponent1() {
     navigate('/pay')
   }
 
+  const height = window.innerHeight
+
   return (
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
       width={'70%'}
-      minHeight={'22.5%'}
+      height={'10em'}
       padding={'1em'}
       display={'flex'}
       flexDirection={'column'}
@@ -30,7 +32,7 @@ function PaymentComponent1() {
           textTransform={'uppercase'}
           color={lightTheme.palette.text.disabled}
         >
-          Recommended Options
+          Recommended Options {height}
         </Typography>
       </Box>
       <Box display={'flex'} justifyContent={'space-between'}>

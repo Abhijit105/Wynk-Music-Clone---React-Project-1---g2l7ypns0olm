@@ -115,7 +115,7 @@ export const NAVLINKSDATA = [
   },
   {
     title: 'Trending Songs',
-    link: '/trending',
+    link: '/trendingsongs',
   },
   {
     title: 'Top 50 of This Month',

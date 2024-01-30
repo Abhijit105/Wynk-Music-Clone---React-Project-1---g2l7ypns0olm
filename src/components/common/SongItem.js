@@ -14,7 +14,14 @@ import LoginModal from '../../components/LoginModal'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 
-function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
+function SongItem({
+  item,
+  i,
+  onPlaylistUpdate,
+  onTrackUpdate,
+  songItems,
+  isLoadingItems,
+}) {
   const [itemAlbum, setItemAlbum] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -70,6 +77,8 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
       // console.log(data)
     } catch (err) {
       setErrorFavorite(err.message)
+      setMessageSnackbar(err.message)
+      setOpenSnackbar(true)
       // console.error(err.message)
     } finally {
       setIsLoadingFavorite(false)
@@ -150,13 +159,18 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
                 width={'3em'}
                 key={i}
                 borderRadius={'0.375em'}
+                isLoadingData={isLoadingItems}
               />
               <Typography>{item.title}</Typography>
             </Box>
           </Grid>
           <Grid item md={4} lg={4} xl={4}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {item.artist.map(a => a.name).join(', ')}
+              {item.artist
+                .slice(0, 4)
+                .map(a => a.name)
+                .join(', ')}
+              {item.artist.length > 4 ? '...' : ''}
             </Typography>
           </Grid>
           <Grid item md={3} lg={3} xl={3}>
@@ -207,6 +221,7 @@ function SongItem({ item, i, onPlaylistUpdate, onTrackUpdate, songItems }) {
                 width={'3em'}
                 key={i}
                 borderRadius={'0.375em'}
+                isLoadingData={isLoadingItems}
               />
               <Box>
                 <Typography>{item.title}</Typography>
