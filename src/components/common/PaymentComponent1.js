@@ -13,8 +13,6 @@ function PaymentComponent1() {
     navigate('/pay')
   }
 
-  const height = window.innerHeight
-
   return (
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
@@ -32,7 +30,7 @@ function PaymentComponent1() {
           textTransform={'uppercase'}
           color={lightTheme.palette.text.disabled}
         >
-          Recommended Options {height}
+          Recommended Options
         </Typography>
       </Box>
       <Box display={'flex'} justifyContent={'space-between'}>

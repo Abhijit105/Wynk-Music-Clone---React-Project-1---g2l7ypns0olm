@@ -92,7 +92,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <AuthProvider>
-        <AllProvider allSongs={allSongs} searchTerm={searchTerm}>
+        <AllProvider allSongs={allSongs} searchTerm={searchTerm} searchTermUpdate={setSearchTerm}>
           <PlayerProvider>
             <BrowserRouter>
               <AppBarPrimary

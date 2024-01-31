@@ -17,6 +17,7 @@ function Album() {
   const [album, setAlbum] = useState(null)
   const [error, setError] = useState('')
   const [songs, setSongs] = useState([])
+  const [isLoadingImage, setIsLoadignImage] = useState(true)
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -25,6 +26,10 @@ function Album() {
   const navigate = useNavigate()
 
   const { webToken } = useContext(AuthContext)
+
+  const loadHandler = function () {
+    setIsLoadignImage(false)
+  }
 
   const playSongsClickHandler = function () {
     setPlaylist(songs)
@@ -122,7 +127,14 @@ function Album() {
                   alt={artist.name}
                   width='5em'
                   borderRadius='50%'
+                  onLoad={loadHandler}
                 />
+                {(isLoadingImage || isLoading) && (
+                  <span
+                    className='loader-artist'
+                    style={{ position: 'absolute' }}
+                  ></span>
+                )}
                 <Typography>{artist.name}</Typography>
               </Box>
             ))}
@@ -250,6 +262,12 @@ function Album() {
               width='5em'
               borderRadius='50%'
             />
+            {(isLoadingImage || isLoading) && (
+              <span
+                className='loader-artist'
+                style={{ position: 'absolute' }}
+              ></span>
+            )}
             <Typography>{artist.name}</Typography>
           </Box>
         ))}

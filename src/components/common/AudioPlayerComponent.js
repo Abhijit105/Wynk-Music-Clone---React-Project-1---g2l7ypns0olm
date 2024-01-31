@@ -139,7 +139,7 @@ function AudioPlayerComponent() {
                   fontSize='0.75em'
                   color={darkTheme.palette.text.secondary}
                 >
-                  {album?.title}
+                  {album?.title || ''}
                 </Typography>
               </Box>
             </Paper>,

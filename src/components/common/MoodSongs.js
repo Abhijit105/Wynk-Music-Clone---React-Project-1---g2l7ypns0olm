@@ -170,6 +170,7 @@ function MoodSongs({
             onPlaylistUpdate={onPlaylistUpdate}
             onTrackUpdate={onTrackUpdate}
             songItems={songItems}
+            isLoadingItems={isLoading}
           />
         ))}
         {songItems.length !== numberOfSongs && (

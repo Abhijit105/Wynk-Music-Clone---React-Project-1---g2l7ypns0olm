@@ -1,13 +1,23 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { darkTheme } from '../App'
 import { useNavigate } from 'react-router-dom'
+import { AllContext } from '../../contexts/AllProvider'
 
-function SearchedArtistItem({ item }) {
+function SearchedArtistItem({ item, isLoadingData }) {
+  const [isLoadingImage, setIsLoadingImage] = useState(true)
+
   const navigate = useNavigate()
+
+  const { searchTermUpdate } = useContext(AllContext)
+
+  const loadHandler = function () {
+    setIsLoadingImage(false)
+  }
 
   const clickHandler = function (albumId) {
     navigate(`/artists/${albumId}`)
+    searchTermUpdate('')
   }
 
   // console.log(item)
@@ -25,9 +35,13 @@ function SearchedArtistItem({ item }) {
         component={'img'}
         src={item.image}
         alt={item.name}
-        maxWidth='4em'
+        maxWidth='5em'
         borderRadius='50%'
+        onLoad={loadHandler}
       />
+      {(isLoadingData || isLoadingImage) && (
+        <span className='loader-artist' style={{ position: 'absolute' }}></span>
+      )}
       <Box display='flex' flexDirection='column' justifyContent='center'>
         <Typography variant='subtitle1'>{item.name}</Typography>
         <Typography variant='subtitle2'>

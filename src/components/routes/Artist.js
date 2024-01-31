@@ -101,7 +101,7 @@ function Artist() {
             {artist?.description}
           </Typography>
         </Box>
-        <Box flexGrow='1' display='flex' flexDirection='column'>
+        <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
           <Typography variant='h4' marginBottom='0.25em'>
             {artist?.name}
           </Typography>

@@ -33,7 +33,7 @@ function SearchedSongs() {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const songs = data.data
         // setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
         setSearchedSongs(songs)
@@ -65,7 +65,7 @@ function SearchedSongs() {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const songs = data.data
         setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
         // setSearchedSongs(songs)
@@ -85,7 +85,7 @@ function SearchedSongs() {
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>
       <Box padding='1.25em'>
         {searchedSongs.map((item, i) => (
-          <SearchedSongItem key={i} item={item} />
+          <SearchedSongItem key={i} item={item} isLoadingData={isLoading} />
         ))}
       </Box>
       <Button

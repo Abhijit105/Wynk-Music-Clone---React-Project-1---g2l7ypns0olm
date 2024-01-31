@@ -13,6 +13,7 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
+import { darkTheme } from '../App'
 
 function SongItem({
   item,
@@ -22,7 +23,7 @@ function SongItem({
   songItems,
   isLoadingItems,
 }) {
-  const [itemAlbum, setItemAlbum] = useState({})
+  const [itemAlbum, setItemAlbum] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
@@ -30,6 +31,7 @@ function SongItem({
   const [errorFavorite, setErrorFavorite] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
+  const [isHovered, setIsHovered] = useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -53,6 +55,14 @@ function SongItem({
     }
 
     setOpenSnackbar(false)
+  }
+
+  const mouseEnterHandler = function () {
+    setIsHovered(true)
+  }
+
+  const mouseLeaveHandler = function () {
+    setIsHovered(false)
   }
 
   const favoriteHandler = async function (event, songId) {
@@ -99,7 +109,7 @@ function SongItem({
       const data = await response.json()
       // console.log(data)
       const album = data.data
-      setItemAlbum({ ...album })
+      setItemAlbum(album)
     } catch (err) {
       setError(err.message)
       // console.error(err.message)
@@ -128,11 +138,17 @@ function SongItem({
       {matchesMediumScreen && (
         <Grid
           container
-          marginBottom='1em'
+          padding={isHovered ? 'calc(15px)' : '1em'}
           sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
+          width={'100%'}
+          alignItems={'center'}
+          borderRadius={'1em'}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+          border={isHovered ? `1px solid ${darkTheme.palette.divider}` : 'none'}
         >
           <Grid
             item
@@ -197,11 +213,16 @@ function SongItem({
       {!matchesMediumScreen && matchesExtraSmallScreen && (
         <Grid
           container
-          marginBottom='1em'
+          padding={isHovered ? '15px' : '1em'}
           sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
+          alignItems={'center'}
+          borderRadius={'1em'}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+          border={isHovered ? `1px solid ${darkTheme.palette.divider}` : 'none'}
         >
           <Grid item xs={'auto'} sm={'auto'} marginRight='1em' flexShrink={'1'}>
             <Typography>{i + 1}</Typography>
@@ -226,7 +247,11 @@ function SongItem({
               <Box>
                 <Typography>{item.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
-                  {item.artist.map(a => a.name).join(', ')}
+                  {item.artist
+                .slice(0, 4)
+                .map(a => a.name)
+                .join(', ')}
+              {item.artist.length > 4 ? '...' : ''}
                 </Typography>
               </Box>
             </Box>

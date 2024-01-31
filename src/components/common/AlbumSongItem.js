@@ -15,6 +15,7 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { darkTheme } from '../App'
 
 function AlbumSongItem({
   albumName,
@@ -30,6 +31,7 @@ function AlbumSongItem({
   const [errorFavorite, setErrorFavorite] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
+  const [isHovered, setIsHovered] = useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -55,6 +57,14 @@ function AlbumSongItem({
     }
 
     setOpenSnackbar(false)
+  }
+
+  const mouseEnterHandler = function () {
+    setIsHovered(true)
+  }
+
+  const mouseLeaveHandler = function () {
+    setIsHovered(false)
   }
 
   const favoriteHandler = async function (event, songId) {
@@ -110,11 +120,16 @@ function AlbumSongItem({
       {matchesMediumScreen && (
         <Grid
           container
-          marginBottom='1em'
+          padding={isHovered ? '15px' : '1em'}
           sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
+          alignItems={'center'}
+          borderRadius={'1em'}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+          border={isHovered ? `1px solid ${darkTheme.palette.divider}` : 'none'}
         >
           <Grid item md={'auto'} marginRight='1em' key={1}>
             <Typography>{i + 1}</Typography>
@@ -140,7 +155,11 @@ function AlbumSongItem({
           </Grid>
           <Grid item md={4} key={3}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {artists.map(a => a.name).join(', ')}
+              {artists
+                .slice(0, 4)
+                .map(a => a.name)
+                .join(', ')}
+              {artists.length > 4 ? '...' : ''}
             </Typography>
           </Grid>
           <Grid item md={3} key={4}>
@@ -167,11 +186,16 @@ function AlbumSongItem({
       {!matchesMediumScreen && matchesExtraSmallScreen && (
         <Grid
           container
-          marginBottom='1em'
+          padding={isHovered ? '15px' : '1em'}
           sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
+          alignItems={'center'}
+          borderRadius={'1em'}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+          border={isHovered ? `1px solid ${darkTheme.palette.divider}` : 'none'}
         >
           <Grid item xs={'auto'} marginRight='1em' key={6}>
             <Typography>{i + 1}</Typography>

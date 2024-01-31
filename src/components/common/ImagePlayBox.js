@@ -2,8 +2,9 @@ import { PlayCircle } from '@mui/icons-material'
 import { Box, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 
-function ImagePlayBox({ src, alt, width, borderRadius }) {
+function ImagePlayBox({ src, alt, width, borderRadius, isLoadingData }) {
   const [display, setDisplay] = useState(false)
+  const [isLoadingImage, setIsLoadignImage] = useState(true)
 
   const mouseEnterhandler = function () {
     setDisplay(true)
@@ -11,6 +12,10 @@ function ImagePlayBox({ src, alt, width, borderRadius }) {
 
   const mouseLeaveHandler = function () {
     setDisplay(false)
+  }
+
+  const loadHandler = function () {
+    setIsLoadignImage(false)
   }
 
   // console.log(0.15 * width)
@@ -31,6 +36,7 @@ function ImagePlayBox({ src, alt, width, borderRadius }) {
         alt={alt}
         width={width}
         borderRadius={borderRadius}
+        onLoad={loadHandler}
       />
       {display && (
         <Box
@@ -54,6 +60,17 @@ function ImagePlayBox({ src, alt, width, borderRadius }) {
           >
             <PlayCircle sx={{ fontSize: '2em' }} />
           </IconButton>
+        </Box>
+      )}
+      {(isLoadingImage || isLoadingData) && (
+        <Box
+          width={width}
+          height={'100%'}
+          position={'absolute'}
+          borderRadius={borderRadius}
+          overflow={'hidden'}
+        >
+          <span className='loader' style={{ position: 'absolute' }}></span>
         </Box>
       )}
     </Box>

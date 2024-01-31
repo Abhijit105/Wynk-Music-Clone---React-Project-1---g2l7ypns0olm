@@ -16,6 +16,7 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { darkTheme } from '../App'
 
 function ArtistSongItem({ i, item, songItems }) {
   const [artists, setArtists] = useState([])
@@ -29,6 +30,7 @@ function ArtistSongItem({ i, item, songItems }) {
   const [errorFavorite, setErrorFavorite] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
+  const [isHovered, setIsHovered] = useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -54,6 +56,14 @@ function ArtistSongItem({ i, item, songItems }) {
     }
 
     setOpenSnackbar(false)
+  }
+
+  const mouseEnterHandler = function () {
+    setIsHovered(true)
+  }
+
+  const mouseLeaveHandler = function () {
+    setIsHovered(false)
   }
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
@@ -157,13 +167,18 @@ function ArtistSongItem({ i, item, songItems }) {
       {matchesMediumScreen && (
         <Grid
           container
-          marginBottom='1em'
+          padding={isHovered ? '15px' : '1em'}
           sx={{ cursor: 'pointer' }}
           onClick={event =>
             webToken ? clickHandler(i) : handleOpenLoginModal(event)
           }
           justifyContent={'end'}
           flexWrap={'nowrap'}
+          alignItems={'center'}
+          borderRadius={'1em'}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+          border={isHovered ? `1px solid ${darkTheme.palette.divider}` : 'none'}
         >
           <Grid item key={crypto.randomUUID()} md={'auto'} marginRight='1em'>
             <Typography>{i + 1}</Typography>
@@ -220,13 +235,18 @@ function ArtistSongItem({ i, item, songItems }) {
       {!matchesMediumScreen && matchesExtraSmallScreen && (
         <Grid
           container
-          marginBottom='1em'
+          padding={isHovered ? '15px' : '1em'}
           sx={{ cursor: 'pointer' }}
           onClick={event =>
             webToken ? clickHandler(i) : handleOpenLoginModal(event)
           }
           justifyContent={'end'}
           flexWrap={'nowrap'}
+          alignItems={'center'}
+          borderRadius={'1em'}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+          border={isHovered ? `1px solid ${darkTheme.palette.divider}` : 'none'}
         >
           <Grid item key={crypto.randomUUID()} xs={'auto'} marginRight='1em'>
             <Typography>{i + 1}</Typography>
@@ -250,7 +270,11 @@ function ArtistSongItem({ i, item, songItems }) {
               <Box>
                 <Typography>{item?.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
-                  {artists.map(a => a.name).join(', ')}
+                  {artists
+                    .slice(0, 4)
+                    .map(a => a.name)
+                    .join(', ')}
+                  {artists.length > 4 ? '...' : ''}
                 </Typography>
               </Box>
             </Box>

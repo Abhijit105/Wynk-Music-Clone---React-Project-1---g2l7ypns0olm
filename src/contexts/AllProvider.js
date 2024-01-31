@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from 'react'
 
 export const AllContext = createContext()
 
-function AllProvider({ children, allSongs, searchTerm, isLoadingAllSongs }) {
+function AllProvider({ children, allSongs, searchTerm, searchTermUpdate }) {
   const [allAlbums, setAllAlbums] = useState([])
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -49,7 +49,9 @@ function AllProvider({ children, allSongs, searchTerm, isLoadingAllSongs }) {
   )
 
   return (
-    <AllContext.Provider value={{ allSongs, searchTerm, newSongs, allAlbums }}>
+    <AllContext.Provider
+      value={{ allSongs, searchTerm, searchTermUpdate, newSongs, allAlbums }}
+    >
       {children}
     </AllContext.Provider>
   )

@@ -87,3 +87,31 @@ a:hover {
     transform: translateX(0%);
   }
 }
+
+.loader-artist {
+  position: relative;
+  width: 5em;
+  height: 5em;
+}
+
+.loader-artist:before,
+.loader-artist:after {
+  content: '';
+  border-radius: 50%;
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset;
+}
+.loader-artist:after {
+  box-shadow: 0 2px 0 #fff inset;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

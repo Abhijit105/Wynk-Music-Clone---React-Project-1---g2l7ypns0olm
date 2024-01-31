@@ -30,7 +30,7 @@ function PaymentComponent2() {
     <Box
       border={`1px solid ${lightTheme.palette.divider}`}
       width={'70%'}
-      height={'17.5em'}
+      height={displayForm ? '17.5em' : '10em'}
       padding={'1em'}
       display={'flex'}
       flexDirection={'column'}
