@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Box } from '@mui/material'
 
-function ArtistsModal() {
+function ArtistsModal({ open, handleClose, artistItems }) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -22,7 +22,34 @@ function ArtistsModal() {
           overflow: 'hidden',
           justifyContent: 'center',
         }}
-      ></Box>
+      >
+        {artistItems.map(item => (
+          <Box
+            display='flex'
+            key={item._id}
+            alignItems='center'
+            gap='1em'
+            sx={{ cursor: 'pointer' }}
+            onClick={() => artistClickHandler(item._id)}
+          >
+            <Box
+              component={'img'}
+              src={item.image}
+              alt={item.name}
+              width='5em'
+              borderRadius='50%'
+              onLoad={loadHandler}
+            />
+            {(isLoadingImage || isLoading) && (
+              <span
+                className='loader-artist'
+                style={{ position: 'absolute' }}
+              ></span>
+            )}
+            <Typography>{item.name}</Typography>
+          </Box>
+        ))}
+      </Box>
     </Modal>
   )
 }

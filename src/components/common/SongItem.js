@@ -248,10 +248,10 @@ function SongItem({
                 <Typography>{item.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
                   {item.artist
-                .slice(0, 4)
-                .map(a => a.name)
-                .join(', ')}
-              {item.artist.length > 4 ? '...' : ''}
+                    .slice(0, 4)
+                    .map(a => a.name)
+                    .join(', ')}
+                  {item.artist.length > 4 ? '...' : ''}
                 </Typography>
               </Box>
             </Box>

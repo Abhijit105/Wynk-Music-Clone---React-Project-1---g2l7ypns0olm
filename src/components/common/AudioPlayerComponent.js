@@ -172,7 +172,7 @@ function AudioPlayerComponent() {
           ref={player}
         />
       </Box>
-      {displayLoader && <span class='loader'></span>}
+      {displayLoader && <span className='loader'></span>}
     </>
   )
 }
