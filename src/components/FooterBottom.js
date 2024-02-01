@@ -6,7 +6,13 @@ function FooterBottom() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <Box display='flex' justifyContent='space-between' gap='12em'>
+    <Box
+      display='flex'
+      flexDirection={{ xs: 'column', sm: 'row' }}
+      justifyContent={{ xs: 'center', md: 'space-between' }}
+      gap={{ xs: '2em', md: '6em', lg: '12em' }}
+      width={{ xs: '80%', md: '100%' }}
+    >
       <Typography fontSize='0.75em' color={darkTheme.palette.text.secondary}>
         Wynk Music is the one-stop music app for the latest to the greatest
         songs that you love. Play your favourite music online for free or
@@ -16,7 +22,7 @@ function FooterBottom() {
       <Typography
         fontSize='0.75em'
         color={darkTheme.palette.text.secondary}
-        width='33em'
+        width={{ xs: '80%', md: '33em' }}
       >
         {currentYear} &copy; All rights reserved | Airtel Digital Limited
       </Typography>

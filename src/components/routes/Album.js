@@ -10,6 +10,7 @@ import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
 import { AuthContext } from '../../contexts/AuthProvider'
+import ArtistsModal from '../ArtistsModal'
 
 function Album() {
   const [artists, setArtists] = useState([])
@@ -18,6 +19,7 @@ function Album() {
   const [error, setError] = useState('')
   const [songs, setSongs] = useState([])
   const [isLoadingImage, setIsLoadignImage] = useState(true)
+  const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -38,6 +40,19 @@ function Album() {
 
   const artistClickHandler = function (artistId) {
     navigate(`/artists/${artistId}`)
+  }
+
+  const handleOpenArtistsModal = event => {
+    event.preventDefault()
+    setOpenArtistsModal(true)
+  }
+
+  const handleCloseArtistsModal = () => {
+    setOpenArtistsModal(false)
+  }
+
+  const seeAllArtistsHandler = function (event) {
+    handleOpenArtistsModal(event)
   }
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
@@ -77,8 +92,6 @@ function Album() {
 
   const songDisplayed = songs.at(0)
 
-  const slicedArtists = artists.slice(0, 4)
-
   // console.log(artists)
   // console.log(album)
 
@@ -112,7 +125,8 @@ function Album() {
             flexDirection='column'
             gap='1em'
           >
-            {artists.map(artist => (
+            <Typography fontSize={'1.5em'}>Featured Artists</Typography>
+            {artists.slice(0, 4).map(artist => (
               <Box
                 display='flex'
                 key={artist._id}
@@ -138,6 +152,20 @@ function Album() {
                 <Typography>{artist.name}</Typography>
               </Box>
             ))}
+            {artists.length > 4 && (
+              <Button
+                onClick={event => seeAllArtistsHandler(event)}
+                variant='outlined'
+                color='inherit'
+                sx={{
+                  textTransform: 'capitalize',
+                  alignSelf: 'center',
+                  borderRadius: '100px',
+                }}
+              >
+                See All Artists
+              </Button>
+            )}
           </Box>
         </Box>
         <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
@@ -240,13 +268,35 @@ function Album() {
         </Box>
       </Box>
       <Box
+        display={{ xs: 'flex', md: 'none' }}
+        justifyContent={'space-between'}
+        width={'100%'}
+      >
+        <Typography fontSize={'1.5em'}>Artists</Typography>
+        {artists.length > 4 && (
+          <Button
+            onClick={event => seeAllArtistsHandler(event)}
+            variant='outlined'
+            color='inherit'
+            sx={{
+              textTransform: 'capitalize',
+              alignSelf: 'center',
+              borderRadius: '100px',
+            }}
+          >
+            See All Artists
+          </Button>
+        )}
+      </Box>
+      <Box
         marginBottom={'2em'}
+        width={'100%'}
         display={{ xs: 'flex', md: 'none' }}
         flexDirection='row'
         gap='1em'
         flexWrap={'wrap'}
       >
-        {artists.map(artist => (
+        {artists.slice(0, 4).map(artist => (
           <Box
             key={artist._id}
             display='flex'
@@ -274,6 +324,12 @@ function Album() {
       </Box>
       {!webToken && <LoginRecommendation />}
       <BestWay />
+      <ArtistsModal
+        open={openArtistsModal}
+        handleClose={handleCloseArtistsModal}
+        artistItems={artists}
+        isLoadingData={isLoading}
+      />
     </Box>
   )
 }

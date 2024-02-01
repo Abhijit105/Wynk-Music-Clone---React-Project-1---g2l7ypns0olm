@@ -1,11 +1,26 @@
-import React from 'react'
-import { Modal, Box } from '@mui/material'
+import React, { useState } from 'react'
+import { Modal, Box, Typography } from '@mui/material'
+import { darkTheme } from './App'
+import { useNavigate } from 'react-router-dom'
 
-function ArtistsModal({ open, handleClose, artistItems }) {
+function ArtistsModal({ open, handleClose, artistItems, isLoadingData }) {
+  const [isLoadingImage, setIsLoadingImage] = useState(true)
+
+  const navigate = useNavigate()
+
+  const loadHandler = function () {
+    setIsLoadingImage(false)
+  }
+
+  const artistClickHandler = function (artistId) {
+    navigate(`/artists/${artistId}`)
+  }
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
         sx={{
+          padding: '1em',
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -13,19 +28,23 @@ function ArtistsModal({ open, handleClose, artistItems }) {
           width: '41.67%',
           height: '68.18%',
           backgroundColor: darkTheme.palette.background.default,
-          color: '#272727',
+          color: '#fff',
           boxShadow: '0 0 0 500px #17191d',
-          display: 'grid',
-          gridTemplateColumns: { xs: '1', md: '42.1875% 57.8125%' },
-          gridTemplateRows: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1em',
           borderRadius: '1em',
-          overflow: 'hidden',
-          justifyContent: 'center',
+          overflow: 'auto',
+          justifyContent: 'flex-start',
         }}
       >
+        <Typography fontSize={'1.5em'} marginBottom={'1em'}>
+          Artists
+        </Typography>
         {artistItems.map(item => (
           <Box
             display='flex'
+            flexShrink={'0'}
             key={item._id}
             alignItems='center'
             gap='1em'
@@ -40,7 +59,7 @@ function ArtistsModal({ open, handleClose, artistItems }) {
               borderRadius='50%'
               onLoad={loadHandler}
             />
-            {(isLoadingImage || isLoading) && (
+            {(isLoadingImage || isLoadingData) && (
               <span
                 className='loader-artist'
                 style={{ position: 'absolute' }}

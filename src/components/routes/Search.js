@@ -22,7 +22,7 @@ function Search() {
   // console.log(value)
 
   return (
-    <Box paddingX='100px'>
+    <Box paddingX={{ xs: '1em', sm: '2em', md: '4em', lg: '6em' }}>
       <Tabs
         centered
         value={value}
@@ -35,7 +35,7 @@ function Search() {
         <Tab label='Artists' />
       </Tabs>
       <Box
-        paddingX='11.75em'
+        paddingX={{ xs: '1em', sm: '2em', md: '4em', lg: '6em', xl: '11.75em' }}
         borderTop={`1px solid ${darkTheme.palette.divider}`}
       >
         {value === 0 && <SearchedSongs />}

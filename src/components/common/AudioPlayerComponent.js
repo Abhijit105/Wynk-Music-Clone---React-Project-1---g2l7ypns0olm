@@ -4,7 +4,13 @@ import '../../custom.css'
 import { RHAP_UI } from 'react-h5-audio-player'
 import { PlaylistPlay } from '@mui/icons-material'
 import React, { useContext, useEffect, useRef } from 'react'
-import { Box, Paper, Typography, IconButton } from '@mui/material'
+import {
+  Box,
+  Paper,
+  Typography,
+  IconButton,
+  useMediaQuery,
+} from '@mui/material'
 import { useState } from 'react'
 import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
@@ -42,6 +48,8 @@ function AudioPlayerComponent() {
   const loadedDataHandler = function () {
     setDisplayLoader(false)
   }
+
+  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
   const player = useRef()
 
@@ -94,10 +102,11 @@ function AudioPlayerComponent() {
     <>
       <Box
         sx={{
+          display: 'flex',
+          width: '100%',
           position: 'fixed',
           zIndex: '2',
           bottom: '0',
-          width: '100%',
           left: '0',
         }}
         className='audio-player-component'
@@ -105,9 +114,11 @@ function AudioPlayerComponent() {
         <AudioPlayer
           customProgressBarSection={[
             RHAP_UI.PROGRESS_BAR,
-            RHAP_UI.CURRENT_TIME,
-            <div className='rhap_time rhap_slash'>/</div>,
-            RHAP_UI.DURATION,
+            matchesMediumScreen && RHAP_UI.CURRENT_TIME,
+            matchesMediumScreen && (
+              <div className='rhap_time rhap_slash'>/</div>
+            ),
+            matchesMediumScreen && RHAP_UI.DURATION,
           ]}
           customControlsSection={[
             <Paper
@@ -145,7 +156,7 @@ function AudioPlayerComponent() {
             </Paper>,
             RHAP_UI.ADDITIONAL_CONTROLS,
             RHAP_UI.MAIN_CONTROLS,
-            RHAP_UI.VOLUME_CONTROLS,
+            matchesMediumScreen && RHAP_UI.VOLUME_CONTROLS,
             // <IconButton
             //   style={{
             //     color: 'rgba(255, 255, 255, 0.7)',
@@ -158,7 +169,7 @@ function AudioPlayerComponent() {
             //   <PlaylistPlay />
             // </IconButton>,
           ]}
-          showSkipControls={true}
+          showSkipControls={matchesMediumScreen ? true : false}
           showJumpControls={false}
           showDownloadProgress
           autoPlay={false}

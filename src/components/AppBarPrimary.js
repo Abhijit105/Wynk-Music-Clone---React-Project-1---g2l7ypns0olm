@@ -231,10 +231,10 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
               gap='0.2em'
               component='a'
               href='#'
-              onClick={e => {
+              onClick={event => {
                 webToken
                   ? manageSubscriptionClickHandler()
-                  : handleOpenLoginModal(e)
+                  : handleOpenLoginModal(event)
               }}
             >
               <CurrencyRupee />
@@ -319,7 +319,11 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                   display='flex'
                   alignItems='center'
                   gap='1em'
-                  onClick={event => handleOpenLoginModal(event)}
+                  onClick={event =>
+                    webToken
+                      ? manageSubscriptionClickHandler()
+                      : handleOpenLoginModal(event)
+                  }
                 >
                   <CurrencyRupee />
                   Manage Subscription

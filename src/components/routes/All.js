@@ -80,7 +80,7 @@ function All() {
       />
       <Box
         sx={{
-          paddingX: { xs: '0', sm: '0', md: '4em', lg: '6em' },
+          paddingX: { xs: '1em', sm: '2em', md: '4em', lg: '6em' },
         }}
       >
         <Carousel
@@ -157,7 +157,13 @@ function All() {
           onPlaylistUpdate={setPlaylist}
           onTrackUpdate={setTrack}
         />
-        <CarouselWithFetch title='Sad songs' category='mood' type='sad' />
+        <CarouselWithFetch
+          title='Sad songs'
+          category='mood'
+          type='sad'
+          onPlaylistUpdate={setPlaylist}
+          onTrackUpdate={setTrack}
+        />
         <About />
         <BestWay />
       </Box>

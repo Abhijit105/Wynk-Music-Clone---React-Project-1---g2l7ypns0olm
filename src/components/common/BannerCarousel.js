@@ -56,7 +56,7 @@ function BannerCarousel({ items }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '2rem',
+        gap: '2em',
         width: '100%',
         position: 'relative',
         overflow: 'hidden',

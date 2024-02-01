@@ -1,5 +1,11 @@
+.react-h5-audio-player {
+  width: 100%;
+}
+
 .rhap_container {
   background-color: #272727;
+  max-width: 100%;
+  display: flex;
 }
 
 .rhap_time {
