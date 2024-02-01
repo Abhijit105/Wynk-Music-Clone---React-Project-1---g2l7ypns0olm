@@ -66,7 +66,7 @@ function BannerCarousel({ items }) {
       <IconButton
         sx={{
           position: 'absolute',
-          left: '1rem',
+          left: '1em',
           top: '50%',
           transform: 'translate(0, -50%)',
           zIndex: '1',
@@ -88,10 +88,10 @@ function BannerCarousel({ items }) {
           justifyContent={'center'}
           sx={{
             borderRadius: '1rem',
-            transform: {
-              xs: `translate(${index * 100}%, 0)`,
-              sm: `translate(${index * 100 + 50}%, 0)`,
-            },
+            transform: `translate(calc(${index * 100 + 50}% + ${
+              index * 2
+            }em + 1em), 0)`,
+
             transition: 'transform 0.3s linear',
             cursor: 'pointer',
           }}
