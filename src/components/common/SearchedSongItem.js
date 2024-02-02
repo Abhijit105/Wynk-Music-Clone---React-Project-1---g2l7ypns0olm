@@ -33,7 +33,7 @@ function SearchedSongItem({ item, isLoadingData }) {
           component={'img'}
           src={item.thumbnail}
           alt={item.title}
-          maxWidth='4em'
+          maxWidth={'4em'}
           borderRadius='0.5em'
           onLoad={loadHandler}
         />
@@ -57,15 +57,17 @@ function SearchedSongItem({ item, isLoadingData }) {
             display='flex'
             gap='1em'
             color={darkTheme.palette.text.secondary}
+            alignItems={'center'}
           >
             <span>Song</span>
-            <li>
+            <span>&bull;</span>
+            <Box>
               {item.artist
                 .slice(0, 4)
                 .map(a => a.name)
                 .join(', ')}
               {item.artist.length > 4 ? '...' : ''}
-            </li>
+            </Box>
           </Box>
         </Typography>
       </Box>

@@ -77,7 +77,7 @@ function SearchedAlbums() {
 
   return (
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>
-      <Box padding='1.25em'>
+      <Box>
         {searchedAlbums.map((item, i) => (
           <SearchedAlbumItem key={i} item={item} isLoadingData={isLoading} />
         ))}

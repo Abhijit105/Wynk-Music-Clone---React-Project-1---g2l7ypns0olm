@@ -83,7 +83,7 @@ function SearchedSongs() {
 
   return (
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>
-      <Box padding='1.25em'>
+      <Box>
         {searchedSongs.map((item, i) => (
           <SearchedSongItem key={i} item={item} isLoadingData={isLoading} />
         ))}

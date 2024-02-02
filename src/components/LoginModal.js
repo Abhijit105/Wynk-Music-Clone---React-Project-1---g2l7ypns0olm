@@ -148,7 +148,7 @@ function LoginModal({ open, handleClose }) {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '41.67%',
+            width: { xs: '58.33%', md: '41.67%' },
             height: '68.18%',
             backgroundColor: darkTheme.palette.background.default,
             color: '#272727',

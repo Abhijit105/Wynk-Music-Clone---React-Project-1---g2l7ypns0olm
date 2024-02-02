@@ -78,7 +78,7 @@ function SearchedArtists() {
 
   return (
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>
-      <Box padding='1.25em'>
+      <Box>
         {searchedArtists.map((item, i) => (
           <SearchedArtistItem key={i} item={item} isLoadingData={isLoading} />
         ))}

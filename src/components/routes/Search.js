@@ -36,6 +36,7 @@ function Search() {
       </Tabs>
       <Box
         paddingX={{ xs: '1em', sm: '2em', md: '4em', lg: '6em', xl: '11.75em' }}
+        paddingY={{ xs: '1em', md: '1.5em', xl: '2em' }}
         borderTop={`1px solid ${darkTheme.palette.divider}`}
       >
         {value === 0 && <SearchedSongs />}

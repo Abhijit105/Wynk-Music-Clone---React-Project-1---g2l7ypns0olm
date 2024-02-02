@@ -15,8 +15,14 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Divider from '@mui/material/Divider'
-import { InputBase, OutlinedInput, Paper, Snackbar } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import {
+  InputBase,
+  OutlinedInput,
+  Paper,
+  Snackbar,
+  useMediaQuery,
+} from '@mui/material'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   CurrencyRupee,
   GetApp,
@@ -38,6 +44,7 @@ import { AuthContext } from '../contexts/AuthProvider'
 import PasswordChangeModal from './PasswordChangeModal'
 import { SETTINGS, MOBILESETTINGS } from '../config/config'
 import { PlayerContext } from '../contexts/PlayerProvider'
+import { useRef } from 'react'
 
 function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
@@ -52,6 +59,17 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const { webToken, logout } = useContext(AuthContext)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
+
+  const search = useRef()
+  const logo = useRef()
+  const searchIcon = useRef()
+
+  const location = useLocation()
+
+  const matchesExtraSmallScreen = useMediaQuery(theme =>
+    theme.breakpoints.up('xs')
+  )
+  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
@@ -121,6 +139,25 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   }
 
   // console.log(webToken)
+  // console.log(location)
+
+  useEffect(() => {
+    if (
+      !matchesMediumScreen &&
+      matchesExtraSmallScreen &&
+      location.pathname === '/search'
+    ) {
+      search.current.style.display = 'flex'
+      logo.current.style.display = 'none'
+      searchIcon.current.style.display = 'none'
+    }
+
+    return () => {
+      search.current.style.display = 'none'
+      logo.current.style.display = 'flex'
+      searchIcon.current.style.display = 'flex'
+    }
+  }, [location])
 
   useEffect(() => {
     const navigateToSearchPage = function () {
@@ -159,6 +196,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
             alignItems={'center'}
             component={'a'}
             href='/'
+            ref={logo}
           >
             <Box
               component={'img'}
@@ -184,9 +222,11 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
 
           <Box
             sx={{
+              width: '100%',
               flexGrow: 0,
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'flex-end',
               gap: '1rem',
             }}
           >
@@ -199,6 +239,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                 borderRadius: '100px',
                 background: '#383838',
               }}
+              ref={search}
             >
               <IconButton onClick={searchClickHandler}>
                 <Search
@@ -218,6 +259,7 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
             <IconButton
               sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
               onClick={searchClickHandler}
+              ref={searchIcon}
             >
               <Search
                 sx={{

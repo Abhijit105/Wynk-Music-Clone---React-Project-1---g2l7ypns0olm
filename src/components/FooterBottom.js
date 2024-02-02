@@ -11,7 +11,7 @@ function FooterBottom() {
       flexDirection={{ xs: 'column', sm: 'row' }}
       justifyContent={{ xs: 'center', md: 'space-between' }}
       gap={{ xs: '2em', md: '6em', lg: '12em' }}
-      width={{ xs: '80%', md: '100%' }}
+      width={'100%'}
     >
       <Typography fontSize='0.75em' color={darkTheme.palette.text.secondary}>
         Wynk Music is the one-stop music app for the latest to the greatest
@@ -22,7 +22,7 @@ function FooterBottom() {
       <Typography
         fontSize='0.75em'
         color={darkTheme.palette.text.secondary}
-        width={{ xs: '80%', md: '33em' }}
+        width={{ xs: '100%', md: '33em' }}
       >
         {currentYear} &copy; All rights reserved | Airtel Digital Limited
       </Typography>
