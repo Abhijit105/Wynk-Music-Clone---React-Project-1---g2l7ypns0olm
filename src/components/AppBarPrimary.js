@@ -46,7 +46,7 @@ import { SETTINGS, MOBILESETTINGS } from '../config/config'
 import { PlayerContext } from '../contexts/PlayerProvider'
 import { useRef } from 'react'
 
-function AppBarPrimary({ searchTerm, setSearchTerm }) {
+function AppBarPrimary({ searchTerm, searchTermUpdate }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
@@ -61,8 +61,6 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   const search = useRef()
-  const logo = useRef()
-  const searchIcon = useRef()
 
   const location = useLocation()
 
@@ -139,29 +137,10 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
   }
 
   // console.log(webToken)
-  // console.log(location)
 
   useEffect(() => {
-    if (
-      !matchesMediumScreen &&
-      matchesExtraSmallScreen &&
-      location.pathname === '/search'
-    ) {
-      search.current.style.display = 'flex'
-      logo.current.style.display = 'none'
-      searchIcon.current.style.display = 'none'
-    }
-
-    return () => {
-      if (
-        !matchesMediumScreen &&
-        matchesExtraSmallScreen &&
-        location.pathname === '/search'
-      ) {
-        search.current.style.display = 'none'
-        logo.current.style.display = 'flex'
-        searchIcon.current.style.display = 'flex'
-      }
+    if (location.pathname !== '/search') {
+      searchTermUpdate('')
     }
   }, [location])
 
@@ -202,7 +181,6 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
             alignItems={'center'}
             component={'a'}
             href='/'
-            ref={logo}
           >
             <Box
               component={'img'}
@@ -259,13 +237,12 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
                 placeholder='Search Songs'
                 sx={{ backgroundColor: 'transparent' }}
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={e => searchTermUpdate(e.target.value)}
               />
             </Paper>
             <IconButton
               sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
               onClick={searchClickHandler}
-              ref={searchIcon}
             >
               <Search
                 sx={{
