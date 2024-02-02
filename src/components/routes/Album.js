@@ -300,6 +300,7 @@ function Album() {
           <Box
             key={artist._id}
             display='flex'
+            flexDirection={'column'}
             alignItems='center'
             gap='1em'
             sx={{ cursor: 'pointer' }}

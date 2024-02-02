@@ -34,7 +34,9 @@ function ComingSoon() {
           This feature is currently available.
         </Typography>
 
-        <Button onClick={() => navigate('/')}>Back to Home</Button>
+        <Button color={'inherit'} onClick={() => navigate('/')}>
+          Back to Home
+        </Button>
       </Box>
     </>
   )

@@ -26,23 +26,24 @@ function NavlinkList({ title, data }) {
       onMouseEnter={handleMoodsMouseEnter}
       onMouseLeave={handleMoodsMouseLeave}
     >
-      <Typography
-        component={'a'}
-        sx={{ display: 'flex', alignItems: 'center', fontSize: '1.125em' }}
-        className='app-bar-secondary-navlink-title'
-      >
-        {title}
+      <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+        <Typography
+          component={'a'}
+          fontSize={'1.125em'}
+          className='app-bar-secondary-navlink-title'
+        >
+          {title}
+        </Typography>
         <ExpandMore />
-      </Typography>
+      </Box>
       {moodsIsOpen && (
         <Box
           sx={{
             backgroundColor: '#272727',
-            padding: '1rem',
-            borderRadius: '0.6rem',
+            padding: '1em',
+            borderRadius: '0.6em',
             position: 'absolute',
-            top: '2.50em',
-            // transform: 'translateX(-22px)',
+            top: '2.5em',
             zIndex: '1',
           }}
         >

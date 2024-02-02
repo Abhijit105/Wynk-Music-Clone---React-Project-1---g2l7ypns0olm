@@ -153,9 +153,15 @@ function AppBarPrimary({ searchTerm, setSearchTerm }) {
     }
 
     return () => {
-      search.current.style.display = 'none'
-      logo.current.style.display = 'flex'
-      searchIcon.current.style.display = 'flex'
+      if (
+        !matchesMediumScreen &&
+        matchesExtraSmallScreen &&
+        location.pathname === '/search'
+      ) {
+        search.current.style.display = 'none'
+        logo.current.style.display = 'flex'
+        searchIcon.current.style.display = 'flex'
+      }
     }
   }, [location])
 
