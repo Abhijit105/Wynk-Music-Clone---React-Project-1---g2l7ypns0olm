@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 function NavlinkList({ title, data }) {
   const [moodsIsOpen, setMoodsIsOpen] = useState(false)
@@ -13,6 +13,27 @@ function NavlinkList({ title, data }) {
   const handleMoodsMouseLeave = function () {
     setMoodsIsOpen(false)
   }
+
+  const titleRef = useRef()
+
+  const location = useLocation()
+
+  useEffect(() => {
+    const dataItem = data.find(
+      it => it.split(' ').join('').toLowerCase() === location.pathname.slice(1)
+    )
+    if (dataItem) {
+      titleRef.current.textContent = dataItem
+    }
+
+    return () => {
+      if (dataItem) {
+        titleRef.current.textContent = title
+      }
+    }
+  }, [location])
+
+  // console.log(location)
 
   return (
     <Box
@@ -31,6 +52,7 @@ function NavlinkList({ title, data }) {
           component={'a'}
           fontSize={'1.125em'}
           className='app-bar-secondary-navlink-title'
+          ref={titleRef}
         >
           {title}
         </Typography>

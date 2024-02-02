@@ -31,8 +31,6 @@ export const lightTheme = createTheme({
 })
 
 function Payment() {
-  
-
   useEffect(() => {
     document.querySelector('.app-bar-primary').style.display = 'none'
     document.querySelector('.app-bar-secondary').style.display = 'none'
@@ -46,8 +44,6 @@ function Payment() {
       document.querySelector('.audio-player-component').style.display = 'flex'
     }
   }, [])
-
-  
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -72,8 +68,8 @@ function Payment() {
             fontSize={'1.25em'}
             sx={{
               position: 'absolute',
-              left: '50%',
-              transform: 'translateX(-50%)',
+              left: { xs: '100%', md: '50%' },
+              transform: { xs: 'translateX(-120%)', md: 'translateX(-50%)' },
             }}
           >
             Pay Securely
@@ -84,7 +80,7 @@ function Payment() {
         width={'100%'}
         minHeight={'100vh'}
         display={'grid'}
-        gridTemplateColumns={'3fr 2fr'}
+        gridTemplateColumns={{ xs: '1fr', md: '3fr 2fr' }}
         columnGap={{ md: '2em', lg: '4em' }}
         sx={{ backgroundColor: '#fff', height: '100vh' }}
       >
