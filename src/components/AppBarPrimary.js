@@ -110,6 +110,11 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
   const searchClickHandler = function () {
     navigate('/search')
   }
+
+  const searchIconClickHandler = function () {
+    search.current.style.display = 'flex'
+  }
+
   const myMusicClickHandler = function () {
     navigate('/mymusic')
   }
@@ -242,7 +247,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
             </Paper>
             <IconButton
               sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
-              onClick={searchClickHandler}
+              onClick={searchIconClickHandler}
             >
               <Search
                 sx={{
