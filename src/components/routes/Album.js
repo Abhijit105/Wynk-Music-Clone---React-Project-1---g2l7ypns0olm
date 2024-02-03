@@ -244,8 +244,7 @@ function Album() {
                 <Typography>#</Typography>
               </Grid>
               <Grid item xs={12} key={crypto.randomUUID()}>
-                <Typography>Track &</Typography>
-                <Typography>Artists</Typography>
+                <Typography>Track & Artists</Typography>
               </Grid>
               <Grid item xl={'auto'} key={crypto.randomUUID()}>
                 <Typography>

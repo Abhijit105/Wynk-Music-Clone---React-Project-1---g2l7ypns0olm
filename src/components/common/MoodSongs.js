@@ -152,8 +152,7 @@ function MoodSongs({
               <Typography>#</Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
-              <Typography>Track &</Typography>
-              <Typography>Artists</Typography>
+              <Typography>Track & Artists</Typography>
             </Grid>
             <Grid item xs={'auto'} sm={'auto'}>
               <Typography>
