@@ -73,6 +73,7 @@ function SearchedArtists() {
         setIsLoading(false)
       }
     }
+    if(page === 1)  return
     fetchData()
   }, [page])
 
