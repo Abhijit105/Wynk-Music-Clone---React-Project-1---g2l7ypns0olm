@@ -62,6 +62,8 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
 
   const search = useRef()
 
+  const logo = useRef()
+
   const location = useLocation()
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
@@ -112,7 +114,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
   }
 
   const searchIconClickHandler = function () {
-    search.current.style.display = 'flex'
+    navigate('/search')
   }
 
   const myMusicClickHandler = function () {
@@ -164,6 +166,33 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
     }
   }, [])
 
+  useEffect(() => {
+    if (
+      location.pathname === '/search' &&
+      !matchesMediumScreen &&
+      matchesExtraSmallScreen
+    ) {
+      search.current.style.display = 'flex'
+      logo.current.style.display = 'none'
+    }
+    if (
+      location.pathname !== '/search' &&
+      !matchesMediumScreen &&
+      matchesExtraSmallScreen
+    ) {
+      search.current.style.display = 'none'
+      logo.current.style.display = 'flex'
+    }
+    if (location.pathname === '/search' && matchesMediumScreen) {
+      search.current.style.display = 'none'
+      logo.current.style.display = 'flex'
+    }
+    if (location.pathname !== '/search' && matchesMediumScreen) {
+      search.current.style.display = 'none'
+      logo.current.style.display = 'flex'
+    }
+  }, [location, matchesMediumScreen, matchesExtraSmallScreen])
+
   return (
     <>
       <AppBar
@@ -186,6 +215,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
             alignItems={'center'}
             component={'a'}
             href='/'
+            ref={logo}
           >
             <Box
               component={'img'}
@@ -228,7 +258,6 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                 borderRadius: '100px',
                 background: '#383838',
               }}
-              ref={search}
             >
               <IconButton onClick={searchClickHandler}>
                 <Search
@@ -238,6 +267,32 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                   }}
                 />
               </IconButton>
+              <InputBase
+                placeholder='Search Songs'
+                sx={{ backgroundColor: 'transparent' }}
+                value={searchTerm}
+                onChange={e => searchTermUpdate(e.target.value)}
+              />
+            </Paper>
+            <Paper
+              sx={{
+                display: { xs: 'none', md: 'none' },
+                alignItems: 'center',
+                gap: '1em',
+                padding: '0.25em 2em',
+                borderRadius: '100px',
+                background: '#383838',
+              }}
+              ref={search}
+            >
+              {/* <IconButton onClick={searchClickHandler}>
+                <Search
+                  sx={{
+                    position: 'absolute',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                />
+              </IconButton> */}
               <InputBase
                 placeholder='Search Songs'
                 sx={{ backgroundColor: 'transparent' }}
