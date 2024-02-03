@@ -282,6 +282,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                 padding: '0.25em 2em',
                 borderRadius: '100px',
                 background: '#383838',
+                width: '100%',
               }}
               ref={search}
             >
