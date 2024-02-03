@@ -33,7 +33,7 @@ function SearchedSongs() {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        // console.log(data)
+        console.log(data)
         const songs = data.data
         // setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
         setSearchedSongs(songs)
@@ -65,7 +65,7 @@ function SearchedSongs() {
         if (!response.ok)
           throw new Error('Something went wrong while fetching songs for you.')
         const data = await response.json()
-        // console.log(data)
+        console.log(data)
         const songs = data.data
         setSearchedSongs(searchedSongs => [...searchedSongs, ...songs])
         // setSearchedSongs(songs)
@@ -76,10 +76,11 @@ function SearchedSongs() {
         setIsLoading(false)
       }
     }
+    if (page === 1) return
     fetchData()
   }, [page])
 
-  // console.log(searchedSongs)
+  console.log(searchedSongs)
 
   return (
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>
