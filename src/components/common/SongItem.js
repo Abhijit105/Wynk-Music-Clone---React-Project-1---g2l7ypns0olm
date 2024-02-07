@@ -11,9 +11,11 @@ import { Favorite } from '@mui/icons-material'
 import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
-import { BASEURL3 } from '../../config/config'
+import { BASEURL, BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { darkTheme } from '../App'
+import { useQuery } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
 
 function SongItem({
   item,
@@ -23,9 +25,9 @@ function SongItem({
   songItems,
   isLoadingItems,
 }) {
-  const [itemAlbum, setItemAlbum] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+  // const [itemAlbum, setItemAlbum] = useState(null)
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [error, setError] = useState('')
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
   const [errorFavorite, setErrorFavorite] = useState('')
@@ -95,35 +97,47 @@ function SongItem({
     }
   }
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/music/album/${item.album}`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      // console.log(data)
-      const album = data.data
-      setItemAlbum(album)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  // const fetchData = async () => {
+  //   try {
+  //     setIsLoading(true)
+  //     const response = await fetch(
+  //       `https://academics.newtonschool.co/api/v1/music/album/${item.album}`,
+  //       {
+  //         headers: { projectId: 'g2l7ypns0olm' },
+  //       }
+  //     )
+  //     if (!response.ok)
+  //       throw new Error('Something went wrong while fetching songs for you.')
+  //     const data = await response.json()
+  //     // console.log(data)
+  //     const album = data.data
+  //     setItemAlbum(album)
+  //   } catch (err) {
+  //     setError(err.message)
+  //     // console.error(err.message)
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    if (!item?.album) return
-    if (error) return
+  // useEffect(() => {
+  //   if (!item?.album) return
+  //   if (error) return
 
-    fetchData()
-  }, [])
+  //   fetchData()
+  // }, [])
+
+  const {
+    data: { data: itemAlbum } = { data: {} },
+    isPending,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [`songItem${item._id}Album`],
+    queryFn: () => fetchData(`${BASEURL}/album/${item?.album || ''}`),
+    fetchPolicy: 'no-cache',
+  })
 
   // console.log(item)
   // console.log(webToken?.token)

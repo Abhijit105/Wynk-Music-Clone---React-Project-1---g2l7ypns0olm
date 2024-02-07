@@ -4,6 +4,12 @@ import SongItem from './SongItem'
 import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
+import {
+  keepPreviousData,
+  useQuery,
+  useInfiniteQuery,
+} from '@tanstack/react-query'
+import { fetchFeaturedSongs, fetchData } from '../../utility/http'
 
 function FeaturedSongs({
   title,
@@ -13,60 +19,93 @@ function FeaturedSongs({
   onTrackUpdate,
 }) {
   const [songItems, setSongItems] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [page, setPage] = useState(1)
-  const [error, setError] = useState('')
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [page, setPage] = useState(0)
+  // const [error, setError] = useState('')
 
   const playSongsClickHandler = function () {
-    onPlaylistUpdate(songItems)
+    onPlaylistUpdate(data?.data)
     onTrackUpdate(0)
   }
 
   const showMoreClickHandler = function () {
-    setPage(page => page + 1)
+    // setPage(page => page + 1)
+    fetchNextPage()
   }
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `${BASEURL}/song?filter={"featured":"${type}"}&page=${page}&limit=20`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      // console.log(response)
-      if (!response.ok) {
-        throw new Error('Something went wrong while fetching songs for you.')
+  // const fetchData = async () => {
+  //   try {
+  //     setIsLoading(true)
+  //     const response = await fetch(
+  //       `${BASEURL}/song?filter={"featured":"${type}"}&page=${page}&limit=20`,
+  //       {
+  //         headers: { projectId: 'g2l7ypns0olm' },
+  //       }
+  //     )
+  //     // console.log(response)
+  //     if (!response.ok) {
+  //       throw new Error('Something went wrong while fetching songs for you.')
+  //     }
+  //     const data = await response.json()
+  //     // console.log(data)
+  //     const songs = data.data
+  //     setSongItems(songItems => [...songItems, ...songs])
+  //   } catch (err) {
+  //     setError(err.message)
+  //     // console.log(err)
+  //     // console.error(err.message)
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (error) return
+
+  //   fetchData()
+  // }, [page])
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+    isLoading,
+    isPending,
+  } = useInfiniteQuery({
+    queryKey: [`Featured ${type}`],
+    queryFn: ({ pageParam }) => fetchFeaturedSongs(type, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (lastPage.length === 0) {
+        return undefined
       }
-      const data = await response.json()
-      // console.log(data)
-      const songs = data.data
-      setSongItems(songItems => [...songItems, ...songs])
-    } catch (err) {
-      setError(err.message)
-      // console.log(err)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      return lastPageParam + 1
+    },
+    maxPages: 2,
+  })
 
   useEffect(() => {
-    if (error) return
+    setSongItems(data?.pages.flatMap(page => page.data))
+  }, [data])
 
-    fetchData()
-  }, [page])
-
-  const songDisplayed = songItems[0]
+  const songDisplayed = songItems?.at(0)
 
   // console.log(songItems)
   // console.log(page)
+  console.log(data)
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
+
+  // useEffect(() => {
+  //   setPage(page + 1)
+  // }, [data])
 
   return (
     <Box
@@ -164,19 +203,19 @@ function FeaturedSongs({
             </Grid>
           </Grid>
         )}
-
-        {songItems.map((song, i) => (
+        {songItems?.map((song, i) => (
           <SongItem
-            key={i}
+            key={song._id}
             item={song}
             i={i}
             onPlaylistUpdate={onPlaylistUpdate}
             onTrackUpdate={onTrackUpdate}
             songItems={songItems}
-            isLoadingItems={isLoading}
+            isLoadingItems={isLoading || isPending}
           />
         ))}
-        {songItems.length !== numberOfSongs && (
+
+        {data?.data?.length !== numberOfSongs && (
           <Button
             variant='contained'
             sx={{
