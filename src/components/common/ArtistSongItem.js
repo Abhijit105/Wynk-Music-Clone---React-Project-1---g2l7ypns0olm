@@ -6,6 +6,7 @@ import {
   IconButton,
   Snackbar,
   useMediaQuery,
+  Button,
 } from '@mui/material'
 import { Favorite } from '@mui/icons-material'
 import { useState } from 'react'
@@ -17,6 +18,7 @@ import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
+import ArtistsModal from '../ArtistsModal'
 
 function ArtistSongItem({ i, item, songItems }) {
   const [artists, setArtists] = useState([])
@@ -31,6 +33,7 @@ function ArtistSongItem({ i, item, songItems }) {
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
+  const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -48,6 +51,20 @@ function ArtistSongItem({ i, item, songItems }) {
 
   const handleCloseLoginModal = () => {
     setOpenLoginModal(false)
+  }
+
+  const handleOpenArtistsModal = event => {
+    event.preventDefault()
+    setOpenArtistsModal(true)
+  }
+
+  const handleCloseArtistsModal = () => {
+    setOpenArtistsModal(false)
+  }
+
+  const showMoreHandler = function (event) {
+    event.stopPropagation()
+    handleOpenArtistsModal(event)
   }
 
   const handleCloseSnackbar = (event, reason) => {
@@ -209,6 +226,15 @@ function ArtistSongItem({ i, item, songItems }) {
                 .map(a => a.name)
                 .join(', ')}
               {artists.length > 4 ? '...' : ''}
+              {artists.length > 4 && (
+                <Button
+                  onClick={event => showMoreHandler(event)}
+                  color='inherit'
+                  sx={{ textTransform: 'lowercase' }}
+                >
+                  show more
+                </Button>
+              )}
             </Typography>
           </Grid>
           <Grid item key={crypto.randomUUID()} md={3}>
@@ -275,6 +301,15 @@ function ArtistSongItem({ i, item, songItems }) {
                     .map(a => a.name)
                     .join(', ')}
                   {artists.length > 4 ? '...' : ''}
+                  {artists.length > 4 && (
+                    <Button
+                      onClick={event => showMoreHandler(event)}
+                      color='inherit'
+                      sx={{ textTransform: 'lowercase' }}
+                    >
+                      show more
+                    </Button>
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -296,6 +331,12 @@ function ArtistSongItem({ i, item, songItems }) {
         </Grid>
       )}
       <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
+      <ArtistsModal
+        open={openArtistsModal}
+        handleClose={handleCloseArtistsModal}
+        artistItems={artists}
+        isLoadingData={isLoadingArtists}
+      />
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
