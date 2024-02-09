@@ -18,7 +18,8 @@ function Album() {
   const [album, setAlbum] = useState(null)
   const [error, setError] = useState('')
   const [songs, setSongs] = useState([])
-  const [isLoadingImage, setIsLoadignImage] = useState(true)
+  const [isLoadingImageAlbum, setIsLoadingImageAlbum] = useState(true)
+  const [isLoadingImageArtist, setIsLoadingImageArtist] = useState(true)
   const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
@@ -29,8 +30,12 @@ function Album() {
 
   const { webToken } = useContext(AuthContext)
 
-  const loadHandler = function () {
-    setIsLoadignImage(false)
+  const loadHandlerAlbum = function () {
+    setIsLoadingImageAlbum(false)
+  }
+
+  const loadHandlerArtist = function () {
+    setIsLoadingImageArtist(false)
   }
 
   const playSongsClickHandler = function () {
@@ -90,8 +95,6 @@ function Album() {
     fetchData()
   }, [])
 
-  const songDisplayed = songs.at(0)
-
   // console.log(artists)
   // console.log(album)
 
@@ -112,14 +115,30 @@ function Album() {
         width='100%'
       >
         <Box width={{ xs: '50%', md: '20%' }} flexShrink={'0'} flexGrow='1'>
-          <Box
-            component={'img'}
-            src={songDisplayed?.thumbnail}
-            alt={songDisplayed?.title}
-            width={'100%'}
-            borderRadius='1em'
-            marginBottom='2em'
-          />
+          <Box position={'relative'} marginBottom='2em' display={'flex'}>
+            <Box
+              component={'img'}
+              src={album?.image}
+              alt={album?.title}
+              width={'100%'}
+              borderRadius='1em'
+              onLoad={loadHandlerAlbum}
+            />
+            {(isLoadingImageAlbum || isLoading) && (
+              <Box
+                width={'100%'}
+                height={'100%'}
+                position={'absolute'}
+                borderRadius={'1em'}
+                overflow={'hidden'}
+              >
+                <span
+                  className='loader'
+                  style={{ position: 'absolute' }}
+                ></span>
+              </Box>
+            )}
+          </Box>
           <Box
             display={{ xs: 'none', md: 'flex' }}
             flexDirection='column'
@@ -141,9 +160,9 @@ function Album() {
                   alt={artist.name}
                   width='5em'
                   borderRadius='50%'
-                  onLoad={loadHandler}
+                  onLoad={loadHandlerArtist}
                 />
-                {(isLoadingImage || isLoading) && (
+                {(isLoadingImageArtist || isLoading) && (
                   <span
                     className='loader-artist'
                     style={{ position: 'absolute' }}
@@ -311,8 +330,9 @@ function Album() {
               alt={artist.name}
               width='5em'
               borderRadius='50%'
+              onLoad={loadHandlerArtist}
             />
-            {(isLoadingImage || isLoading) && (
+            {(isLoadingImageArtist || isLoading) && (
               <span
                 className='loader-artist'
                 style={{ position: 'absolute' }}

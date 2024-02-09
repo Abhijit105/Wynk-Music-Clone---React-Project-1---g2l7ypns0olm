@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 function ImagePlayBox({ src, alt, width, borderRadius, isLoadingData }) {
   const [display, setDisplay] = useState(false)
-  const [isLoadingImage, setIsLoadignImage] = useState(true)
+  const [isLoadingImage, setIsLoadingImage] = useState(true)
 
   const mouseEnterhandler = function () {
     setDisplay(true)
@@ -15,7 +15,7 @@ function ImagePlayBox({ src, alt, width, borderRadius, isLoadingData }) {
   }
 
   const loadHandler = function () {
-    setIsLoadignImage(false)
+    setIsLoadingImage(false)
   }
 
   // console.log(0.15 * width)
