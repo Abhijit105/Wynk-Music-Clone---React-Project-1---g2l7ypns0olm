@@ -6,6 +6,7 @@ import {
   Typography,
   Snackbar,
   useMediaQuery,
+  Button,
 } from '@mui/material'
 import { Favorite } from '@mui/icons-material'
 import { useContext } from 'react'
@@ -14,6 +15,7 @@ import LoginModal from '../../components/LoginModal'
 import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { darkTheme } from '../App'
+import ArtistsModal from '../ArtistsModal'
 
 function SongItem({
   item,
@@ -32,6 +34,7 @@ function SongItem({
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
+  const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -55,6 +58,20 @@ function SongItem({
     }
 
     setOpenSnackbar(false)
+  }
+
+  const handleOpenArtistsModal = event => {
+    event.preventDefault()
+    setOpenArtistsModal(true)
+  }
+
+  const handleCloseArtistsModal = () => {
+    setOpenArtistsModal(false)
+  }
+
+  const showMoreHandler = function (event) {
+    event.stopPropagation()
+    handleOpenArtistsModal(event)
   }
 
   const mouseEnterHandler = function () {
@@ -187,6 +204,15 @@ function SongItem({
                 .map(a => a.name)
                 .join(', ')}
               {item.artist.length > 4 ? '...' : ''}
+              {item.artist.length > 4 && (
+                <Button
+                  onClick={event => showMoreHandler(event)}
+                  color='inherit'
+                  sx={{ textTransform: 'lowercase' }}
+                >
+                  show more
+                </Button>
+              )}
             </Typography>
           </Grid>
           <Grid item md={3} lg={3} xl={3}>
@@ -252,6 +278,15 @@ function SongItem({
                     .map(a => a.name)
                     .join(', ')}
                   {item.artist.length > 4 ? '...' : ''}
+                  {item.artist.length > 4 && (
+                    <Button
+                      onClick={event => showMoreHandler(event)}
+                      color='inherit'
+                      sx={{ textTransform: 'lowercase' }}
+                    >
+                      show more
+                    </Button>
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -274,6 +309,12 @@ function SongItem({
       )}
 
       <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
+      <ArtistsModal
+        open={openArtistsModal}
+        handleClose={handleCloseArtistsModal}
+        artistItems={item.artist}
+        isLoadingData={isLoading}
+      />
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

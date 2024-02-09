@@ -6,6 +6,7 @@ import {
   IconButton,
   Snackbar,
   useMediaQuery,
+  Button,
 } from '@mui/material'
 import { Favorite } from '@mui/icons-material'
 import { useState } from 'react'
@@ -16,6 +17,7 @@ import { BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
+import ArtistsModal from '../ArtistsModal'
 
 function AlbumSongItem({
   albumName,
@@ -32,6 +34,7 @@ function AlbumSongItem({
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
+  const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
   const { webToken } = useContext(AuthContext)
 
@@ -57,6 +60,20 @@ function AlbumSongItem({
     }
 
     setOpenSnackbar(false)
+  }
+
+  const handleOpenArtistsModal = event => {
+    event.preventDefault()
+    setOpenArtistsModal(true)
+  }
+
+  const handleCloseArtistsModal = () => {
+    setOpenArtistsModal(false)
+  }
+
+  const showMoreHandler = function (event) {
+    event.stopPropagation()
+    handleOpenArtistsModal(event)
   }
 
   const mouseEnterHandler = function () {
@@ -160,6 +177,15 @@ function AlbumSongItem({
                 .map(a => a.name)
                 .join(', ')}
               {artists.length > 4 ? '...' : ''}
+              {artists.length > 4 && (
+                <Button
+                  onClick={event => showMoreHandler(event)}
+                  color='inherit'
+                  sx={{ textTransform: 'lowercase' }}
+                >
+                  show more
+                </Button>
+              )}
             </Typography>
           </Grid>
           <Grid item md={3} key={4}>
@@ -224,6 +250,15 @@ function AlbumSongItem({
                     .map(a => a.name)
                     .join(', ')}
                   {artists.length > 4 ? '...' : ''}
+                  {artists.length > 4 && (
+                    <Button
+                      onClick={event => showMoreHandler(event)}
+                      color='inherit'
+                      sx={{ textTransform: 'lowercase' }}
+                    >
+                      show more
+                    </Button>
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -245,6 +280,12 @@ function AlbumSongItem({
         </Grid>
       )}
       <LoginModal open={openLoginModal} handleClose={handleCloseLoginModal} />
+      <ArtistsModal
+        open={openArtistsModal}
+        handleClose={handleCloseArtistsModal}
+        artistItems={artists}
+        isLoadingData={isLoading}
+      />
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
