@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Carousel from './Carousel'
 import { BASEURL } from '../../config/config'
+import { fetchData } from '../../utility/http'
+import { useQuery } from '@tanstack/react-query'
 
 function CarouselWithFetch({
   title,
@@ -10,37 +12,19 @@ function CarouselWithFetch({
   onTrackUpdate,
 }) {
   const [songs, setSongs] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `${BASEURL}/song?filter={"${category}":"${type}"}`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      // console.log(data)
-      const newSongs = data.data
-      setSongs(songs => [...songs, ...newSongs])
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const { data, error, isLoading, isPending, isError } = useQuery({
+    queryKey: ['Songs', category, type],
+    queryFn: () =>
+      fetchData(`${BASEURL}/song?filter={"${category}":"${type}"}`),
+    staleTime: 1000 * 60 * 2,
+  })
 
   useEffect(() => {
-    if (error) return
+    setSongs(data?.data)
+  }, [data])
 
-    fetchData()
-  }, [])
+  const isLoadingSong = isLoading || isPending
 
   // console.log(songs)
 
@@ -50,6 +34,7 @@ function CarouselWithFetch({
       items={songs}
       onPlaylistUpdate={onPlaylistUpdate}
       onTrackUpdate={onTrackUpdate}
+      isLoadingSong={isLoadingSong}
     />
   )
 }
