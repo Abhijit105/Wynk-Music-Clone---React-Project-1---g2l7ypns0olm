@@ -1,56 +1,97 @@
 import React, { createContext, useState, useEffect } from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { fetchData } from '../utility/http'
+import { BASEURL } from '../config/config'
 
 export const AllContext = createContext()
 
-function AllProvider({ children, allSongs, searchTerm, searchTermUpdate }) {
+function AllProvider({ children, searchTerm, searchTermUpdate }) {
   const [allAlbums, setAllAlbums] = useState([])
-  const [page, setPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorAllAlbums, setErrorAllAlbums] = useState('')
+  const [allSongs, setAllSongs] = useState([])
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/music/album?page=${page}&limit=100`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      // console.log(data)
-      const result = data.data
-      setAllAlbums(allAlbums => [...allAlbums, ...result])
-    } catch (err) {
-      setErrorAllAlbums(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
+  const {
+    data: dataAllSongs,
+    error: errorAllSongs,
+    fetchNextPage: fetchNextPageAllSongs,
+    hasNextPage: hasNextPageAllSongs,
+    isLoading: isLoadingAllSongs,
+    isPending: isPendingAllSongs,
+  } = useInfiniteQuery({
+    queryKey: ['Songs'],
+    queryFn: ({ pageParam }) =>
+      fetchData(`${BASEURL}/song/?page=${pageParam}&limit=100`),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (lastPage.length === 0) {
+        return undefined
+      }
+      return lastPageParam + 1
+    },
+    maxPages: 26,
+    staleTime: 1000 * 2 * 60,
+  })
+
+  useEffect(() => {
+    if (!dataAllSongs) return
+    if (hasNextPageAllSongs) {
+      fetchNextPageAllSongs()
+      setAllSongs(dataAllSongs?.pages.flatMap(page => page.data))
     }
-  }
+  }, [dataAllSongs, hasNextPageAllSongs])
+
+  const {
+    data: dataAllAlbums,
+    error: errorAllAlbums,
+    fetchNextPage: fetchNextPageAllAlbums,
+    hasNextPage: hasNextPageAllAlbums,
+    isLoading: isLoadingAllAlbums,
+    isPending: isPendingAllAlbums,
+  } = useInfiniteQuery({
+    queryKey: ['Albums'],
+    queryFn: ({ pageParam }) =>
+      fetchData(`${BASEURL}/album/?page=${pageParam}&limit=100`),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (lastPage.length === 0) {
+        return undefined
+      }
+      return lastPageParam + 1
+    },
+    maxPages: 4,
+    staleTime: 1000 * 2 * 60,
+  })
 
   useEffect(() => {
-    if (page > 4) return
+    if (!dataAllAlbums) return
+    if (hasNextPageAllAlbums) {
+      fetchNextPageAllAlbums()
+      setAllAlbums(dataAllAlbums?.pages.flatMap(page => page.data))
+    }
+  }, [dataAllAlbums, hasNextPageAllAlbums])
 
-    fetchData()
-  }, [page])
-
-  useEffect(() => {
-    setPage(page => page + 1)
-  }, [isLoading])
-
-  // console.log(page)
   // console.log(allAlbums)
+  // console.log(allSongs)
+  // console.log(dataAllSongs)
 
   const newSongs = allSongs.filter(
     song => song?.album && Number(song.dateOfRelease.slice(0, 4)) >= 2023
   )
 
+  const isLoadingSong = isLoadingAllSongs || isPendingAllSongs
+
+  const isLoadingAlbum = isLoadingAllAlbums || isPendingAllAlbums
+
   return (
     <AllContext.Provider
-      value={{ allSongs, searchTerm, searchTermUpdate, newSongs, allAlbums }}
+      value={{
+        allSongs,
+        searchTerm,
+        searchTermUpdate,
+        newSongs,
+        allAlbums,
+        isLoadingSong,
+        isLoadingAlbum,
+      }}
     >
       {children}
     </AllContext.Provider>

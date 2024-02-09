@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import Album from '../routes/Album'
 import ImagePlayBox from './ImagePlayBox'
 
-function AlbumsPage({ title, albumItems }) {
+function AlbumsPage({ title, albumItems, isLoadingAlbum }) {
   const navigate = useNavigate()
 
   const clickHandler = function (selectedAlbum) {
@@ -49,6 +49,7 @@ function AlbumsPage({ title, albumItems }) {
               alt={album.title}
               width={'100%'}
               borderRadius={'1em'}
+              isLoadingData={isLoadingAlbum}
             />
             <Typography variant='h6'>{album.title}</Typography>
           </Box>

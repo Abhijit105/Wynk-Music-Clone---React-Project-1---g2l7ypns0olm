@@ -30,7 +30,7 @@ function All() {
   const banners = Array.from({ length: 16 }, (_, i) => `BANNER_${i + 1}.webp`)
   // console.log(banners)
 
-  const { allSongs } = useContext(AllContext)
+  const { allSongs, isLoadingSong } = useContext(AllContext)
 
   // console.log(allSongs)
 
@@ -88,18 +88,21 @@ function All() {
           items={songs2023AndAbove}
           onPlaylistUpdate={setPlaylist}
           onTrackUpdate={setTrack}
+          isLoadingSong={isLoadingSong}
         />
         <Carousel
           title='Year 2022'
           items={songs2022}
           onPlaylistUpdate={setPlaylist}
           onTrackUpdate={setTrack}
+          isLoadingSong={isLoadingSong}
         />
         <Carousel
           title='2021: Year in focus'
           items={songs2021}
           onPlaylistUpdate={setPlaylist}
           onTrackUpdate={setTrack}
+          isLoadingSong={isLoadingSong}
         />
         <CarouselWithFetch
           title='Trending Songs'

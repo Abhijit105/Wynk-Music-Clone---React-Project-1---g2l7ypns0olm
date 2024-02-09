@@ -6,7 +6,7 @@ import BestWay from '../common/BestWay'
 import { Box } from '@mui/material'
 
 function AlbumsTelugu() {
-  const { allAlbums } = useContext(AllContext)
+  const { allAlbums, isLoadingAlbum } = useContext(AllContext)
 
   function mergeLanguage(x) {
     const L = new Set()
@@ -39,7 +39,11 @@ function AlbumsTelugu() {
       alignItems='center'
       width='100%'
     >
-      <AlbumsPage title='Top Telugu Albums' albumItems={displayedAlbums} />
+      <AlbumsPage
+        title='Top Telugu Albums'
+        albumItems={displayedAlbums}
+        isLoadingAlbum={isLoadingAlbum}
+      />
       <BestWay />
     </Box>
   )

@@ -76,7 +76,7 @@ function FeaturedSongs({
     isLoading,
     isPending,
   } = useInfiniteQuery({
-    queryKey: [`Featured ${type}`],
+    queryKey: ['Featured Songs', type],
     queryFn: ({ pageParam }) => fetchFeaturedSongs(type, pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
@@ -96,7 +96,7 @@ function FeaturedSongs({
 
   // console.log(songItems)
   // console.log(page)
-  console.log(data)
+  // console.log(data)
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')

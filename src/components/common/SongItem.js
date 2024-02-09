@@ -14,8 +14,9 @@ import LoginModal from '../../components/LoginModal'
 import { BASEURL, BASEURL3 } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { darkTheme } from '../App'
-import { useQuery } from '@tanstack/react-query'
-import { fetchData } from '../../utility/http'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { favoriteSong, fetchData } from '../../utility/http'
+import { PROJECTID } from '../../config/config'
 
 function SongItem({
   item,
@@ -29,8 +30,8 @@ function SongItem({
   // const [isLoading, setIsLoading] = useState(false)
   // const [error, setError] = useState('')
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
-  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
-  const [errorFavorite, setErrorFavorite] = useState('')
+  // const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
+  // const [errorFavorite, setErrorFavorite] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
@@ -67,15 +68,50 @@ function SongItem({
     setIsHovered(false)
   }
 
-  const favoriteHandler = async function (event, songId) {
-    try {
-      event.stopPropagation()
-      setIsLoadingFavorite(true)
+  // const favoriteHandler = async function (event, songId) {
+  //   try {
+  //     event.stopPropagation()
+  //     setIsLoadingFavorite(true)
+  //     const response = await fetch(`${BASEURL3}`, {
+  //       method: 'PATCH',
+  //       headers: {
+  //         Authorization: `Bearer ${webToken?.token}`,
+  //         projectId: 'g2l7ypns0olm',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ songId: songId }),
+  //     })
+  //     if (!response.ok) {
+  //       throw new Error('Something went wrong during setting up of favorite.')
+  //     }
+  //     const data = await response.json()
+  //     setMessageSnackbar(data.message)
+  //     setOpenSnackbar(true)
+  //     // console.log(data)
+  //   } catch (err) {
+  //     setErrorFavorite(err.message)
+  //     setMessageSnackbar(err.message)
+  //     setOpenSnackbar(true)
+  //     // console.error(err.message)
+  //   } finally {
+  //     setIsLoadingFavorite(false)
+  //   }
+  // }
+
+  const {
+    mutate,
+    isLoading: isLoadingFavorite,
+    isPending: isPendingFavorite,
+    isError: isErrorFavorite,
+    error: errorFavorite,
+    data: dataFavorite,
+  } = useMutation({
+    mutationFn: async songId => {
       const response = await fetch(`${BASEURL3}`, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${webToken?.token}`,
-          projectId: 'g2l7ypns0olm',
+          Authorization: `Bearer ${webToken.token}`,
+          projectId: `${PROJECTID}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ songId: songId }),
@@ -84,17 +120,21 @@ function SongItem({
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
-      setMessageSnackbar(data.message)
+      return data
+    },
+    onSuccess: response => {
+      setMessageSnackbar(response.message)
       setOpenSnackbar(true)
-      // console.log(data)
-    } catch (err) {
-      setErrorFavorite(err.message)
-      setMessageSnackbar(err.message)
+    },
+    onError: error => {
+      setMessageSnackbar(error.response.message)
       setOpenSnackbar(true)
-      // console.error(err.message)
-    } finally {
-      setIsLoadingFavorite(false)
-    }
+    },
+  })
+
+  const favoriteHandler = function (event, selectedSongId) {
+    event.stopPropagation()
+    mutate(selectedSongId)
   }
 
   // const fetchData = async () => {
@@ -134,13 +174,12 @@ function SongItem({
     isError,
     error,
   } = useQuery({
-    queryKey: [`songItem${item._id}Album`],
+    queryKey: [`SongItem ${item._id} Album`],
     queryFn: () => fetchData(`${BASEURL}/album/${item?.album || ''}`),
-    fetchPolicy: 'no-cache',
   })
 
   // console.log(item)
-  // console.log(webToken?.token)
+  // console.log(webToken.token)
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
@@ -276,9 +315,7 @@ function SongItem({
                 background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
               }}
               onClick={event =>
-                webToken
-                  ? favoriteHandler(event, item._id)
-                  : handleOpenLoginModal(event)
+                webToken ? favoriteHandler(event) : handleOpenLoginModal(event)
               }
             >
               <Favorite fontSize='small' />

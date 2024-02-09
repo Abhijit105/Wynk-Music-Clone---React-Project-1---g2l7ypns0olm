@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import All from './routes/All'
 import AllProvider from '../contexts/AllProvider'
@@ -49,44 +49,7 @@ export const darkTheme = createTheme({
 const queryClient = new QueryClient()
 
 function App() {
-  const [allSongs, setAllSongs] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorAllSongs, setErrorAllSongs] = useState('')
-  const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
-
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/music/song?page=${page}&limit=100`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      // console.log(data)
-      const songs = data.data
-      setAllSongs(allSongs => [...allSongs, ...songs])
-    } catch (err) {
-      setErrorAllSongs(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    if (errorAllSongs) return
-
-    fetchData()
-  }, [page])
-
-  useEffect(() => {
-    !isLoading && allSongs.length < 2454 && setPage(page => page + 1)
-  }, [isLoading])
 
   // console.log(page)
   // console.log(allSongs)
@@ -96,11 +59,7 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <AuthProvider>
-          <AllProvider
-            allSongs={allSongs}
-            searchTerm={searchTerm}
-            searchTermUpdate={setSearchTerm}
-          >
+          <AllProvider searchTerm={searchTerm} searchTermUpdate={setSearchTerm}>
             <PlayerProvider>
               <BrowserRouter>
                 <AppBarPrimary

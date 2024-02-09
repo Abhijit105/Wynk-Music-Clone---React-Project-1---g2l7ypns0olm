@@ -11,7 +11,13 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
 import ImagePlayBox from './ImagePlayBox'
 
-function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
+function Carousel({
+  title,
+  items,
+  onPlaylistUpdate,
+  onTrackUpdate,
+  isLoadingSong,
+}) {
   const [translateX, setTranslateX] = useState(0)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
 
@@ -176,6 +182,7 @@ function Carousel({ title, items, onPlaylistUpdate, onTrackUpdate }) {
               alt={'Song image'}
               width={'90%'}
               borderRadius={'1em'}
+              isLoadingData={isLoadingSong}
             />
             <Typography color='white'>{song.title}</Typography>
           </Box>
