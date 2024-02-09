@@ -19,12 +19,9 @@ function FeaturedSongs({
   onTrackUpdate,
 }) {
   const [songItems, setSongItems] = useState([])
-  // const [isLoading, setIsLoading] = useState(false)
-  // const [page, setPage] = useState(0)
-  // const [error, setError] = useState('')
 
   const playSongsClickHandler = function () {
-    onPlaylistUpdate(data?.data)
+    onPlaylistUpdate(songItems)
     onTrackUpdate(0)
   }
 
@@ -33,62 +30,24 @@ function FeaturedSongs({
     fetchNextPage()
   }
 
-  // const fetchData = async () => {
-  //   try {
-  //     setIsLoading(true)
-  //     const response = await fetch(
-  //       `${BASEURL}/song?filter={"featured":"${type}"}&page=${page}&limit=20`,
-  //       {
-  //         headers: { projectId: 'g2l7ypns0olm' },
-  //       }
-  //     )
-  //     // console.log(response)
-  //     if (!response.ok) {
-  //       throw new Error('Something went wrong while fetching songs for you.')
-  //     }
-  //     const data = await response.json()
-  //     // console.log(data)
-  //     const songs = data.data
-  //     setSongItems(songItems => [...songItems, ...songs])
-  //   } catch (err) {
-  //     setError(err.message)
-  //     // console.log(err)
-  //     // console.error(err.message)
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (error) return
-
-  //   fetchData()
-  // }, [page])
-
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-    isLoading,
-    isPending,
-  } = useInfiniteQuery({
-    queryKey: ['Featured Songs', type],
-    queryFn: ({ pageParam }) => fetchFeaturedSongs(type, pageParam),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
-        return undefined
-      }
-      return lastPageParam + 1
-    },
-    maxPages: 2,
-  })
+  const { data, isError, error, fetchNextPage, isLoading, isPending } =
+    useInfiniteQuery({
+      queryKey: ['Songs', 'Featured Songs', type],
+      queryFn: ({ pageParam }) => fetchFeaturedSongs(type, pageParam),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage.length === 0) {
+          return undefined
+        }
+        return lastPageParam + 1
+      },
+      maxPages: 2,
+      staleTime: 1000 * 60 * 2,
+    })
 
   useEffect(() => {
+    if (!data) return
+
     setSongItems(data?.pages.flatMap(page => page.data))
   }, [data])
 
@@ -102,10 +61,6 @@ function FeaturedSongs({
     theme.breakpoints.up('xs')
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
-
-  // useEffect(() => {
-  //   setPage(page + 1)
-  // }, [data])
 
   return (
     <Box
@@ -215,7 +170,7 @@ function FeaturedSongs({
           />
         ))}
 
-        {data?.data?.length !== numberOfSongs && (
+        {songItems.length !== numberOfSongs && (
           <Button
             variant='contained'
             sx={{

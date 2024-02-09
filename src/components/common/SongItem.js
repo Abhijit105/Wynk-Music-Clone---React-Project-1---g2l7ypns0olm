@@ -26,12 +26,8 @@ function SongItem({
   songItems,
   isLoadingItems,
 }) {
-  // const [itemAlbum, setItemAlbum] = useState(null)
-  // const [isLoading, setIsLoading] = useState(false)
-  // const [error, setError] = useState('')
+  const [itemAlbum, setItemAlbum] = useState(null)
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
-  // const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
-  // const [errorFavorite, setErrorFavorite] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
@@ -68,35 +64,10 @@ function SongItem({
     setIsHovered(false)
   }
 
-  // const favoriteHandler = async function (event, songId) {
-  //   try {
-  //     event.stopPropagation()
-  //     setIsLoadingFavorite(true)
-  //     const response = await fetch(`${BASEURL3}`, {
-  //       method: 'PATCH',
-  //       headers: {
-  //         Authorization: `Bearer ${webToken?.token}`,
-  //         projectId: 'g2l7ypns0olm',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ songId: songId }),
-  //     })
-  //     if (!response.ok) {
-  //       throw new Error('Something went wrong during setting up of favorite.')
-  //     }
-  //     const data = await response.json()
-  //     setMessageSnackbar(data.message)
-  //     setOpenSnackbar(true)
-  //     // console.log(data)
-  //   } catch (err) {
-  //     setErrorFavorite(err.message)
-  //     setMessageSnackbar(err.message)
-  //     setOpenSnackbar(true)
-  //     // console.error(err.message)
-  //   } finally {
-  //     setIsLoadingFavorite(false)
-  //   }
-  // }
+  const favoriteHandler = function (event, selectedSongId) {
+    event.stopPropagation()
+    mutate(selectedSongId)
+  }
 
   const {
     mutate,
@@ -132,51 +103,22 @@ function SongItem({
     },
   })
 
-  const favoriteHandler = function (event, selectedSongId) {
-    event.stopPropagation()
-    mutate(selectedSongId)
-  }
-
-  // const fetchData = async () => {
-  //   try {
-  //     setIsLoading(true)
-  //     const response = await fetch(
-  //       `https://academics.newtonschool.co/api/v1/music/album/${item.album}`,
-  //       {
-  //         headers: { projectId: 'g2l7ypns0olm' },
-  //       }
-  //     )
-  //     if (!response.ok)
-  //       throw new Error('Something went wrong while fetching songs for you.')
-  //     const data = await response.json()
-  //     // console.log(data)
-  //     const album = data.data
-  //     setItemAlbum(album)
-  //   } catch (err) {
-  //     setError(err.message)
-  //     // console.error(err.message)
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (!item?.album) return
-  //   if (error) return
-
-  //   fetchData()
-  // }, [])
-
   const {
-    data: { data: itemAlbum } = { data: {} },
-    isPending,
-    isLoading,
-    isError,
-    error,
+    data: dataAlbum,
+    isPending: isPendingAlbum,
+    isLoading: isLoadingAlbum,
+    isError: isErrorAlbum,
+    error: errorAlbum,
   } = useQuery({
-    queryKey: [`SongItem ${item._id} Album`],
+    queryKey: ['Album', item._id],
     queryFn: () => fetchData(`${BASEURL}/album/${item?.album || ''}`),
+    staleTime: 1000 * 60 * 2,
   })
+
+  useEffect(() => {
+    if (!dataAlbum) return
+    setItemAlbum(dataAlbum.data)
+  }, [dataAlbum])
 
   // console.log(item)
   // console.log(webToken.token)
@@ -315,7 +257,9 @@ function SongItem({
                 background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
               }}
               onClick={event =>
-                webToken ? favoriteHandler(event) : handleOpenLoginModal(event)
+                webToken
+                  ? favoriteHandler(event, item._id)
+                  : handleOpenLoginModal(event)
               }
             >
               <Favorite fontSize='small' />
