@@ -3,8 +3,6 @@ import {
   Language,
   SpatialAudio,
   Podcasts,
-  CurrencyRupee,
-  Login,
   Check,
   Close,
 } from '@mui/icons-material'

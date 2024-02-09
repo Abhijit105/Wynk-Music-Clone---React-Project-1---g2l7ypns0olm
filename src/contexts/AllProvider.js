@@ -29,15 +29,15 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
     },
     maxPages: 26,
     staleTime: 1000 * 2 * 60,
+    enabled: !!hasNextPageAllSongs,
   })
 
   useEffect(() => {
     if (!dataAllSongs) return
-    if (hasNextPageAllSongs) {
-      fetchNextPageAllSongs()
-      setAllSongs(dataAllSongs?.pages.flatMap(page => page.data))
-    }
-  }, [dataAllSongs, hasNextPageAllSongs])
+
+    fetchNextPageAllSongs()
+    setAllSongs(dataAllSongs?.pages.flatMap(page => page.data))
+  }, [dataAllSongs])
 
   const {
     data: dataAllAlbums,
@@ -59,15 +59,15 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
     },
     maxPages: 4,
     staleTime: 1000 * 2 * 60,
+    enabled: !!hasNextPageAllAlbums,
   })
 
   useEffect(() => {
     if (!dataAllAlbums) return
-    if (hasNextPageAllAlbums) {
-      fetchNextPageAllAlbums()
-      setAllAlbums(dataAllAlbums?.pages.flatMap(page => page.data))
-    }
-  }, [dataAllAlbums, hasNextPageAllAlbums])
+
+    fetchNextPageAllAlbums()
+    setAllAlbums(dataAllAlbums?.pages.flatMap(page => page.data))
+  }, [dataAllAlbums])
 
   // console.log(allAlbums)
   // console.log(allSongs)

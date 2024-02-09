@@ -24,6 +24,19 @@ export const fetchFeaturedSongs = async (type, pageParam = 1) => {
   return data
 }
 
+export const fetchMoodSongs = async (type, pageParam = 1) => {
+  const response = await fetch(
+    `${BASEURL}/song/?filter={"mood":"${type}"}&page=${pageParam}&limit=20"`,
+    {
+      headers: { projectId: PROJECTID },
+    }
+  )
+  if (!response.ok)
+    throw new Error('Something went wrong while fetching songs.')
+  const data = await response.json()
+  return data
+}
+
 export const fetchSearchedSongs = async (searchTerm, pageParam = 1) => {
   const response = await fetch(
     `${BASEURL}/song?search={"title":"${searchTerm}"}&page=${pageParam}&limit=20`,
@@ -31,7 +44,7 @@ export const fetchSearchedSongs = async (searchTerm, pageParam = 1) => {
       headers: { projectId: PROJECTID },
     }
   )
-  
+
   if (!response.ok)
     throw new Error('Something went wrong while fetching songs.')
   const data = await response.json()

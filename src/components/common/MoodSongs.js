@@ -1,9 +1,10 @@
 import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import SongItem from './SongItem'
-import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
+import { fetchMoodSongs } from '../../utility/http'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 function MoodSongs({
   title,
@@ -13,9 +14,6 @@ function MoodSongs({
   onTrackUpdate,
 }) {
   const [songItems, setSongItems] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [page, setPage] = useState(1)
-  const [error, setError] = useState('')
 
   const playSongsClickHandler = function () {
     onPlaylistUpdate(songItems)
@@ -23,42 +21,37 @@ function MoodSongs({
   }
 
   const showMoreClickHandler = function () {
-    setPage(page => page + 1)
+    fetchNextPage()
   }
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `${BASEURL}/song?filter={"mood":"${type}"}&page=${page}&limit=20`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
+  const numberOfPages = Math.ceil(numberOfSongs / 20)
+
+  const { data, isError, error, fetchNextPage, isLoading, isPending } =
+    useInfiniteQuery({
+      queryKey: ['Songs', 'Mood Songs', type],
+      queryFn: ({ pageParam }) => fetchMoodSongs(type, pageParam),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage.length === 0) {
+          return undefined
         }
-      )
-      if (!response.ok) {
-        throw new Error('Something went wrong while fetching songs for you.')
-      }
-      const data = await response.json()
-      // console.log(data)
-      const songs = data.data
-      setSongItems(songItems => [...songItems, ...songs])
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+        return lastPageParam + 1
+      },
+      maxPages: { numberOfPages },
+      staleTime: 1000 * 60 * 2,
+    })
 
   useEffect(() => {
-    if (error) return
-    fetchData()
-  }, [page])
+    if (!data) return
+
+    setSongItems(data?.pages.flatMap(page => page.data))
+  }, [data])
 
   const songDisplayed = songItems[0]
 
   // console.log(songItems)
   // console.log(page)
+  // console.log(numberOfPages)
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
@@ -169,7 +162,7 @@ function MoodSongs({
             onPlaylistUpdate={onPlaylistUpdate}
             onTrackUpdate={onTrackUpdate}
             songItems={songItems}
-            isLoadingItems={isLoading}
+            isLoadingItems={isLoading || isPending}
           />
         ))}
         {songItems.length !== numberOfSongs && (
