@@ -16,9 +16,7 @@ import { fetchData } from '../../utility/http'
 
 function Album() {
   const [artists, setArtists] = useState([])
-
   const [album, setAlbum] = useState(null)
-
   const [songs, setSongs] = useState([])
   const [isLoadingImageAlbum, setIsLoadingImageAlbum] = useState(true)
   const [isLoadingImageArtist, setIsLoadingImageArtist] = useState(true)

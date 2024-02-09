@@ -30,7 +30,6 @@ function AlbumSongItem({
 }) {
   const [artists, setArtists] = useState([])
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
-
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
