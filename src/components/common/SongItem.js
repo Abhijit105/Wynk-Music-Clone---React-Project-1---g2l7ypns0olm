@@ -151,7 +151,6 @@ function SongItem({
         <Grid
           container
           padding={isHovered ? 'calc(15px)' : '1em'}
-          sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
@@ -308,7 +307,7 @@ function SongItem({
         open={openArtistsModal}
         handleClose={handleCloseArtistsModal}
         artistItems={item.artist}
-        isLoadingData={isLoading}
+        isLoadingData={isLoadingAlbum}
       />
       <Snackbar
         open={openSnackbar}

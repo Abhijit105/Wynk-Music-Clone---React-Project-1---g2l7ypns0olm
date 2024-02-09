@@ -185,7 +185,6 @@ function ArtistSongItem({ i, item, songItems }) {
         <Grid
           container
           padding={isHovered ? '15px' : '1em'}
-          sx={{ cursor: 'pointer' }}
           onClick={event =>
             webToken ? clickHandler(i) : handleOpenLoginModal(event)
           }

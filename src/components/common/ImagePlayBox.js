@@ -29,6 +29,7 @@ function ImagePlayBox({ src, alt, width, borderRadius, isLoadingData }) {
       alignItems={'center'}
       overflow={'hidden'}
       flexShrink={'0'}
+      sx={{ cursor: 'pointer' }}
     >
       <Box
         component={'img'}

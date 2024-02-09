@@ -16,9 +16,9 @@ import { fetchData } from '../../utility/http'
 
 function Album() {
   const [artists, setArtists] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+
   const [album, setAlbum] = useState(null)
-  const [error, setError] = useState('')
+
   const [songs, setSongs] = useState([])
   const [isLoadingImageAlbum, setIsLoadingImageAlbum] = useState(true)
   const [isLoadingImageArtist, setIsLoadingImageArtist] = useState(true)
@@ -67,36 +67,6 @@ function Album() {
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
-  // const fetchData = async () => {
-  //   try {
-  //     setIsLoading(true)
-  //     const response = await fetch(`${BASEURL}/album/${_id}`, {
-  //       headers: { projectId: 'g2l7ypns0olm' },
-  //     })
-  //     if (!response.ok)
-  //       throw new Error('Something went wrong while fetching songs for you.')
-  //     const data = await response.json()
-  //     // console.log(data)
-  //     const result = data.data
-  //     setAlbum(result)
-  //     const songsResult = data.data.songs
-  //     setSongs(songsResult)
-  //     const artistsResult = data.data.artists
-  //     setArtists(artistsResult)
-  //   } catch (err) {
-  //     setError(err.message)
-  //     // console.error(err.message)
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (error) return
-
-  //   fetchData()
-  // }, [])
-
   const {
     data: dataAlbum,
     isPending: isPendingAlbum,
@@ -104,7 +74,7 @@ function Album() {
     isError: isErrorAlbum,
     error: errorAlbum,
   } = useQuery({
-    queryKey: ['Full', 'Album', _id],
+    queryKey: ['Album', _id],
     queryFn: () => fetchData(`${BASEURL}/album/${_id}`),
     staleTime: 1000 * 60 * 2,
   })
@@ -154,7 +124,7 @@ function Album() {
               borderRadius='1em'
               onLoad={loadHandlerAlbum}
             />
-            {(isLoadingImageAlbum || isLoading) && (
+            {(isLoadingImageAlbum || isLoadingAlbum) && (
               <Box
                 width={'100%'}
                 height={'100%'}
@@ -192,7 +162,7 @@ function Album() {
                   borderRadius='50%'
                   onLoad={loadHandlerArtist}
                 />
-                {(isLoadingImageArtist || isLoading) && (
+                {(isLoadingImageArtist || isLoadingAlbum) && (
                   <span
                     className='loader-artist'
                     style={{ position: 'absolute' }}
@@ -310,7 +280,7 @@ function Album() {
               i={i}
               songItems={songs}
               allArtists={artists}
-              isLoading={isLoading}
+              isLoading={isLoadingAlbum}
             />
           ))}
         </Box>
@@ -362,7 +332,7 @@ function Album() {
               borderRadius='50%'
               onLoad={loadHandlerArtist}
             />
-            {(isLoadingImageArtist || isLoading) && (
+            {(isLoadingImageArtist || isLoadingAlbum) && (
               <span
                 className='loader-artist'
                 style={{ position: 'absolute' }}
@@ -378,7 +348,7 @@ function Album() {
         open={openArtistsModal}
         handleClose={handleCloseArtistsModal}
         artistItems={artists}
-        isLoadingData={isLoading}
+        isLoadingData={isLoadingAlbum}
       />
     </Box>
   )

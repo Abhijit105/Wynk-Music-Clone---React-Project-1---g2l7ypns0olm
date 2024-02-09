@@ -13,11 +13,12 @@ import { useState } from 'react'
 import LoginModal from '../../components/LoginModal'
 import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
-import { BASEURL3 } from '../../config/config'
+import { BASEURL3, PROJECTID } from '../../config/config'
 import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
 import ArtistsModal from '../ArtistsModal'
+import { useMutation } from '@tanstack/react-query'
 
 function AlbumSongItem({
   albumName,
@@ -29,8 +30,7 @@ function AlbumSongItem({
 }) {
   const [artists, setArtists] = useState([])
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
-  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
-  const [errorFavorite, setErrorFavorite] = useState('')
+
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
@@ -84,15 +84,25 @@ function AlbumSongItem({
     setIsHovered(false)
   }
 
-  const favoriteHandler = async function (event, songId) {
-    try {
-      event.stopPropagation()
-      setIsLoadingFavorite(true)
+  const favoriteHandler = function (event, selectedSongId) {
+    event.stopPropagation()
+    mutate(selectedSongId)
+  }
+
+  const {
+    mutate,
+    isLoading: isLoadingFavorite,
+    isPending: isPendingFavorite,
+    isError: isErrorFavorite,
+    error: errorFavorite,
+    data: dataFavorite,
+  } = useMutation({
+    mutationFn: async songId => {
       const response = await fetch(`${BASEURL3}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${webToken.token}`,
-          projectId: 'g2l7ypns0olm',
+          projectId: `${PROJECTID}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ songId: songId }),
@@ -101,18 +111,17 @@ function AlbumSongItem({
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
-      setMessageSnackbar(data.message)
+      return data
+    },
+    onSuccess: response => {
+      setMessageSnackbar(response.message)
       setOpenSnackbar(true)
-      // console.log(data)
-    } catch (err) {
-      setErrorFavorite(err.message)
-      setMessageSnackbar(err.message)
+    },
+    onError: error => {
+      setMessageSnackbar(error.response.message)
       setOpenSnackbar(true)
-      // console.error(err.message)
-    } finally {
-      setIsLoadingFavorite(false)
-    }
-  }
+    },
+  })
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
@@ -138,7 +147,6 @@ function AlbumSongItem({
         <Grid
           container
           padding={isHovered ? '15px' : '1em'}
-          sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
