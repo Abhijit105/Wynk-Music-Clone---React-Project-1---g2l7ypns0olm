@@ -10,7 +10,7 @@ import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
 import { AuthContext } from '../../contexts/AuthProvider'
 
-function NewSongs() {
+function NewSongs({ isLoadingSong }) {
   const [page, setPage] = useState(1)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
@@ -145,6 +145,7 @@ function NewSongs() {
               onPlaylistUpdate={setPlaylist}
               onTrackUpdate={setTrack}
               songItems={displayedSongs}
+              isLoadingItems={isLoadingSong}
             />
           ))}
           {displayedSongs.length !== newSongs.length && (
