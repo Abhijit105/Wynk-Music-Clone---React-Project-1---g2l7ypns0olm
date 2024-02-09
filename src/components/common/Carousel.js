@@ -1,12 +1,6 @@
 import { NavigateBefore, NavigateNext } from '@mui/icons-material'
-import {
-  Box,
-  IconButton,
-  Skeleton,
-  Typography,
-  useMediaQuery,
-} from '@mui/material'
-import React, { useEffect, useState, useRef, useContext } from 'react'
+import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
+import React, { useState, useRef, useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider'
 import LoginModal from '../../components/LoginModal'
 import ImagePlayBox from './ImagePlayBox'
@@ -87,7 +81,7 @@ function Carousel({
     setOpenLoginModal(false)
   }
 
-  const displayedItems = items.slice(0, 20)
+  const displayedItems = items?.slice(0, 20)
 
   // console.log(items)
   // console.log(displayedItems)
@@ -124,7 +118,7 @@ function Carousel({
         >
           <NavigateBefore />
         </IconButton>
-        {displayedItems.map((song, i) => (
+        {displayedItems?.map((song, i) => (
           <Box
             key={i}
             display='flex'

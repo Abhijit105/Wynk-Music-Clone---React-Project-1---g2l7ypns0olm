@@ -29,11 +29,11 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
     },
     maxPages: 26,
     staleTime: 1000 * 2 * 60,
-    enabled: !!hasNextPageAllSongs,
+    enabled: hasNextPageAllSongs,
   })
 
   useEffect(() => {
-    if (!dataAllSongs) return
+    if (!dataAllSongs || dataAllSongs.pageParams.length === 26) return
 
     fetchNextPageAllSongs()
     setAllSongs(dataAllSongs?.pages.flatMap(page => page.data))
@@ -41,11 +41,13 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
 
   const {
     data: dataAllAlbums,
+    isError: isErrorAllAlbums,
     error: errorAllAlbums,
     fetchNextPage: fetchNextPageAllAlbums,
     hasNextPage: hasNextPageAllAlbums,
     isLoading: isLoadingAllAlbums,
     isPending: isPendingAllAlbums,
+    isFetchedAfterMount: isFetchedAfterMountAllAlbums,
   } = useInfiniteQuery({
     queryKey: ['Albums'],
     queryFn: ({ pageParam }) =>
@@ -59,11 +61,11 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
     },
     maxPages: 4,
     staleTime: 1000 * 2 * 60,
-    enabled: !!hasNextPageAllAlbums,
+    enabled: hasNextPageAllAlbums,
   })
 
   useEffect(() => {
-    if (!dataAllAlbums) return
+    if (!dataAllAlbums || dataAllAlbums.pageParams.length === 4) return
 
     fetchNextPageAllAlbums()
     setAllAlbums(dataAllAlbums?.pages.flatMap(page => page.data))

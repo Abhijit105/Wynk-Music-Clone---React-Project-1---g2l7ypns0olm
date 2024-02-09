@@ -11,6 +11,8 @@ import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
 import { AuthContext } from '../../contexts/AuthProvider'
 import ArtistsModal from '../ArtistsModal'
+import { useQuery } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
 
 function Album() {
   const [artists, setArtists] = useState([])
@@ -18,7 +20,8 @@ function Album() {
   const [album, setAlbum] = useState(null)
   const [error, setError] = useState('')
   const [songs, setSongs] = useState([])
-  const [isLoadingImage, setIsLoadignImage] = useState(true)
+  const [isLoadingImageAlbum, setIsLoadingImageAlbum] = useState(true)
+  const [isLoadingImageArtist, setIsLoadingImageArtist] = useState(true)
   const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
@@ -29,8 +32,12 @@ function Album() {
 
   const { webToken } = useContext(AuthContext)
 
-  const loadHandler = function () {
-    setIsLoadignImage(false)
+  const loadHandlerAlbum = function () {
+    setIsLoadingImageAlbum(false)
+  }
+
+  const loadHandlerArtist = function () {
+    setIsLoadingImageArtist(false)
   }
 
   const playSongsClickHandler = function () {
@@ -60,40 +67,60 @@ function Album() {
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(`${BASEURL}/album/${_id}`, {
-        headers: { projectId: 'g2l7ypns0olm' },
-      })
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      // console.log(data)
-      const result = data.data
-      setAlbum(result)
-      const songsResult = data.data.songs
-      setSongs(songsResult)
-      const artistsResult = data.data.artists
-      setArtists(artistsResult)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  // const fetchData = async () => {
+  //   try {
+  //     setIsLoading(true)
+  //     const response = await fetch(`${BASEURL}/album/${_id}`, {
+  //       headers: { projectId: 'g2l7ypns0olm' },
+  //     })
+  //     if (!response.ok)
+  //       throw new Error('Something went wrong while fetching songs for you.')
+  //     const data = await response.json()
+  //     // console.log(data)
+  //     const result = data.data
+  //     setAlbum(result)
+  //     const songsResult = data.data.songs
+  //     setSongs(songsResult)
+  //     const artistsResult = data.data.artists
+  //     setArtists(artistsResult)
+  //   } catch (err) {
+  //     setError(err.message)
+  //     // console.error(err.message)
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (error) return
+
+  //   fetchData()
+  // }, [])
+
+  const {
+    data: dataAlbum,
+    isPending: isPendingAlbum,
+    isLoading: isLoadingAlbum,
+    isError: isErrorAlbum,
+    error: errorAlbum,
+  } = useQuery({
+    queryKey: ['Full', 'Album', _id],
+    queryFn: () => fetchData(`${BASEURL}/album/${_id}`),
+    staleTime: 1000 * 60 * 2,
+  })
 
   useEffect(() => {
-    if (error) return
+    if (!dataAlbum) return
 
-    fetchData()
-  }, [])
-
-  const songDisplayed = songs.at(0)
+    setAlbum(dataAlbum.data)
+    setSongs(dataAlbum.data.songs)
+    setArtists(dataAlbum.data.artists)
+  }, [dataAlbum])
 
   // console.log(artists)
+  // console.log(dataAlbum)
   // console.log(album)
+  // console.log(_id)
 
   return (
     <Box
@@ -113,13 +140,35 @@ function Album() {
       >
         <Box width={{ xs: '50%', md: '20%' }} flexShrink={'0'} flexGrow='1'>
           <Box
-            component={'img'}
-            src={songDisplayed?.thumbnail}
-            alt={songDisplayed?.title}
+            display={'flex'}
             width={'100%'}
-            borderRadius='1em'
+            height={'100%'}
+            position={'relative'}
             marginBottom='2em'
-          />
+          >
+            <Box
+              component={'img'}
+              src={album?.image}
+              alt={album?.title}
+              width={'100%'}
+              borderRadius='1em'
+              onLoad={loadHandlerAlbum}
+            />
+            {(isLoadingImageAlbum || isLoading) && (
+              <Box
+                width={'100%'}
+                height={'100%'}
+                position={'absolute'}
+                borderRadius={'1em'}
+                overflow={'hidden'}
+              >
+                <span
+                  className='loader'
+                  style={{ position: 'absolute' }}
+                ></span>
+              </Box>
+            )}
+          </Box>
           <Box
             display={{ xs: 'none', md: 'flex' }}
             flexDirection='column'
@@ -141,9 +190,9 @@ function Album() {
                   alt={artist.name}
                   width='5em'
                   borderRadius='50%'
-                  onLoad={loadHandler}
+                  onLoad={loadHandlerArtist}
                 />
-                {(isLoadingImage || isLoading) && (
+                {(isLoadingImageArtist || isLoading) && (
                   <span
                     className='loader-artist'
                     style={{ position: 'absolute' }}
@@ -169,7 +218,7 @@ function Album() {
           </Box>
         </Box>
         <Box flexGrow='1' display='flex' flexDirection='column' width={'100%'}>
-          <Typography variant='h4' marginBottom='0.25emem'>
+          <Typography variant='h4' marginBottom='0.25em'>
             {album?.title}
           </Typography>
           <Typography
@@ -311,8 +360,9 @@ function Album() {
               alt={artist.name}
               width='5em'
               borderRadius='50%'
+              onLoad={loadHandlerArtist}
             />
-            {(isLoadingImage || isLoading) && (
+            {(isLoadingImageArtist || isLoading) && (
               <span
                 className='loader-artist'
                 style={{ position: 'absolute' }}
