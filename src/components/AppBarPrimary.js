@@ -148,6 +148,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
   useEffect(() => {
     if (location.pathname !== '/search') {
       searchTermUpdate('')
+      document.querySelector('input').blur()
     }
   }, [location])
 

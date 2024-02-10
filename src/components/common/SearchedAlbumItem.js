@@ -20,6 +20,8 @@ function SearchedAlbumItem({ item, isLoadingData }) {
     searchTermUpdate('')
   }
 
+  // console.log(item)
+
   return (
     <Box
       display='flex'

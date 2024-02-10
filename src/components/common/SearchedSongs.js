@@ -105,6 +105,8 @@ function SearchedSongs() {
     })
 
   useEffect(() => {
+    if(!data) return
+
     setSearchedSongs(data?.pages.flatMap(page => page.data))
   }, [data])
 

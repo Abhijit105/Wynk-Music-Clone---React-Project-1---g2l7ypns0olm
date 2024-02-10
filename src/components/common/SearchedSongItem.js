@@ -19,6 +19,9 @@ function SearchedSongItem({ item, isLoadingData }) {
     navigate(`/albums/${albumId}`)
     searchTermUpdate('')
   }
+
+  // console.log(item)
+
   return (
     <Box
       display='flex'
@@ -63,10 +66,10 @@ function SearchedSongItem({ item, isLoadingData }) {
             <span>&bull;</span>
             <Box>
               {item.artist
-                .slice(0, 4)
+                ?.slice(0, 4)
                 .map(a => a.name)
                 .join(', ')}
-              {item.artist.length > 4 ? '...' : ''}
+              {item.artist?.length > 4 ? '...' : ''}
             </Box>
           </Box>
         </Typography>
