@@ -53,7 +53,7 @@ export const fetchSearchedSongs = async (searchTerm, pageParam = 1) => {
 
 export const fetchSearchedAlbums = async (searchTerm, pageParam = 1) => {
   const response = await fetch(
-    `${BASEURL}/album/?filter={"title":"${searchTerm}"}&page=${pageParam}&limit=20`,
+    `${BASEURL}/album?search={"title":"${searchTerm}"}&page=${pageParam}&limit=20`,
     {
       headers: { projectId: PROJECTID },
     }
@@ -67,7 +67,7 @@ export const fetchSearchedAlbums = async (searchTerm, pageParam = 1) => {
 
 export const fetchSearchedArtists = async (searchTerm, pageParam = 1) => {
   const response = await fetch(
-    `${BASEURL}/artist?search={"title":"${searchTerm}"}&page=${pageParam}&limit=20`,
+    `${BASEURL}/artist?search={"name":"${searchTerm}"}&page=${pageParam}&limit=20`,
     {
       headers: { projectId: PROJECTID },
     }

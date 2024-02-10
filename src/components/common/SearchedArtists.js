@@ -15,7 +15,8 @@ function SearchedArtists() {
   const { searchTerm } = useContext(AllContext)
 
   const clickHandler = function () {
-    setPage(page => page + 1)
+    // setPage(page => page + 1)
+    fetchNextPage()
   }
 
   // useEffect(() => {
@@ -111,7 +112,11 @@ function SearchedArtists() {
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>
       <Box>
         {searchedArtists.map((item, i) => (
-          <SearchedArtistItem key={i} item={item} isLoadingData={isLoading} />
+          <SearchedArtistItem
+            key={i}
+            item={item}
+            isLoadingData={isLoading || isPending}
+          />
         ))}
       </Box>
       <Button
