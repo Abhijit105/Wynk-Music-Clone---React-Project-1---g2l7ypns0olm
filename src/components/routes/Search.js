@@ -25,6 +25,7 @@ function Search() {
     <Box paddingX={{ xs: '1em', sm: '2em', md: '4em', lg: '6em' }}>
       <Tabs
         centered
+        textColor='inherit'
         value={value}
         onChange={(e, val) => {
           setValue(val)
