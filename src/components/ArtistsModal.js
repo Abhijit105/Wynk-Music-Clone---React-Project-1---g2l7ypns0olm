@@ -16,9 +16,12 @@ function ArtistsModal({ open, handleClose, artistItems, isLoadingData }) {
     navigate(`/artists/${artistId}`)
   }
 
+  // console.log(artistItems)
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
+        key={crypto.randomUUID()}
         sx={{
           padding: '1em',
           position: 'absolute',
@@ -43,9 +46,9 @@ function ArtistsModal({ open, handleClose, artistItems, isLoadingData }) {
         </Typography>
         {artistItems.map(item => (
           <Box
+            key={item?._id}
             display='flex'
             flexShrink={'0'}
-            key={item._id}
             alignItems='center'
             gap='1em'
             sx={{ cursor: 'pointer' }}
@@ -53,8 +56,8 @@ function ArtistsModal({ open, handleClose, artistItems, isLoadingData }) {
           >
             <Box
               component={'img'}
-              src={item.image}
-              alt={item.name}
+              src={item?.image}
+              alt={item?.name}
               width='5em'
               borderRadius='50%'
               onLoad={loadHandler}
@@ -65,7 +68,7 @@ function ArtistsModal({ open, handleClose, artistItems, isLoadingData }) {
                 style={{ position: 'absolute' }}
               ></span>
             )}
-            <Typography>{item.name}</Typography>
+            <Typography>{item?.name}</Typography>
           </Box>
         ))}
       </Box>

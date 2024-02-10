@@ -173,6 +173,7 @@ function AlbumSongItem({
                 width={'3em'}
                 key={i}
                 borderRadius={'0.375em'}
+                isLoadingData={isLoading}
               />
               <Typography>{item.title}</Typography>
             </Box>
@@ -220,7 +221,6 @@ function AlbumSongItem({
         <Grid
           container
           padding={isHovered ? '15px' : '1em'}
-          sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}
@@ -248,6 +248,7 @@ function AlbumSongItem({
                 width={'3em'}
                 key={i}
                 borderRadius={'0.375em'}
+                isLoadingData={isLoading}
               />
               <Box>
                 <Typography>{item.title}</Typography>

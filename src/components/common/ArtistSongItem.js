@@ -19,17 +19,14 @@ import ImagePlayBox from './ImagePlayBox'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
 import ArtistsModal from '../ArtistsModal'
+import { useQuery, useQueries, useMutation } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
+import { PROJECTID } from '../../config/config'
 
-function ArtistSongItem({ i, item, songItems }) {
+function ArtistSongItem({ i, item, songItems, isLoading }) {
   const [artists, setArtists] = useState([])
   const [album, setAlbum] = useState(null)
-  const [isLoadingAlbum, setIsLoadingAlbum] = useState(false)
-  const [errorAlbum, setErrorAlbum] = useState('')
-  const [isLoadingArtists, setIsLoadingArtists] = useState(false)
-  const [errorArtists, setErrorArtists] = useState('')
   const [openLoginModal, setOpenLoginModal] = React.useState(false)
-  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
-  const [errorFavorite, setErrorFavorite] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
   const [isHovered, setIsHovered] = useState(false)
@@ -88,15 +85,25 @@ function ArtistSongItem({ i, item, songItems }) {
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
-  const favoriteHandler = async function (event, songId) {
-    try {
-      event.stopPropagation()
-      setIsLoadingFavorite(true)
+  const favoriteHandler = function (event, selectedSongId) {
+    event.stopPropagation()
+    mutate(selectedSongId)
+  }
+
+  const {
+    mutate,
+    isLoading: isLoadingFavorite,
+    isPending: isPendingFavorite,
+    isError: isErrorFavorite,
+    error: errorFavorite,
+    data: dataFavorite,
+  } = useMutation({
+    mutationFn: async songId => {
       const response = await fetch(`${BASEURL3}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${webToken.token}`,
-          projectId: 'g2l7ypns0olm',
+          projectId: `${PROJECTID}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ songId: songId }),
@@ -105,79 +112,72 @@ function ArtistSongItem({ i, item, songItems }) {
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
-      setMessageSnackbar(data.message)
+      return data
+    },
+    onSuccess: response => {
+      setMessageSnackbar(response.message)
       setOpenSnackbar(true)
-      // console.log(data)
-    } catch (err) {
-      setErrorFavorite(err.message)
-      setMessageSnackbar(err.message)
+    },
+    onError: error => {
+      setMessageSnackbar(error.message)
       setOpenSnackbar(true)
-      // console.error(err.message)
-    } finally {
-      setIsLoadingFavorite(false)
-    }
-  }
+    },
+  })
 
-  const fetchDataAlbum = async () => {
-    try {
-      setIsLoadingAlbum(true)
-      const response = await fetch(`${BASEURL}/album/${item.album}`, {
-        headers: { projectId: 'g2l7ypns0olm' },
-      })
-      // console.log(response)
-      if (!response.ok) {
-        throw new Error('Something went wrong while fetching songs for you.')
-      }
-      const data = await response.json()
-      // console.log(data)
-      const result = data.data
-      setAlbum(result)
-    } catch (err) {
-      setErrorAlbum(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoadingAlbum(false)
-    }
-  }
+  const {
+    data: dataAlbum,
+    isPending: isPendingAlbum,
+    isLoading: isLoadingAlbum,
+    isError: isErrorAlbum,
+    error: errorAlbum,
+  } = useQuery({
+    queryKey: ['Album', item.album],
+    queryFn: () => fetchData(`${BASEURL}/album/${item?.album || ''}`),
+    staleTime: 1000 * 60 * 2,
+  })
 
   useEffect(() => {
-    if (errorAlbum) return
+    if (!dataAlbum) return
+    setAlbum(dataAlbum.data)
+  }, [dataAlbum])
 
-    fetchDataAlbum()
-  }, [])
-
-  const fetchDataArtists = async () => {
-    for await (const artistId of item.artist) {
-      try {
-        setIsLoadingArtists(true)
-        const response = await fetch(`${BASEURL}/artist/${artistId}`, {
-          headers: { projectId: 'g2l7ypns0olm' },
-        })
-        // console.log(response)
-        if (!response.ok) {
-          throw new Error('Something went wrong while fetching songs for you.')
-        }
-        const data = await response.json()
-        // console.log(data)
-        const result = data.data
-        setArtists(artists => [...artists, result])
-      } catch (err) {
-        setErrorArtists(err.message)
-        // console.error(err.message)
-      } finally {
-        setIsLoadingArtists(false)
+  const combinedQueries = useQueries({
+    queries: item.artist.map(id => ({
+      queryKey: ['Artist', id],
+      queryFn: () => fetchData(`${BASEURL}/artist/${id}`),
+      staleTime: 1000 * 60 * 2,
+    })),
+    combine: results => {
+      return {
+        data: results.map(result => result.data),
+        isLoadingArtists: results.some(result => result.isLoading),
+        isPendingArtists: results.some(result => result.isPending),
+        isErrorArtists: results.some(result => result.isError),
+        errorArtists: results.map(result => result.error),
       }
-    }
-  }
+    },
+  })
+
+  const {
+    data,
+    isLoadingArtists,
+    isPendingArtists,
+    isErrorArtists,
+    errorArtists,
+  } = combinedQueries
 
   useEffect(() => {
-    if (errorArtists) return
+    if (!data) return
 
-    fetchDataArtists()
-  }, [])
+    setArtists(data.map(obj => obj?.data))
+  }, [data])
 
   // console.log(item)
   // console.log(album)
+  // console.log(dataAlbum)
+  // console.log(combinedQueries)
+  // console.log(data)
+  // console.log(dataFavorite)
 
   return (
     <>
@@ -214,6 +214,13 @@ function ArtistSongItem({ i, item, songItems }) {
                 width={'3em'}
                 key={i}
                 borderRadius={'0.375em'}
+                isLoadingData={
+                  isLoading ||
+                  isLoadingAlbum ||
+                  isPendingAlbum ||
+                  isLoadingArtists ||
+                  isPendingArtists
+                }
               />
               <Typography>{item?.title}</Typography>
             </Box>
@@ -222,7 +229,7 @@ function ArtistSongItem({ i, item, songItems }) {
             <Typography color='rgba(255, 255, 255, 0.7)'>
               {artists
                 .slice(0, 4)
-                .map(a => a.name)
+                .map(a => a?.name)
                 .join(', ')}
               {artists.length > 4 ? '...' : ''}
               {artists.length > 4 && (
@@ -261,7 +268,6 @@ function ArtistSongItem({ i, item, songItems }) {
         <Grid
           container
           padding={isHovered ? '15px' : '1em'}
-          sx={{ cursor: 'pointer' }}
           onClick={event =>
             webToken ? clickHandler(i) : handleOpenLoginModal(event)
           }
@@ -291,13 +297,20 @@ function ArtistSongItem({ i, item, songItems }) {
                 width={'3em'}
                 key={i}
                 borderRadius={'0.375em'}
+                isLoadingData={
+                  isLoading ||
+                  isLoadingAlbum ||
+                  isPendingAlbum ||
+                  isLoadingArtists ||
+                  isPendingArtists
+                }
               />
               <Box>
                 <Typography>{item?.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
                   {artists
                     .slice(0, 4)
-                    .map(a => a.name)
+                    .map(a => a?.name)
                     .join(', ')}
                   {artists.length > 4 ? '...' : ''}
                   {artists.length > 4 && (
@@ -334,7 +347,7 @@ function ArtistSongItem({ i, item, songItems }) {
         open={openArtistsModal}
         handleClose={handleCloseArtistsModal}
         artistItems={artists}
-        isLoadingData={isLoadingArtists}
+        isLoadingData={isLoading || isLoadingArtists || isPendingArtists}
       />
       <Snackbar
         open={openSnackbar}

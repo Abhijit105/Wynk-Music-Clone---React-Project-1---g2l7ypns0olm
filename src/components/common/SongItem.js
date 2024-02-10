@@ -127,7 +127,7 @@ function SongItem({
     isError: isErrorAlbum,
     error: errorAlbum,
   } = useQuery({
-    queryKey: ['Album', item._id],
+    queryKey: ['Album', item.album],
     queryFn: () => fetchData(`${BASEURL}/album/${item?.album || ''}`),
     staleTime: 1000 * 60 * 2,
   })
@@ -234,7 +234,6 @@ function SongItem({
         <Grid
           container
           padding={isHovered ? '15px' : '1em'}
-          sx={{ cursor: 'pointer' }}
           onClick={e => (webToken ? clickHandler(i) : handleOpenLoginModal(e))}
           justifyContent={'end'}
           flexWrap={'nowrap'}

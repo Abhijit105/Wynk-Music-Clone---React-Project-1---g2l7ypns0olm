@@ -11,12 +11,13 @@ import { darkTheme } from '../App'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { PlayArrow } from '@mui/icons-material'
 import { AuthContext } from '../../contexts/AuthProvider'
+import { useQuery } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
 
 function Artist() {
-  const [isLoading, setIsLoading] = useState(false)
   const [artist, setArtist] = useState(null)
   const [songs, setSongs] = useState([])
-  const [error, setError] = useState('')
+  const [isLoadingImageArtist, setIsLoadingImageArtist] = useState(true)
 
   const { playlist, setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -29,39 +30,35 @@ function Artist() {
     setTrack(0)
   }
 
+  const loadHandlerArtist = function () {
+    setIsLoadingImageArtist(false)
+  }
+
   const matchesExtraSmallScreen = useMediaQuery(theme =>
     theme.breakpoints.up('xs')
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(`${BASEURL}/artist/${_id}`, {
-        headers: { projectId: 'g2l7ypns0olm' },
-      })
-      if (!response.ok) {
-        throw new Error('Something went wrong while fetching songs for you.')
-      }
-      const data = await response.json()
-      // console.log(data)
-      const result = data.data
-      setArtist(result)
-      const songsResult = data.data.songs
-      setSongs(songsResult)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const isLoading = isLoadingArtist || isPendingArtist
+
+  const {
+    data: dataArtist,
+    isPending: isPendingArtist,
+    isLoading: isLoadingArtist,
+    isError: isErrorArtist,
+    error: errorArtist,
+  } = useQuery({
+    queryKey: ['Artist', _id],
+    queryFn: () => fetchData(`${BASEURL}/artist/${_id}`),
+    staleTime: 1000 * 60 * 2,
+  })
 
   useEffect(() => {
-    if (error) return
+    if (!dataArtist) return
 
-    fetchData()
-  }, [])
+    setArtist(dataArtist.data)
+    setSongs(dataArtist.data.songs)
+  }, [dataArtist])
 
   // console.log(artist)
   // console.log(songs)
@@ -84,13 +81,38 @@ function Artist() {
       >
         <Box width={{ xs: '50%', md: '20%' }} flexShrink={'0'} flexGrow='1'>
           <Box
-            component={'img'}
-            src={artist?.image}
-            alt={artist?.name}
+            display={'flex'}
+            position={'relative'}
             width={'100%'}
-            borderRadius='50%'
+            height={'100%'}
             marginBottom='2em'
-          />
+          >
+            <Box
+              component={'img'}
+              src={artist?.image}
+              alt={artist?.name}
+              width={'100%'}
+              borderRadius='50%'
+              onLoad={loadHandlerArtist}
+            />
+            {(isLoadingImageArtist || isLoading) && (
+              <Box
+                display={'flex'}
+                position={'absolute'}
+                width={'100%'}
+                height={'100%'}
+              >
+                <span
+                  className='loader-artist'
+                  style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                ></span>
+              </Box>
+            )}
+          </Box>
           <Typography variant='subtitle1' fontSize='1.375em'>
             About {artist?.name}
           </Typography>
@@ -192,6 +214,7 @@ function Artist() {
               item={song}
               i={i}
               songItems={songs}
+              isLoading={isLoading}
             />
           ))}
         </Box>

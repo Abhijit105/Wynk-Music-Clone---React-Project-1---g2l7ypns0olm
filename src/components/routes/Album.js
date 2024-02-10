@@ -278,7 +278,7 @@ function Album() {
               i={i}
               songItems={songs}
               allArtists={artists}
-              isLoading={isLoadingAlbum}
+              isLoading={isLoadingAlbum || isPendingAlbum}
             />
           ))}
         </Box>
