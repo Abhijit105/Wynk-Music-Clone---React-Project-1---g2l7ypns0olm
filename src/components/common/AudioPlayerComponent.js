@@ -84,7 +84,7 @@ function AudioPlayerComponent() {
 
     // console.log('fetching')
     fetchData()
-  }, [track])
+  }, [track, playlist])
 
   useEffect(() => {
     player.current.audio.current.pause()
