@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ImagePlayBox from './ImagePlayBox'
 
-function ArtistsPage({ title, artistItems }) {
+function ArtistsPage({ title, artistItems, isLoading }) {
   const navigate = useNavigate()
 
   const clickHandler = function (artistId) {
@@ -47,6 +47,7 @@ function ArtistsPage({ title, artistItems }) {
               alt={artist.name}
               width={'100%'}
               borderRadius={'1em'}
+              isLoadingData={isLoading}
             />
             <Typography variant='h6'>{artist.name}</Typography>
           </Box>

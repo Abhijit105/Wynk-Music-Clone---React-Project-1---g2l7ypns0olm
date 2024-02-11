@@ -1,42 +1,31 @@
 import React, { useEffect, useState } from 'react'
-
+import { useQuery } from '@tanstack/react-query'
 import ArtistsPage from '../common/ArtistsPage'
 import { Box } from '@mui/material'
 import BestWay from '../common/BestWay'
+import { fetchData } from '../../utility/http'
+import { BASEURL } from '../../config/config'
 
 function Artists() {
   const [artists, setArtists] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/music/artist?page=1&limit=50`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching songs for you.')
-      const data = await response.json()
-      // console.log(data)
-      const result = data.data
-      setArtists(result)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const {
+    data: dataArtists,
+    isPending: isPendingArtists,
+    isLoading: isLoadingArtists,
+    isError: isErrorArtists,
+    error: errorArtists,
+  } = useQuery({
+    queryKey: ['Artists'],
+    queryFn: () => fetchData(`${BASEURL}/artist/?page=1&limit=50`),
+    staleTime: 1000 * 60 * 2,
+  })
 
   useEffect(() => {
-    if (error) return
+    if (!dataArtists) return
 
-    fetchData()
-  }, [])
+    setArtists(dataArtists.data)
+  }, [dataArtists])
 
   // console.log(artists)
 
@@ -49,7 +38,11 @@ function Artists() {
         alignItems='center'
         width='100%'
       >
-        <ArtistsPage title='Top Artists' artistItems={artists} />
+        <ArtistsPage
+          title='Top Artists'
+          artistItems={artists}
+          isLoading={isLoadingArtists || isPendingArtists}
+        />
         <BestWay />
       </Box>
     </>

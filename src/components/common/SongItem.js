@@ -306,7 +306,7 @@ function SongItem({
         open={openArtistsModal}
         handleClose={handleCloseArtistsModal}
         artistItems={item.artist}
-        isLoadingData={isLoadingAlbum}
+        isLoadingData={isLoadingAlbum || isPendingAlbum}
       />
       <Snackbar
         open={openSnackbar}
