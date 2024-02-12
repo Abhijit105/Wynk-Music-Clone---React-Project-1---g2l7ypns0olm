@@ -90,14 +90,6 @@ function PasswordChangeModal({ open, handleClose }) {
     setPassword('')
   }
 
-  // useEffect(() => {
-  //   setName('')
-  //   setEmail('')
-  //   setPasswordCurrent('')
-  //   setPassword('')
-  //   setMessage('')
-  // }, [webToken])
-
   useEffect(() => {
     if (!webToken) return
 

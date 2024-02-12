@@ -6,17 +6,18 @@ import AppStore from '../assets/img/appstore.png'
 import { darkTheme } from './App'
 import Login from './common/Login'
 import Signup from './common/Signup'
-import { BASEURL2 } from '../config/config'
+import { BASEURL2, PROJECTID } from '../config/config'
 import { AuthContext } from '../contexts/AuthProvider'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
 
 function LoginModal({ open, handleClose }) {
   const [value, setValue] = useState(0)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
@@ -31,7 +32,6 @@ function LoginModal({ open, handleClose }) {
     setEmail('')
     setPassword('')
     setMessage('')
-    setError('')
     setValue(0)
   }
 
@@ -43,7 +43,89 @@ function LoginModal({ open, handleClose }) {
     setOpenSnackbar(false)
   }
 
-  const signUpHandler = async function () {
+  // const signUpHandler = async function () {
+  //   if (!name || !email || !password) {
+  //     setMessage('Enter all the fields')
+  //     return
+  //   }
+  //   const user = {
+  //     name,
+  //     email,
+  //     password,
+  //     appType: 'music',
+  //   }
+  //   try {
+  //     setIsLoading(true)
+  //     const response = await fetch(`${BASEURL2}/signup`, {
+  //       method: 'POST',
+  //       headers: {
+  //         projectId: 'g2l7ypns0olm',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ ...user }),
+  //     })
+  //     if (!response.ok) {
+  //       throw new Error('Something went wrong during sign up.')
+  //     }
+  //     const data = await response.json()
+  //     console.log(data)
+  //     const { token, status } = data
+  //     login({ token, status })
+  //     setMessageSnackbar('sign up & login successful')
+  //     setOpenSnackbar(true)
+  //   } catch (err) {
+  //     setError(err.message)
+  //     // console.error(err.message)
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  //   setName('')
+  //   setEmail('')
+  //   setPassword('')
+  // }
+
+  const {
+    mutate: mutateSignUp,
+    isLoading: isLoadingSignUp,
+    isPending: isPendingSignUp,
+    isError: isErrorSignUp,
+    error: errorSignUp,
+    data: dataSignUp,
+  } = useMutation({
+    mutationFn: async user => {
+      const response = await fetch(`${BASEURL2}/signup`, {
+        method: 'POST',
+        headers: {
+          projectId: PROJECTID,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...user }),
+      })
+      if (!response.ok) {
+        throw new Error('Something went wrong during signup.')
+      }
+      const data = await response.json()
+      // console.log(data)
+      const { token, status } = data
+      login({ token, status })
+      return data
+    },
+    onSuccess: response => {
+      // console.log(response)
+      if (response.status === 'success') {
+        setMessageSnackbar(
+          `signup successful, welcome ${response.data.user.name}`
+        )
+        setOpenSnackbar(true)
+      }
+    },
+    onError: error => {
+      setMessageSnackbar(error.message)
+      setOpenSnackbar(true)
+    },
+  })
+
+  const signUpHandler = function () {
     if (!name || !email || !password) {
       setMessage('Enter all the fields')
       return
@@ -54,58 +136,67 @@ function LoginModal({ open, handleClose }) {
       password,
       appType: 'music',
     }
-    try {
-      setIsLoading(true)
-      const response = await fetch(`${BASEURL2}/signup`, {
-        method: 'POST',
-        headers: {
-          projectId: 'g2l7ypns0olm',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...user }),
-      })
-      if (!response.ok) {
-        throw new Error('Something went wrong during sign up.')
-      }
-      const data = await response.json()
-      console.log(data)
-      const { token, status } = data
-      login({ token, status })
-      setMessageSnackbar('sig up & login successful')
-      setOpenSnackbar(true)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-    setName('')
-    setEmail('')
-    setPassword('')
+    mutateSignUp(user)
   }
 
-  const loginHandler = async function () {
-    if (!email || !password) {
-      setMessage('Enter all the fields')
-      setError('')
-      return
-    }
-    const user = {
-      email,
-      password,
-      appType: 'music',
-    }
-    try {
-      setIsLoading(true)
+  // const loginHandler = async function () {
+  //   if (!email || !password) {
+  //     setMessage('Enter all the fields')
+  //     setError('')
+  //     return
+  //   }
+  //   const user = {
+  //     email,
+  //     password,
+  //     appType: 'music',
+  //   }
+  //   try {
+  //     setIsLoading(true)
+  //     const response = await fetch(`${BASEURL2}/login`, {
+  //       method: 'POST',
+  //       headers: {
+  //         projectId: 'g2l7ypns0olm',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ ...user }),
+  //     })
+  //     // console.log(response)
+  //     if (!response.ok) {
+  //       throw new Error('Something went wrong during login.')
+  //     }
+  //     const data = await response.json()
+  //     // console.log(data)
+  //     const { token, status } = data
+  //     login({ token, status })
+  //     setMessageSnackbar('login successful')
+  //     setOpenSnackbar(true)
+  //   } catch (err) {
+  //     setError(err.message)
+  //     // console.error(err.message)
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  //   setEmail('')
+  //   setPassword('')
+  // }
+
+  const {
+    mutate: mutateLogin,
+    isLoading: isLoadingLogin,
+    isPending: isPendingLogin,
+    isError: isErrorLogin,
+    error: errorLogin,
+    data: dataLogin,
+  } = useMutation({
+    mutationFn: async user => {
       const response = await fetch(`${BASEURL2}/login`, {
         method: 'POST',
         headers: {
-          projectId: 'g2l7ypns0olm',
+          projectId: PROJECTID,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ ...user }),
       })
-      // console.log(response)
       if (!response.ok) {
         throw new Error('Something went wrong during login.')
       }
@@ -113,16 +204,33 @@ function LoginModal({ open, handleClose }) {
       // console.log(data)
       const { token, status } = data
       login({ token, status })
-      setMessageSnackbar('login successful')
+      return data
+    },
+    onSuccess: response => {
+      // console.log(response)
+      if (response.status === 'success') {
+        setMessageSnackbar(`login successful, welcome ${response.data.name}`)
+        setOpenSnackbar(true)
+      }
+    },
+    onError: error => {
+      setMessageSnackbar(error.message)
       setOpenSnackbar(true)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
+    },
+  })
+
+  const loginHandler = function () {
+    if (!email || !password) {
+      setMessage('Enter all the fields')
+      return
     }
-    setEmail('')
-    setPassword('')
+    const user = {
+      email,
+      password,
+      appType: 'music',
+    }
+    mutateLogin(user)
+    // console.log(dataLogin)
   }
 
   useEffect(() => {
@@ -132,12 +240,13 @@ function LoginModal({ open, handleClose }) {
   }, [webToken])
 
   useEffect(() => {
-    if (!error) return
+    if (!errorSignUp && !errorLogin) return
 
     setMessage('Invalid username or password')
-  }, [error])
+  }, [errorSignUp, errorLogin])
 
   // console.log(error === '')
+  // console.log(dataLogin)
 
   return (
     <>
