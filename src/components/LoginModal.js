@@ -16,8 +16,6 @@ function LoginModal({ open, handleClose }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [isLoading, setIsLoading] = useState(false)
-  // const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
@@ -42,47 +40,6 @@ function LoginModal({ open, handleClose }) {
 
     setOpenSnackbar(false)
   }
-
-  // const signUpHandler = async function () {
-  //   if (!name || !email || !password) {
-  //     setMessage('Enter all the fields')
-  //     return
-  //   }
-  //   const user = {
-  //     name,
-  //     email,
-  //     password,
-  //     appType: 'music',
-  //   }
-  //   try {
-  //     setIsLoading(true)
-  //     const response = await fetch(`${BASEURL2}/signup`, {
-  //       method: 'POST',
-  //       headers: {
-  //         projectId: 'g2l7ypns0olm',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ ...user }),
-  //     })
-  //     if (!response.ok) {
-  //       throw new Error('Something went wrong during sign up.')
-  //     }
-  //     const data = await response.json()
-  //     console.log(data)
-  //     const { token, status } = data
-  //     login({ token, status })
-  //     setMessageSnackbar('sign up & login successful')
-  //     setOpenSnackbar(true)
-  //   } catch (err) {
-  //     setError(err.message)
-  //     // console.error(err.message)
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  //   setName('')
-  //   setEmail('')
-  //   setPassword('')
-  // }
 
   const {
     mutate: mutateSignUp,
@@ -138,47 +95,6 @@ function LoginModal({ open, handleClose }) {
     }
     mutateSignUp(user)
   }
-
-  // const loginHandler = async function () {
-  //   if (!email || !password) {
-  //     setMessage('Enter all the fields')
-  //     setError('')
-  //     return
-  //   }
-  //   const user = {
-  //     email,
-  //     password,
-  //     appType: 'music',
-  //   }
-  //   try {
-  //     setIsLoading(true)
-  //     const response = await fetch(`${BASEURL2}/login`, {
-  //       method: 'POST',
-  //       headers: {
-  //         projectId: 'g2l7ypns0olm',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ ...user }),
-  //     })
-  //     // console.log(response)
-  //     if (!response.ok) {
-  //       throw new Error('Something went wrong during login.')
-  //     }
-  //     const data = await response.json()
-  //     // console.log(data)
-  //     const { token, status } = data
-  //     login({ token, status })
-  //     setMessageSnackbar('login successful')
-  //     setOpenSnackbar(true)
-  //   } catch (err) {
-  //     setError(err.message)
-  //     // console.error(err.message)
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  //   setEmail('')
-  //   setPassword('')
-  // }
 
   const {
     mutate: mutateLogin,
