@@ -22,6 +22,7 @@ import ArtistsModal from '../ArtistsModal'
 import { useQuery, useQueries, useMutation } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
 import { PROJECTID } from '../../config/config'
+import { Link, useNavigate } from 'react-router-dom'
 
 function ArtistSongItem({ i, item, songItems, isLoading }) {
   const [artists, setArtists] = useState([])
@@ -32,6 +33,8 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   const [isHovered, setIsHovered] = useState(false)
   const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
+  const navigate = useNavigate()
+
   const { webToken } = useContext(AuthContext)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
@@ -39,6 +42,18 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   const clickHandler = function (i) {
     setPlaylist(songItems)
     setTrack(i)
+  }
+
+  const artistClickHandler = function (event, artistId) {
+    event.preventDefault()
+    event.stopPropagation()
+    navigate(`/artists/${artistId}`)
+  }
+
+  const albumClickHandler = function (event, albumId) {
+    event.preventDefault()
+    event.stopPropagation()
+    navigate(`/albums/${albumId}`)
   }
 
   const handleOpenLoginModal = event => {
@@ -227,10 +242,14 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
           </Grid>
           <Grid item key={crypto.randomUUID()} md={4}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {artists
-                .slice(0, 4)
-                .map(a => a?.name)
-                .join(', ')}
+              {artists.slice(0, 4).map((a, i, arr) => (
+                <Box key={i} component={'span'}>
+                  <Link onClick={event => artistClickHandler(event, a?._id)}>
+                    {a?.name}
+                  </Link>
+                  <span>{i !== arr.length - 1 ? ', ' : ''}</span>
+                </Box>
+              ))}
               {artists.length > 4 ? '...' : ''}
               {artists.length > 4 && (
                 <Button
@@ -245,7 +264,9 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
           </Grid>
           <Grid item key={crypto.randomUUID()} md={3}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {album?.title}
+              <Link onClick={event => albumClickHandler(event, album?._id)}>
+                {album?.title}
+              </Link>
             </Typography>
           </Grid>
           <Grid item key={crypto.randomUUID()} md={'auto'}>
@@ -308,10 +329,16 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
               <Box>
                 <Typography>{item?.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
-                  {artists
-                    .slice(0, 4)
-                    .map(a => a?.name)
-                    .join(', ')}
+                  {artists.slice(0, 4).map((a, i, arr) => (
+                    <Box key={i} component={'span'}>
+                      <Link
+                        onClick={event => artistClickHandler(event, a?._id)}
+                      >
+                        {a?.name}
+                      </Link>
+                      <span>{i !== arr.length - 1 ? ', ' : ''}</span>
+                    </Box>
+                  ))}
                   {artists.length > 4 ? '...' : ''}
                   {artists.length > 4 && (
                     <Button

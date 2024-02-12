@@ -44,9 +44,9 @@ function ArtistsModal({ open, handleClose, artistItems, isLoadingData }) {
         <Typography fontSize={'1.5em'} marginBottom={'1em'}>
           Artists
         </Typography>
-        {artistItems.map(item => (
+        {artistItems.map((item, i) => (
           <Box
-            key={item?._id}
+            key={i}
             display='flex'
             flexShrink={'0'}
             alignItems='center'

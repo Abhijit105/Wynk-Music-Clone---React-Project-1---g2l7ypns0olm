@@ -19,6 +19,7 @@ import { PlayerContext } from '../../contexts/PlayerProvider'
 import { darkTheme } from '../App'
 import ArtistsModal from '../ArtistsModal'
 import { useMutation } from '@tanstack/react-query'
+import { Link, useNavigate } from 'react-router-dom'
 
 function AlbumSongItem({
   albumName,
@@ -35,6 +36,8 @@ function AlbumSongItem({
   const [isHovered, setIsHovered] = useState(false)
   const [openArtistsModal, setOpenArtistsModal] = React.useState(false)
 
+  const navigate = useNavigate()
+
   const { webToken } = useContext(AuthContext)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
@@ -42,6 +45,18 @@ function AlbumSongItem({
   const clickHandler = function (i) {
     setPlaylist(songItems)
     setTrack(i)
+  }
+
+  const artistClickHandler = function (event, artistId) {
+    event.preventDefault()
+    event.stopPropagation()
+    navigate(`/artists/${artistId}`)
+  }
+
+  const albumClickHandler = function (event, albumId) {
+    event.preventDefault()
+    event.stopPropagation()
+    navigate(`/albums/${albumId}`)
   }
 
   const handleOpenLoginModal = event => {
@@ -136,6 +151,7 @@ function AlbumSongItem({
     }
   }, [isLoading])
 
+  // console.log(item)
   // console.log(item.artist)
   // console.log(allArtists)
   // console.log(artists)
@@ -180,10 +196,14 @@ function AlbumSongItem({
           </Grid>
           <Grid item md={4} key={3}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {artists
-                .slice(0, 4)
-                .map(a => a.name)
-                .join(', ')}
+              {artists.slice(0, 4).map((a, i, arr) => (
+                <Box key={a._id} component={'span'}>
+                  <Link onClick={event => artistClickHandler(event, a._id)}>
+                    {a.name}
+                  </Link>
+                  <span>{i !== arr.length - 1 ? ', ' : ''}</span>
+                </Box>
+              ))}
               {artists.length > 4 ? '...' : ''}
               {artists.length > 4 && (
                 <Button
@@ -198,7 +218,9 @@ function AlbumSongItem({
           </Grid>
           <Grid item md={3} key={4}>
             <Typography color='rgba(255, 255, 255, 0.7)'>
-              {albumName}
+              <Link onClick={event => albumClickHandler(event, item.album)}>
+                {albumName}
+              </Link>
             </Typography>
           </Grid>
           <Grid item md={'auto'} key={5}>
@@ -253,10 +275,14 @@ function AlbumSongItem({
               <Box>
                 <Typography>{item.title}</Typography>
                 <Typography color='rgba(255, 255, 255, 0.7)'>
-                  {artists
-                    .slice(0, 4)
-                    .map(a => a.name)
-                    .join(', ')}
+                  {artists.slice(0, 4).map((a, i, arr) => (
+                    <Box key={a._id} component={'span'}>
+                      <Link onClick={event => artistClickHandler(event, a._id)}>
+                        {a.name}
+                      </Link>
+                      <span>{i !== arr.length - 1 ? ', ' : ''}</span>
+                    </Box>
+                  ))}
                   {artists.length > 4 ? '...' : ''}
                   {artists.length > 4 && (
                     <Button
