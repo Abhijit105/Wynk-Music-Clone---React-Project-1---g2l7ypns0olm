@@ -10,17 +10,16 @@ import {
 import { darkTheme } from './App'
 import ModalImage from '../assets/img/modalimage.png'
 import { useState } from 'react'
-import { BASEURL2 } from '../config/config'
+import { BASEURL2, PROJECTID } from '../config/config'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthProvider'
+import { useMutation } from '@tanstack/react-query'
 
 function PasswordChangeModal({ open, handleClose }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [passwordCurrent, setPasswordCurrent] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
@@ -34,7 +33,6 @@ function PasswordChangeModal({ open, handleClose }) {
     setPasswordCurrent('')
     setPassword('')
     setMessage('')
-    setError('')
   }
 
   const handleCloseSnackbar = (event, reason) => {
@@ -45,26 +43,20 @@ function PasswordChangeModal({ open, handleClose }) {
     setOpenSnackbar(false)
   }
 
-  const passwordChangeHandler = async function () {
-    if (!name || !email || !passwordCurrent || !password) {
-      setMessage('Enter all the fields')
-      setError('')
-      return
-    }
-    const user = {
-      name,
-      email,
-      passwordCurrent,
-      password,
-      appType: 'music',
-    }
-    try {
-      setIsLoading(true)
+  const {
+    mutate: mutate,
+    isLoading: isLoading,
+    isPending: isPending,
+    isError: isError,
+    error: error,
+    data: data,
+  } = useMutation({
+    mutationFn: async user => {
       const response = await fetch(`${BASEURL2}/updateMyPassword`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${webToken.token}`,
-          projectId: 'g2l7ypns0olm',
+          projectId: PROJECTID,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ ...user }),
@@ -76,18 +68,34 @@ function PasswordChangeModal({ open, handleClose }) {
       // console.log(data)
       const { token, status } = data
       login({ token, status })
-      setMessageSnackbar('password change successful')
+      return data
+    },
+    onSuccess: response => {
+      // console.log(response)
+      if (response.status === 'success') {
+        setMessageSnackbar('password change successful')
+        setOpenSnackbar(true)
+      }
+    },
+    onError: error => {
+      setMessageSnackbar(error.message)
       setOpenSnackbar(true)
-    } catch (err) {
-      setError(err.message)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
+    },
+  })
+
+  const passwordChangeHandler = function () {
+    if (!name || !email || !passwordCurrent || !password) {
+      setMessage('Enter all the fields')
+      return
     }
-    setName('')
-    setEmail('')
-    setPasswordCurrent('')
-    setPassword('')
+    const user = {
+      name,
+      email,
+      passwordCurrent,
+      password,
+      appType: 'music',
+    }
+    mutate(user)
   }
 
   useEffect(() => {
@@ -99,7 +107,7 @@ function PasswordChangeModal({ open, handleClose }) {
   useEffect(() => {
     if (!error) return
 
-    setMessage('Invalid details')
+    setMessage('Invalid email and/or current password')
   }, [error])
 
   return (
