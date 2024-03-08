@@ -71,7 +71,7 @@ function LoginModal({ open, handleClose }) {
       console.log(data)
       const { token, status } = data
       login({ token, status })
-      setMessageSnackbar('sig up & login successful')
+      setMessageSnackbar('sign up & login successful')
       setOpenSnackbar(true)
     } catch (err) {
       setError(err.message)
