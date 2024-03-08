@@ -42,7 +42,8 @@ function FeaturedSongs({
         return lastPageParam + 1
       },
       maxPages: 2,
-      staleTime: 1000 * 60 * 2,
+      staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 30,
     })
 
   useEffect(() => {

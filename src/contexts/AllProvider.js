@@ -28,7 +28,8 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
       return lastPageParam + 1
     },
     maxPages: 26,
-    staleTime: 1000 * 2 * 60,
+    staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 30,
     enabled: hasNextPageAllSongs,
   })
 

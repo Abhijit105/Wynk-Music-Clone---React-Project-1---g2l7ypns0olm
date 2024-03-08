@@ -15,7 +15,6 @@ function SearchedAlbums() {
     fetchNextPage()
   }
 
-  
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
   const { data, isLoading, isPending, isError, error, fetchNextPage } =
@@ -30,7 +29,8 @@ function SearchedAlbums() {
         }
         return lastPageParam + 1
       },
-      staleTime: 1000 * 60 * 2,
+      staleTime: 1000 * 60 * 30,
+      gcTime: 1000 * 60 * 30,
       enabled: !!debouncedSearchTerm,
     })
 

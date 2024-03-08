@@ -148,7 +148,8 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   } = useQuery({
     queryKey: ['Album', item.album],
     queryFn: () => fetchData(`${BASEURL}/album/${item?.album || ''}`),
-    staleTime: 1000 * 60 * 2,
+    staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 30,
   })
 
   useEffect(() => {
@@ -160,7 +161,8 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
     queries: item.artist.map(id => ({
       queryKey: ['Artist', id],
       queryFn: () => fetchData(`${BASEURL}/artist/${id}`),
-      staleTime: 1000 * 60 * 2,
+      staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 30,
     })),
     combine: results => {
       return {
