@@ -120,6 +120,7 @@ function LoginModal({ open, handleClose }) {
       // console.log(data)
       const { token, status } = data
       login({ token, status })
+      const { name, email } = data.data
       return data
     },
     onSuccess: response => {

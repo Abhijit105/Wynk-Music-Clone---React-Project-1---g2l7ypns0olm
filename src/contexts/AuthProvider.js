@@ -5,6 +5,7 @@ export const AuthContext = createContext(null)
 
 function AuthProvider({ children }) {
   const [webToken, setWebToken] = useState(null)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     setWebToken(JSON.parse(localStorage.getItem('webToken')))

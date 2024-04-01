@@ -6,7 +6,7 @@ import { useDebounce } from '../useDebounce'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchSearchedArtists } from '../../utility/http'
 
-function SearchedArtists() {
+function SearchedArtists({ activeTab }) {
   const [searchedArtists, setSearchedArtists] = useState([])
 
   const { searchTerm } = useContext(AllContext)
@@ -31,7 +31,7 @@ function SearchedArtists() {
       },
       staleTime: 1000 * 60 * 30,
       gcTime: 1000 * 60 * 30,
-      enabled: !!debouncedSearchTerm,
+      enabled: !!debouncedSearchTerm && activeTab === 2,
     })
 
   useEffect(() => {
@@ -41,6 +41,7 @@ function SearchedArtists() {
   }, [data])
 
   // console.log(searchTerm)
+  // console.log(debouncedSearchTerm)
   // console.log(data)
 
   return (

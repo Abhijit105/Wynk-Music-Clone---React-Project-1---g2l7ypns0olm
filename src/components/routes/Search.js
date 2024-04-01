@@ -40,9 +40,9 @@ function Search() {
         paddingY={{ xs: '1em', md: '1.5em', xl: '2em' }}
         borderTop={`1px solid ${darkTheme.palette.divider}`}
       >
-        {value === 0 && <SearchedSongs />}
-        {value === 1 && <SearchedAlbums />}
-        {value === 2 && <SearchedArtists />}
+        {value === 0 && <SearchedSongs activeTab={value}/>}
+        {value === 1 && <SearchedAlbums activeTab={value} />}
+        {value === 2 && <SearchedArtists activeTab={value} />}
       </Box>
     </Box>
   )
