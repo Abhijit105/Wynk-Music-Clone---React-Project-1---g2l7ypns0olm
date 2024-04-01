@@ -375,7 +375,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
               onClose={handleCloseUserMenu}
             >
               {webToken && (
-                <Tooltip title={user.email} sx={{ cursor: 'auto' }}>
+                <Tooltip title={user?.email} sx={{ cursor: 'auto' }}>
                   <MenuItem>
                     <Typography
                       textAlign={'center'}
@@ -385,8 +385,8 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                       sx={{ cursor: 'auto' }}
                     >
                       <AccountBox />
-                      {user.name.slice(0, 13)}
-                      {user.name.length > 13 ? '...' : ''}
+                      {user?.name.slice(0, 13)}
+                      {user?.name.length > 13 ? '...' : ''}
                     </Typography>
                   </MenuItem>
                 </Tooltip>
