@@ -29,8 +29,8 @@ function SearchedArtists({ activeTab }) {
         }
         return lastPageParam + 1
       },
-      staleTime: 1000 * 60 * 30,
-      gcTime: 1000 * 60 * 30,
+      staleTime: Infinity,
+      gcTime: Infinity,
       enabled: !!debouncedSearchTerm && activeTab === 2,
     })
 

@@ -38,8 +38,8 @@ function MoodSongs({
         return lastPageParam + 1
       },
       maxPages: { numberOfPages },
-      staleTime: 1000 * 60 * 30,
-      gcTime: 1000 * 60 * 30,
+      staleTime: Infinity,
+      gcTime: Infinity,
     })
 
   useEffect(() => {

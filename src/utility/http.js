@@ -1,6 +1,4 @@
-import { useContext } from 'react'
-import { BASEURL, BASEURL3, PROJECTID } from '../config/config'
-import { AuthContext } from '../contexts/AuthProvider'
+import { BASEURL, PROJECTID } from '../config/config'
 
 export const fetchData = async apiUrl => {
   const response = await fetch(apiUrl, {

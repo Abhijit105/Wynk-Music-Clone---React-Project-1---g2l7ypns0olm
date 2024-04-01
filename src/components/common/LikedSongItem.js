@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Box, Typography } from '@mui/material'
 import { darkTheme } from '../App'
 import { BASEURL } from '../../config/config'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import ImagePlayBox from './ImagePlayBox'
+import { useQueries } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
 
-function LikedSongItem({ item, i, songItems }) {
+function LikedSongItem({ item, i, songItems, isLoading }) {
   const [artists, setArtists] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -17,37 +17,43 @@ function LikedSongItem({ item, i, songItems }) {
     setTrack(i)
   }
 
-  const fetchData = async () => {
-    for await (const artistId of item.artist) {
-      try {
-        setIsLoading(true)
-        const response = await fetch(`${BASEURL}/artist/${artistId}`, {
-          headers: { projectId: 'g2l7ypns0olm' },
-        })
-        // console.log(response)
-        if (!response.ok) {
-          throw new Error('Something went wrong while fetching songs for you.')
-        }
-        const data = await response.json()
-        // console.log(data)
-        const result = data.data
-        setArtists(artists => [...artists, result])
-      } catch (err) {
-        setError(err.message)
-        // console.error(err.message)
-      } finally {
-        setIsLoading(false)
+  const combinedQueries = useQueries({
+    queries: item?.artist.map(id => ({
+      queryKey: ['Artist', id],
+      queryFn: () => fetchData(`${BASEURL}/artist/${id}`),
+      staleTime: Infinity,
+      gcTime: Infinity,
+    })),
+    combine: results => {
+      return {
+        data: results.map(result => result.data),
+        isLoadingArtists: results.some(result => result.isLoading),
+        isPendingArtists: results.some(result => result.isPending),
+        isErrorArtists: results.some(result => result.isError),
+        errorArtists: results.map(result => result.error),
       }
-    }
-  }
+    },
+  })
+
+  const {
+    data,
+    isLoadingArtists,
+    isPendingArtists,
+    isErrorArtists,
+    errorArtists,
+  } = combinedQueries
 
   useEffect(() => {
-    if (error) return
+    if (data.some(d => !d)) return
 
-    fetchData()
-  }, [])
+    setArtists(data.map(obj => obj?.data))
+  }, [data])
 
   // console.log(artists)
+  // console.log(combinedQueries)
+  // console.log(item)
+  // console.log(isPendingArtists)
+  // console.log(data)
 
   return (
     <Box
@@ -75,10 +81,11 @@ function LikedSongItem({ item, i, songItems }) {
         alt={item.title}
         width={'100%'}
         borderRadius={'1em'}
+        isLoadingData={isLoadingArtists || isPendingArtists || isLoading}
       />
       <Typography variant='subtitle1'>{item.title}</Typography>
       <Typography variant='subtitle2' color={darkTheme.palette.text.secondary}>
-        {artists.map(a => a.name).join(', ')}
+        {artists.map(a => a?.name).join(', ')}
       </Typography>
     </Box>
   )

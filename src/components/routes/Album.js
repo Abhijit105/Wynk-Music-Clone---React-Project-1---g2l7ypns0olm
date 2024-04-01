@@ -74,8 +74,8 @@ function Album() {
   } = useQuery({
     queryKey: ['Album', _id],
     queryFn: () => fetchData(`${BASEURL}/album/${_id}`),
-    staleTime: 1000 * 60 * 30,
-    gcTime: 1000 * 60 * 30,
+    staleTime: Infinity,
+    gcTime: Infinity,
   })
 
   useEffect(() => {

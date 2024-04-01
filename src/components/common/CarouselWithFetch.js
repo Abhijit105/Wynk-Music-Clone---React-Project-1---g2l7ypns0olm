@@ -17,7 +17,8 @@ function CarouselWithFetch({
     queryKey: ['Songs', category, type],
     queryFn: () =>
       fetchData(`${BASEURL}/song?filter={"${category}":"${type}"}`),
-    staleTime: 1000 * 60 * 2,
+    staleTime: Infinity,
+    gcTime: Infinity,
   })
 
   useEffect(() => {

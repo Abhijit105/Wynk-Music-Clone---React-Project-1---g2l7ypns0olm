@@ -1,15 +1,10 @@
 import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import SongItem from './SongItem'
-import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
-import {
-  keepPreviousData,
-  useQuery,
-  useInfiniteQuery,
-} from '@tanstack/react-query'
-import { fetchFeaturedSongs, fetchData } from '../../utility/http'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { fetchFeaturedSongs } from '../../utility/http'
 
 function FeaturedSongs({
   title,
@@ -42,8 +37,8 @@ function FeaturedSongs({
         return lastPageParam + 1
       },
       maxPages: 2,
-      staleTime: 1000 * 60 * 30,
-    gcTime: 1000 * 60 * 30,
+      staleTime: Infinity,
+      gcTime: Infinity,
     })
 
   useEffect(() => {

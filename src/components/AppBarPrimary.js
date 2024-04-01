@@ -327,7 +327,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                 display: { xs: 'none', sm: 'none', md: 'flex' },
               }}
             />
-            {webToken && user ? (
+            {webToken ? (
               <Box
                 display={{ xs: 'none', sm: 'none', md: 'flex' }}
                 alignItems='center'
@@ -374,7 +374,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {webToken && user && (
+              {webToken && (
                 <Tooltip title={user.email} sx={{ cursor: 'auto' }}>
                   <MenuItem>
                     <Typography
@@ -392,7 +392,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                 </Tooltip>
               )}
               <Divider />
-              {webToken && user && (
+              {webToken && (
                 <MenuItem key={10}>
                   <Typography
                     textAlign='center'
@@ -425,7 +425,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                   Manage Subscription
                 </Typography>
               </MenuItem>
-              {webToken && user ? (
+              {webToken ? (
                 <MenuItem
                   key={8}
                   sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
@@ -474,7 +474,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                   </Typography>
                 </MenuItem>
               ))}
-              {webToken && user ? (
+              {webToken ? (
                 <MenuItem key={'signout'} onClick={signOutHandler}>
                   <Typography
                     textAlign='center'

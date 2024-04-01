@@ -2,45 +2,43 @@ import React, { useContext, useEffect } from 'react'
 import { Box, Typography } from '@mui/material'
 import BestWay from '../common/BestWay'
 import { useState } from 'react'
-import { BASEURL3 } from '../../config/config'
+import { BASEURL3, PROJECTID } from '../../config/config'
 import { AuthContext } from '../../contexts/AuthProvider'
 import LikedSongItem from '../common/LikedSongItem'
+import { useQuery } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
 
 function MyMusic() {
   const [likedSongs, setLikedSongs] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const { webToken } = useContext(AuthContext)
 
+  const { data, isLoading, isPending, isError, error } = useQuery({
+    queryKey: ['Favorite', 'Songs'],
+    queryFn: async () => {
+      const response = await fetch(`${BASEURL3}`, {
+        headers: {
+          Authorization: `Bearer ${webToken.token}`,
+          projectID: PROJECTID,
+        },
+      })
+      if (!response.ok)
+        throw new Error('Something went wrong while fetching favorite songs.')
+      const data = await response.json()
+      return data
+    },
+    staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 30,
+  })
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch(`${BASEURL3}`, {
-          headers: {
-            Authorization: `Bearer ${webToken.token}`,
-            projectId: 'g2l7ypns0olm',
-          },
-        })
-        if (!response.ok) {
-          throw new Error('Something went wrong while fetching the songs.')
-        }
-        const data = await response.json()
-        // console.log(data)
-        const result = data.data.songs
-        setLikedSongs(result)
-      } catch (err) {
-        setError(err.message)
-        // console.error(err.message)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+    if (!data) return
+
+    setLikedSongs(data.data.songs)
+  }, [data])
 
   // console.log(likedSongs)
+  // console.log(data)
 
   return (
     <Box
@@ -61,8 +59,14 @@ function MyMusic() {
           gap='1em'
           justifyContent='flex-start'
         >
-          {likedSongs.map((song, i) => (
-            <LikedSongItem key={i} item={song} i={i} songItems={likedSongs} />
+          {likedSongs?.map((song, i) => (
+            <LikedSongItem
+              key={i}
+              item={song}
+              i={i}
+              songItems={likedSongs}
+              isLoading={isLoading || isPending}
+            />
           ))}
         </Box>
       </Box>

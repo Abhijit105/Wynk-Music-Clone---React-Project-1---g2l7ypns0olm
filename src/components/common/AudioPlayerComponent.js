@@ -16,11 +16,11 @@ import { BASEURL } from '../../config/config'
 import { darkTheme } from '../App'
 import { AuthContext } from '../../contexts/AuthProvider'
 import { PlayerContext } from '../../contexts/PlayerProvider'
+import { useQuery } from '@tanstack/react-query'
+import { fetchData } from '../../utility/http'
 
 function AudioPlayerComponent() {
-  const [isLoading, setIsLoading] = useState(false)
   const [album, setAlbum] = useState(null)
-  const [error, setError] = useState('')
   const [displayLoader, setDisplayLoader] = useState(false)
 
   const { playlist, track, setTrack } = useContext(PlayerContext)
@@ -53,38 +53,17 @@ function AudioPlayerComponent() {
 
   const player = useRef()
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(
-        `${BASEURL}/album/${playlist.at(track)?.album || ''}`,
-        {
-          headers: { projectId: 'g2l7ypns0olm' },
-        }
-      )
-      // console.log(response)
-      if (!response.ok) {
-        throw new Error('Something went wrong while fetching songs for you.')
-      }
-      const data = await response.json()
-      // console.log(data)
-      const result = data.data
-      setAlbum(result)
-    } catch (err) {
-      setError(err.message)
-      // console.log(err)
-      // console.error(err.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const { data, error, isLoading, isPending, isError } = useQuery({
+    queryKey: ['Albums', playlist.at(track)?.album],
+    queryFn: () =>
+      fetchData(`${BASEURL}/album/${playlist.at(track)?.album || ''}`),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  })
 
   useEffect(() => {
-    if (error) return
-
-    // console.log('fetching')
-    fetchData()
-  }, [track, playlist])
+    setAlbum(data?.data)
+  }, [data])
 
   useEffect(() => {
     player.current.audio.current.pause()
@@ -183,7 +162,9 @@ function AudioPlayerComponent() {
           ref={player}
         />
       </Box>
-      {displayLoader && <span className='loader'></span>}
+      {(displayLoader || isLoading || isPending) && (
+        <span className='loader'></span>
+      )}
     </>
   )
 }
