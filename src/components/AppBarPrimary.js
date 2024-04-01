@@ -15,7 +15,7 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Divider from '@mui/material/Divider'
 import { InputBase, Paper, Snackbar, useMediaQuery } from '@mui/material'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   AccountBox,
   CurrencyRupee,
@@ -201,35 +201,36 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
             justifyContent: 'space-between',
           }}
         >
-          <Box
-            display={'flex'}
-            gap={'0.5em'}
-            alignItems={'center'}
-            component={'a'}
-            href='/'
-            ref={logo}
-          >
+          <Link to={'/'}>
             <Box
-              component={'img'}
-              src={Logo}
-              alt='Wynk Logo'
-              width={'3em'}
-              borderRadius={'50%'}
-            />
-            <Typography
-              variant='h6'
-              noWrap
-              component='span'
-              sx={{
-                fontFamily: 'roboto',
-                fontWeight: 700,
-                fontSize: '1.375em',
-                color: 'inherit',
-              }}
+              display={'flex'}
+              gap={'0.5em'}
+              alignItems={'center'}
+              component={'a'}
+              ref={logo}
             >
-              Wynk Music
-            </Typography>
-          </Box>
+              <Box
+                component={'img'}
+                src={Logo}
+                alt='Wynk Logo'
+                width={'3em'}
+                borderRadius={'50%'}
+              />
+              <Typography
+                variant='h6'
+                noWrap
+                component='span'
+                sx={{
+                  fontFamily: 'roboto',
+                  fontWeight: 700,
+                  fontSize: '1.375em',
+                  color: 'inherit',
+                }}
+              >
+                Wynk Music
+              </Typography>
+            </Box>
+          </Link>
 
           <Box
             sx={{
