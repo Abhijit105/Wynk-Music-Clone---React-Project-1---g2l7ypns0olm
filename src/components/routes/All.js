@@ -18,7 +18,7 @@ import banner16 from '../../assets/banner/BANNER_16.webp'
 import BannerCarousel from '../common/BannerCarousel'
 import { AllContext } from '../../contexts/AllProvider'
 import Carousel from '../common/Carousel'
-import { Box, IconButton, Paper, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import CarouselWithFetch from '../common/CarouselWithFetch'
 import About from '../About'
 import BestWay from '../common/BestWay'
@@ -26,9 +26,6 @@ import { PlayerContext } from '../../contexts/PlayerProvider'
 
 function All() {
   const { setPlaylist, setTrack } = useContext(PlayerContext)
-
-  const banners = Array.from({ length: 16 }, (_, i) => `BANNER_${i + 1}.webp`)
-  // console.log(banners)
 
   const { allSongs, isLoadingSong } = useContext(AllContext)
 

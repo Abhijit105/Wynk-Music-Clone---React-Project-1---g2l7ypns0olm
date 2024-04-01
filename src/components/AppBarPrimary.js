@@ -14,26 +14,16 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Divider from '@mui/material/Divider'
-import {
-  InputBase,
-  OutlinedInput,
-  Paper,
-  Snackbar,
-  useMediaQuery,
-} from '@mui/material'
+import { InputBase, Paper, Snackbar, useMediaQuery } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   AccountBox,
   CurrencyRupee,
-  GetApp,
-  Language,
   Login as LoginIcon,
   Logout,
   MusicNote,
   Password,
-  Podcasts,
   Search,
-  SpatialAudio,
 } from '@mui/icons-material'
 import LoginModal from './LoginModal'
 import ComingSoonModal from './ComingSoonModal'

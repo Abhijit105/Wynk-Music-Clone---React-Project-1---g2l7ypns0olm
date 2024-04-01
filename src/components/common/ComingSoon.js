@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import ComingSoonImage from '../../assets/img/coming-soon.jpg'
 import { useNavigate } from 'react-router-dom'

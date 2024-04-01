@@ -17,7 +17,7 @@ import ImagePlayBox from './ImagePlayBox'
 import { darkTheme } from '../App'
 import ArtistsModal from '../ArtistsModal'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { favoriteSong, fetchData } from '../../utility/http'
+import {  fetchData } from '../../utility/http'
 import { PROJECTID } from '../../config/config'
 import { Link, useNavigate } from 'react-router-dom'
 

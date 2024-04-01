@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Box, TextField, Button, Typography } from '@mui/material'
-import { darkTheme } from '../App'
 
 function Login({
   email,

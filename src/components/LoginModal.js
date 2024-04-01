@@ -22,8 +22,6 @@ function LoginModal({ open, handleClose }) {
 
   const { webToken, login, createUser } = useContext(AuthContext)
 
-  const navigate = useNavigate()
-
   const onCloseHandler = function () {
     handleClose()
     setName('')

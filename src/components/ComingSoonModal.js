@@ -6,7 +6,7 @@ import {
   CardContent,
   useMediaQuery,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import DownloadAppModalImage from '../assets/img/downloadappmodalimage.png'
 import GooglePlay from '../assets/img/googleplay.png'
 import AppStore from '../assets/img/appstore.png'
@@ -14,15 +14,8 @@ import { darkTheme } from './App'
 import ComingSoonImage from '../assets/img/coming-soon.jpg'
 
 function ComingSoonModal({ open, handleClose }) {
-  const [displaySignUp, setDisplaySignUp] = useState(false)
-
   // console.log(window.innerWidth)
   // console.log(window.innerHeight)
-
-  const matchesExtraSmallScreen = useMediaQuery(theme =>
-    theme.breakpoints.up('xs')
-  )
-  const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
   return (
     <Modal open={open} onClose={handleClose}>

@@ -6,7 +6,6 @@ import ComingSoonModal from '../ComingSoonModal'
 
 function PaymentComponent5() {
   const [openComingSoonModal, setOpenComingSoonModal] = React.useState(false)
-  const [displayForm, setDisplayForm] = useState(true)
 
   const handleOpenComingSoonModal = event => {
     event.preventDefault()

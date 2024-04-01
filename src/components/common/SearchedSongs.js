@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import SearchedSongItem from './SearchedSongItem'
 import { Box, Button } from '@mui/material'
-import { darkTheme } from '../App'
-import { useNavigate } from 'react-router-dom'
 import { AllContext } from '../../contexts/AllProvider'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchSearchedSongs } from '../../utility/http'

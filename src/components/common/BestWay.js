@@ -3,7 +3,6 @@ import { Box, Typography } from '@mui/material'
 import GooglePlay from '../../assets/img/googleplay.png'
 import AppStore from '../../assets/img/appstore.png'
 import Logo from '../../assets/logo/logo.png'
-import { darkTheme } from '../App'
 
 function BestWay() {
   return (

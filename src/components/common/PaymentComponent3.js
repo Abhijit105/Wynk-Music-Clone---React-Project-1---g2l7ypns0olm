@@ -1,6 +1,6 @@
 import { CreditCard, ExpandMore } from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { lightTheme } from '../routes/Payment'
 import ComingSoonModal from '../ComingSoonModal'
 

@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
-import Album from '../routes/Album'
+import { useNavigate } from 'react-router-dom'
 import ImagePlayBox from './ImagePlayBox'
 
 function AlbumsPage({ title, albumItems, isLoadingAlbum }) {
