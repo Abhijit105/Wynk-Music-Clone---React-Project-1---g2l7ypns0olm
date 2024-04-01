@@ -20,7 +20,7 @@ function LoginModal({ open, handleClose }) {
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [messageSnackbar, setMessageSnackbar] = useState('')
 
-  const { webToken, login, logout } = useContext(AuthContext)
+  const { webToken, login, createUser } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
@@ -121,6 +121,7 @@ function LoginModal({ open, handleClose }) {
       const { token, status } = data
       login({ token, status })
       const { name, email } = data.data
+      createUser({name, email})
       return data
     },
     onSuccess: response => {

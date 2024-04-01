@@ -9,6 +9,7 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     setWebToken(JSON.parse(localStorage.getItem('webToken')))
+    setUser(JSON.parse(localStorage.getItem('user')))
   }, [])
 
   const login = function (newWebToken) {
@@ -21,8 +22,20 @@ function AuthProvider({ children }) {
     localStorage.setItem('webToken', JSON.stringify(null))
   }
 
+  const createUser = function (newUser) {
+    setUser(newUser)
+    localStorage.setItem('user', JSON.stringify(newUser))
+  }
+
+  const deleteUser = function () {
+    setUser(null)
+    localStorage.removeItem('user')
+  }
+
   return (
-    <AuthContext.Provider value={{ webToken, login, logout }}>
+    <AuthContext.Provider
+      value={{ webToken, login, logout, user, createUser, deleteUser }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
-import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import Logo from '../assets/logo/logo.png'
@@ -24,10 +23,11 @@ import {
 } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
+  AccountBox,
   CurrencyRupee,
   GetApp,
   Language,
-  Login,
+  Login as LoginIcon,
   Logout,
   MusicNote,
   Password,
@@ -56,7 +56,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
 
   const navigate = useNavigate()
 
-  const { webToken, logout } = useContext(AuthContext)
+  const { webToken, logout, user, deleteUser } = useContext(AuthContext)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -127,6 +127,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
     setTrack(undefined)
     navigate('/', { replace: true })
     handleCloseUserMenu()
+    deleteUser()
     setMessageSnackbar('sign out successful')
     setOpenSnackbar(true)
   }
@@ -336,7 +337,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                 display: { xs: 'none', sm: 'none', md: 'flex' },
               }}
             />
-            {webToken ? (
+            {webToken && user ? (
               <Box
                 display={{ xs: 'none', sm: 'none', md: 'flex' }}
                 alignItems='center'
@@ -359,7 +360,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                   handleOpenLoginModal(e)
                 }}
               >
-                <Avatar />
+                <LoginIcon />
                 <Typography>Login</Typography>
               </Box>
             )}
@@ -383,7 +384,25 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {webToken && (
+              {webToken && user && (
+                <Tooltip title={user.email} sx={{ cursor: 'auto' }}>
+                  <MenuItem>
+                    <Typography
+                      textAlign={'center'}
+                      display={'flex'}
+                      alignItems={'center'}
+                      gap={'1em'}
+                      sx={{ cursor: 'auto' }}
+                    >
+                      <AccountBox />
+                      {user.name.slice(0, 13)}
+                      {user.name.length > 13 ? '...' : ''}
+                    </Typography>
+                  </MenuItem>
+                </Tooltip>
+              )}
+              <Divider />
+              {webToken && user && (
                 <MenuItem key={10}>
                   <Typography
                     textAlign='center'
@@ -416,7 +435,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                   Manage Subscription
                 </Typography>
               </MenuItem>
-              {webToken ? (
+              {webToken && user ? (
                 <MenuItem
                   key={8}
                   sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
@@ -444,7 +463,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                     alignItems='center'
                     gap='1em'
                   >
-                    <Login />
+                    <LoginIcon />
                     Login
                   </Typography>
                 </MenuItem>
@@ -465,7 +484,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                   </Typography>
                 </MenuItem>
               ))}
-              {webToken ? (
+              {webToken && user ? (
                 <MenuItem key={'signout'} onClick={signOutHandler}>
                   <Typography
                     textAlign='center'

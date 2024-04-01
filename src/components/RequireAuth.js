@@ -3,9 +3,9 @@ import { AuthContext } from '../contexts/AuthProvider'
 import { Navigate } from 'react-router-dom'
 
 function RequireAuth({ children }) {
-  const { webToken } = useContext(AuthContext)
+  const { webToken, user } = useContext(AuthContext)
 
-  if (!webToken) {
+  if (!webToken || !user) {
     return null
   }
 
