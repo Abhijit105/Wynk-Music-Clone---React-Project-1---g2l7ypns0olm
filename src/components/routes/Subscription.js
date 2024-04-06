@@ -48,7 +48,7 @@ function Subscription() {
     return () => {
       document.querySelector('.app-bar-primary').style.display = 'flex'
       document.querySelector('.app-bar-secondary').style.display = 'flex'
-      document.querySelector('.footer').style.display = 'flex'
+      document.querySelector('.footer').style.display = 'block'
       document.querySelector('.audio-player-component').style.display = 'flex'
     }
   }, [])
