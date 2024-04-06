@@ -206,7 +206,6 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
               display={'flex'}
               gap={'0.5em'}
               alignItems={'center'}
-              component={'a'}
               ref={logo}
             >
               <Box

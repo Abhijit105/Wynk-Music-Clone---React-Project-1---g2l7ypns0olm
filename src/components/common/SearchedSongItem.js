@@ -26,7 +26,7 @@ function SearchedSongItem({ item, isLoadingData }) {
     <Box
       display='flex'
       flexDirection={{ xs: 'column', sm: 'row' }}
-      justifyContent={'center'}
+      justifyContent={'start'}
       alignItems='center'
       gap='1em'
       marginBottom='2.5em'
@@ -55,7 +55,12 @@ function SearchedSongItem({ item, isLoadingData }) {
           </Box>
         )}
       </Box>
-      <Box display='flex' flexDirection='column' justifyContent='center'>
+      <Box
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems={{xs:'center', sm:'start'}}
+      >
         <Typography variant='subtitle1'>{item.title}</Typography>
         <Typography variant='subtitle2'>
           <Box

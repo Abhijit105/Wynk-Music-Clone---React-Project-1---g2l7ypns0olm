@@ -30,7 +30,7 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
     maxPages: 26,
     staleTime: Infinity,
     gcTime: Infinity,
-    enabled: hasNextPageAllSongs,
+    // enabled: !!hasNextPageAllSongs,
   })
 
   useEffect(() => {
@@ -63,7 +63,7 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
     maxPages: 4,
     staleTime: Infinity,
     gcTime: Infinity,
-    enabled: hasNextPageAllAlbums,
+    // enabled: hasNextPageAllAlbums,
   })
 
   useEffect(() => {

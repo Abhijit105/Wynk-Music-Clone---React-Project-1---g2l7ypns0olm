@@ -44,7 +44,12 @@ function SearchedArtistItem({ item, isLoadingData }) {
       {(isLoadingData || isLoadingImage) && (
         <span className='loader-artist' style={{ position: 'absolute' }}></span>
       )}
-      <Box display='flex' flexDirection='column' justifyContent='center'>
+      <Box
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems={{ xs: 'center', sm: 'start' }}
+      >
         <Typography variant='subtitle1'>{item.name}</Typography>
         <Typography variant='subtitle2'>
           <Box
