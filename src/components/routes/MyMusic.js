@@ -6,7 +6,7 @@ import { BASEURL3, PROJECTID } from '../../config/config'
 import { AuthContext } from '../../contexts/AuthProvider'
 import LikedSongItem from '../common/LikedSongItem'
 import { useQuery } from '@tanstack/react-query'
-import { fetchData } from '../../utility/http'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function MyMusic() {
   const [likedSongs, setLikedSongs] = useState([])
@@ -39,6 +39,23 @@ function MyMusic() {
 
   // console.log(likedSongs)
   // console.log(data)
+  // console.log(isError)
+
+  if (isError)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{error?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Box

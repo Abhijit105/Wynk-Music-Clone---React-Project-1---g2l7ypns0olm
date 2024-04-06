@@ -149,12 +149,12 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
     }
     document
       .querySelector('input')
-      .addEventListener('focus', navigateToSearchPage)
+      ?.addEventListener('focus', navigateToSearchPage)
 
     return () => {
       document
         .querySelector('input')
-        .removeEventListener('focus', navigateToSearchPage)
+        ?.removeEventListener('focus', navigateToSearchPage)
     }
   }, [])
 

@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchData } from '../utility/http'
 import { BASEURL } from '../config/config'
+import ErrorImage from '../assets/img/error-image.png'
+import { Box, Typography } from '@mui/material'
 
 export const AllContext = createContext()
 
@@ -11,6 +13,7 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
 
   const {
     data: dataAllSongs,
+    isError: isErrorAllSongs,
     error: errorAllSongs,
     fetchNextPage: fetchNextPageAllSongs,
     hasNextPage: hasNextPageAllSongs,
@@ -84,6 +87,23 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
   const isLoadingSong = isLoadingAllSongs || isPendingAllSongs
 
   const isLoadingAlbum = isLoadingAllAlbums || isPendingAllAlbums
+
+  if (isErrorAllSongs || isErrorAllAlbums)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorAllSongs?.message}</Typography>
+        <Typography variant='h5'>{errorAllAlbums?.message}</Typography>
+      </Box>
+    )
 
   return (
     <AllContext.Provider

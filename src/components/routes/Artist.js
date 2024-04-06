@@ -13,6 +13,7 @@ import { PlayArrow } from '@mui/icons-material'
 import { AuthContext } from '../../contexts/AuthProvider'
 import { useQuery } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function Artist() {
   const [artist, setArtist] = useState(null)
@@ -39,8 +40,6 @@ function Artist() {
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
 
-  const isLoading = isLoadingArtist || isPendingArtist
-
   const {
     data: dataArtist,
     isPending: isPendingArtist,
@@ -54,6 +53,8 @@ function Artist() {
     gcTime: Infinity,
   })
 
+  const isLoading = isLoadingArtist || isPendingArtist
+
   useEffect(() => {
     if (!dataArtist) return
 
@@ -63,6 +64,22 @@ function Artist() {
 
   // console.log(artist)
   // console.log(songs)
+
+  if (isErrorArtist)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorArtist?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Box

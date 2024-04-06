@@ -23,6 +23,7 @@ import { useQuery, useQueries, useMutation } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
 import { PROJECTID } from '../../config/config'
 import { Link, useNavigate } from 'react-router-dom'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function ArtistSongItem({ i, item, songItems, isLoading }) {
   const [artists, setArtists] = useState([])
@@ -160,7 +161,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   const combinedQueries = useQueries({
     queries: item.artist.map(id => ({
       queryKey: ['Artist', id],
-      queryFn: () => fetchData(`${BASEURL}/artist/${id}`),
+      queryFn: () => fetchData(`${BASEURL}/artist/${id}/a`),
       staleTime: 1000 * 60 * 30,
       gcTime: 1000 * 60 * 30,
     })),
@@ -195,6 +196,24 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   // console.log(combinedQueries)
   // console.log(data)
   // console.log(dataFavorite)
+
+  if (isErrorFavorite || isErrorAlbum || isErrorArtists)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorFavorite?.message}</Typography>
+        <Typography variant='h5'>{errorAlbum?.message}</Typography>
+        <Typography variant='h5'>{errorArtists?.message}</Typography>
+      </Box>
+    )
 
   return (
     <>

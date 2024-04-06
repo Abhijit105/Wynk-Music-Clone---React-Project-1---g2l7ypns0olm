@@ -39,6 +39,7 @@ import Subscription from './routes/Subscription'
 import Payment from './routes/Payment'
 import Pay from './routes/Pay'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import PageNotFound from './PageNotFound'
 
 export const darkTheme = createTheme({
   palette: {
@@ -123,6 +124,7 @@ function App() {
                       </RequireAuth>
                     }
                   />
+                  <Route path='*' element={<PageNotFound />} />
                 </Routes>
                 <Footer />
                 <AudioPlayerComponent />

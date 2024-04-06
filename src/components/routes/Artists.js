@@ -5,6 +5,7 @@ import { Box } from '@mui/material'
 import BestWay from '../common/BestWay'
 import { fetchData } from '../../utility/http'
 import { BASEURL } from '../../config/config'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function Artists() {
   const [artists, setArtists] = useState([])
@@ -29,6 +30,22 @@ function Artists() {
   }, [dataArtists])
 
   // console.log(artists)
+
+  if (isErrorArtists)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorArtists?.message}</Typography>
+      </Box>
+    )
 
   return (
     <>

@@ -5,6 +5,7 @@ import { darkTheme } from '../App'
 import { PlayArrow } from '@mui/icons-material'
 import { fetchMoodSongs } from '../../utility/http'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function MoodSongs({
   title,
@@ -58,6 +59,22 @@ function MoodSongs({
     theme.breakpoints.up('xs')
   )
   const matchesMediumScreen = useMediaQuery(theme => theme.breakpoints.up('md'))
+
+  if (isError)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{error?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Box

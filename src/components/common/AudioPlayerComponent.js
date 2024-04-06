@@ -18,6 +18,7 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { useQuery } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function AudioPlayerComponent() {
   const [album, setAlbum] = useState(null)
@@ -123,7 +124,7 @@ function AudioPlayerComponent() {
                 justifyContent='center'
               >
                 <Typography fontSize='1em'>
-                  {playlist?.at(track)?.title}
+                  {isError ? error?.message : playlist?.at(track)?.title}
                 </Typography>
                 <Typography
                   fontSize='0.75em'

@@ -20,6 +20,7 @@ import { darkTheme } from '../App'
 import ArtistsModal from '../ArtistsModal'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function AlbumSongItem({
   albumName,
@@ -155,6 +156,22 @@ function AlbumSongItem({
   // console.log(item.artist)
   // console.log(allArtists)
   // console.log(artists)
+
+  if (isErrorFavorite)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorFavorite?.message}</Typography>
+      </Box>
+    )
 
   return (
     <>

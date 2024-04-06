@@ -13,6 +13,7 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import ArtistsModal from '../ArtistsModal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function Album() {
   const [artists, setArtists] = useState([])
@@ -90,6 +91,22 @@ function Album() {
   // console.log(dataAlbum)
   // console.log(album)
   // console.log(_id)
+
+  if (isErrorAlbum)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorAlbum?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Box

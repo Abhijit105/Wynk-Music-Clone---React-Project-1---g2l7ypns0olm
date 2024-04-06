@@ -6,6 +6,7 @@ import { PlayerContext } from '../../contexts/PlayerProvider'
 import ImagePlayBox from './ImagePlayBox'
 import { useQueries } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function LikedSongItem({ item, i, songItems, isLoading }) {
   const [artists, setArtists] = useState([])
@@ -54,6 +55,22 @@ function LikedSongItem({ item, i, songItems, isLoading }) {
   // console.log(item)
   // console.log(isPendingArtists)
   // console.log(data)
+
+  if (isErrorArtists)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{errorArtists?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Box

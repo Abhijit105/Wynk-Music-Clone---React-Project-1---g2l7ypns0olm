@@ -5,6 +5,7 @@ import { AllContext } from '../../contexts/AllProvider'
 import { useDebounce } from '../useDebounce'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchSearchedAlbums } from '../../utility/http'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function SearchedAlbums({ activeTab }) {
   const [searchedAlbums, setSearchedAlbums] = useState([])
@@ -37,6 +38,22 @@ function SearchedAlbums({ activeTab }) {
   useEffect(() => {
     setSearchedAlbums(data?.pages.flatMap(page => page.data))
   }, [data])
+
+  if (isError)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{error?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Box display='flex' flexDirection='column' marginBottom={'4em'}>

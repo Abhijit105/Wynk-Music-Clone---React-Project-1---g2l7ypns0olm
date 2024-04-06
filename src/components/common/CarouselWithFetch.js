@@ -3,6 +3,7 @@ import Carousel from './Carousel'
 import { BASEURL } from '../../config/config'
 import { fetchData } from '../../utility/http'
 import { useQuery } from '@tanstack/react-query'
+import ErrorImage from '../../assets/img/error-image.png'
 
 function CarouselWithFetch({
   title,
@@ -28,6 +29,22 @@ function CarouselWithFetch({
   const isLoadingSong = isLoading || isPending
 
   // console.log(songs)
+
+  if (isError)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1em'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        marginBottom={'4em'}
+      >
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
+        <Typography variant='h5'>{error?.message}</Typography>
+      </Box>
+    )
 
   return (
     <Carousel
