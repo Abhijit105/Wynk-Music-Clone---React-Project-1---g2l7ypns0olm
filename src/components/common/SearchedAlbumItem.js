@@ -25,6 +25,8 @@ function SearchedAlbumItem({ item, isLoadingData }) {
   return (
     <Box
       display='flex'
+      flexDirection={{xs: 'column', sm: 'row'}}
+      justifyContent={'center'}
       alignItems='center'
       gap='1em'
       marginBottom='2.5em'
