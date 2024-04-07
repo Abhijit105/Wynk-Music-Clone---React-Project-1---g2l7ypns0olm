@@ -55,7 +55,7 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
   } = useInfiniteQuery({
     queryKey: ['Albums'],
     queryFn: ({ pageParam }) =>
-      fetchData(`${BASEURL}/album/?page=${pageParam}&limit=100`),
+      fetchData(`${BASEURL}/albums/?page=${pageParam}&limit=100`),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (lastPage.length === 0) {
@@ -99,9 +99,19 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
         alignItems={'center'}
         marginBottom={'4em'}
       >
-        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
-        <Typography variant='h5'>{errorAllSongs?.message}</Typography>
-        <Typography variant='h5'>{errorAllAlbums?.message}</Typography>
+        <Box
+          component={'img'}
+          src={ErrorImage}
+          alt='error'
+          display={'flex'}
+          width={'41.67%'}
+        />
+        <Typography variant='h5' textAlign={'center'}>
+          {errorAllSongs?.message}
+        </Typography>
+        <Typography variant='h5' textAlign={'center'}>
+          {errorAllAlbums?.message}
+        </Typography>
       </Box>
     )
 

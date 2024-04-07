@@ -70,8 +70,16 @@ function FeaturedSongs({
         alignItems={'center'}
         marginBottom={'4em'}
       >
-        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
-        <Typography variant='h5'>{error.message}</Typography>
+        <Box
+          component={'img'}
+          src={ErrorImage}
+          alt='error'
+          display={'flex'}
+          width={'41.67%'}
+        />
+        <Typography variant='h5' textAlign={'center'}>
+          {error.message}
+        </Typography>
       </Box>
     )
 

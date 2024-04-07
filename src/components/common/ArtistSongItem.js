@@ -208,10 +208,22 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
         alignItems={'center'}
         marginBottom={'4em'}
       >
-        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
-        <Typography variant='h5'>{errorFavorite?.message}</Typography>
-        <Typography variant='h5'>{errorAlbum?.message}</Typography>
-        <Typography variant='h5'>{errorArtists?.message}</Typography>
+        <Box
+          component={'img'}
+          src={ErrorImage}
+          alt='error'
+          display={'flex'}
+          width={'41.67%'}
+        />
+        <Typography variant='h5' textAlign={'center'}>
+          {errorFavorite?.message}
+        </Typography>
+        <Typography variant='h5' textAlign={'center'}>
+          {errorAlbum?.message}
+        </Typography>
+        <Typography variant='h5' textAlign={'center'}>
+          {errorArtists?.message}
+        </Typography>
       </Box>
     )
 

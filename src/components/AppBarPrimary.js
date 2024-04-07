@@ -222,7 +222,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
                 sx={{
                   fontFamily: 'roboto',
                   fontWeight: 700,
-                  fontSize: '1.375em',
+                  fontSize: { xs: '1.125em', sm: '1.375em' },
                   color: 'inherit',
                 }}
               >

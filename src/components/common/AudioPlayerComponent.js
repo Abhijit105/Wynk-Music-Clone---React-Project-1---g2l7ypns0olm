@@ -18,7 +18,6 @@ import { AuthContext } from '../../contexts/AuthProvider'
 import { PlayerContext } from '../../contexts/PlayerProvider'
 import { useQuery } from '@tanstack/react-query'
 import { fetchData } from '../../utility/http'
-import ErrorImage from '../../assets/img/error-image.png'
 
 function AudioPlayerComponent() {
   const [album, setAlbum] = useState(null)

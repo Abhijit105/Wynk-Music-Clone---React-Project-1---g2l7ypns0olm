@@ -67,8 +67,8 @@ function LikedSongItem({ item, i, songItems, isLoading }) {
         alignItems={'center'}
         marginBottom={'4em'}
       >
-        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} />
-        <Typography variant='h5'>{errorArtists?.message}</Typography>
+        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} width={'41.67%'} />
+        <Typography variant='h5' textAlign={'center'}>{errorArtists?.message}</Typography>
       </Box>
     )
 
