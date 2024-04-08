@@ -55,7 +55,7 @@ function AllProvider({ children, searchTerm, searchTermUpdate }) {
   } = useInfiniteQuery({
     queryKey: ['Albums'],
     queryFn: ({ pageParam }) =>
-      fetchData(`${BASEURL}/albums/?page=${pageParam}&limit=100`),
+      fetchData(`${BASEURL}/album/?page=${pageParam}&limit=100`),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (lastPage.length === 0) {
