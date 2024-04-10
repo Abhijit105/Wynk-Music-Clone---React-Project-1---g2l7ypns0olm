@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import ArtistsPage from '../common/ArtistsPage'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import BestWay from '../common/BestWay'
 import { fetchData } from '../../utility/http'
 import { BASEURL } from '../../config/config'

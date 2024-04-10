@@ -23,45 +23,50 @@ function SearchedArtistItem({ item, isLoadingData }) {
   // console.log(item)
 
   return (
-    <Box
-      display='flex'
-      flexDirection={{ xs: 'column', sm: 'row' }}
-      justifyContent={'center'}
-      alignItems='center'
-      gap='1em'
-      marginBottom='2.5em'
-      onClick={() => clickHandler(item._id)}
-      sx={{ cursor: 'pointer' }}
-    >
-      <Box
-        component={'img'}
-        src={item.image}
-        alt={item.name}
-        maxWidth='5em'
-        borderRadius='50%'
-        onLoad={loadHandler}
-      />
-      {(isLoadingData || isLoadingImage) && (
-        <span className='loader-artist' style={{ position: 'absolute' }}></span>
-      )}
+    item && (
       <Box
         display='flex'
-        flexDirection='column'
-        justifyContent='center'
-        alignItems={{ xs: 'center', sm: 'start' }}
+        flexDirection={{ xs: 'column', sm: 'row' }}
+        justifyContent={'start'}
+        alignItems='center'
+        gap='1em'
+        marginBottom='2.5em'
+        onClick={() => clickHandler(item._id)}
+        sx={{ cursor: 'pointer' }}
       >
-        <Typography variant='subtitle1'>{item.name}</Typography>
-        <Typography variant='subtitle2'>
-          <Box
-            display='flex'
-            gap='1em'
-            color={darkTheme.palette.text.secondary}
-          >
-            <span>Artist</span>
-          </Box>
-        </Typography>
+        <Box
+          component={'img'}
+          src={item.image}
+          alt={item.name}
+          maxWidth='5em'
+          borderRadius='50%'
+          onLoad={loadHandler}
+        />
+        {(isLoadingData || isLoadingImage) && (
+          <span
+            className='loader-artist'
+            style={{ position: 'absolute' }}
+          ></span>
+        )}
+        <Box
+          display='flex'
+          flexDirection='column'
+          justifyContent='center'
+          alignItems={{ xs: 'center', sm: 'start' }}
+        >
+          <Typography variant='subtitle1'>{item.name}</Typography>
+          <Typography variant='subtitle2'>
+            <Box
+              display='flex'
+              gap='1em'
+              color={darkTheme.palette.text.secondary}
+            >
+              <span>Artist</span>
+            </Box>
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    )
   )
 }
 

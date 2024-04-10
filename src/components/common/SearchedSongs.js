@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import SearchedSongItem from './SearchedSongItem'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { AllContext } from '../../contexts/AllProvider'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchSearchedSongs } from '../../utility/http'
@@ -43,7 +43,9 @@ function SearchedSongs({ activeTab }) {
     setSearchedSongs(data?.pages.flatMap(page => page.data))
   }, [data])
 
-  if (isError)
+  // console.log(error)
+
+  if (isError && error.message !== 'No more songs to display')
     return (
       <Box
         height={'100vh'}
@@ -78,6 +80,12 @@ function SearchedSongs({ activeTab }) {
           />
         ))}
       </Box>
+      <Typography variant='h5' fontWeight={'bold'}>
+        {error?.message === 'No more songs to display' &&
+        searchedSongs.length === 0
+          ? 'No songs to display'
+          : error?.message}
+      </Typography>
       <Button
         variant='contained'
         onClick={clickHandler}

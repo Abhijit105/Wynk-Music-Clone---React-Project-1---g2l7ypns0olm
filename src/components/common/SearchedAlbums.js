@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import SearchedAlbumItem from './SearchedAlbumItem'
 import { AllContext } from '../../contexts/AllProvider'
 import { useDebounce } from '../useDebounce'
@@ -39,7 +39,7 @@ function SearchedAlbums({ activeTab }) {
     setSearchedAlbums(data?.pages.flatMap(page => page.data))
   }, [data])
 
-  if (isError)
+  if (isError && error.message !== 'No more albums to display')
     return (
       <Box
         height={'100vh'}
@@ -74,6 +74,12 @@ function SearchedAlbums({ activeTab }) {
           />
         ))}
       </Box>
+      <Typography variant='h5' fontWeight={'bold'}>
+        {error?.message === 'No more albums to display' &&
+        searchedAlbums.length === 0
+          ? 'No albums to display'
+          : error?.message}
+      </Typography>
       <Button
         variant='contained'
         onClick={clickHandler}

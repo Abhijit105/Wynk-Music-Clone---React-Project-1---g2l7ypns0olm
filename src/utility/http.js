@@ -43,6 +43,8 @@ export const fetchSearchedSongs = async (searchTerm, pageParam = 1) => {
     }
   )
 
+  if (!response.ok && response.status === 404)
+    throw new Error('No more songs to display')
   if (!response.ok)
     throw new Error('Something went wrong while fetching songs.')
   const data = await response.json()
@@ -57,6 +59,7 @@ export const fetchSearchedAlbums = async (searchTerm, pageParam = 1) => {
     }
   )
 
+  if(!response.ok && response.status === 404) throw new Error('No more albums to display')
   if (!response.ok)
     throw new Error('Something went wrong while fetching albums.')
   const data = await response.json()
@@ -71,6 +74,7 @@ export const fetchSearchedArtists = async (searchTerm, pageParam = 1) => {
     }
   )
 
+  if(!response.ok && response.status === 404) throw new Error('No more artists to display')
   if (!response.ok)
     throw new Error('Something went wrong while fetching artists.')
   const data = await response.json()

@@ -22,7 +22,7 @@ function SearchedAlbumItem({ item, isLoadingData }) {
 
   // console.log(item)
 
-  return (
+  return (item &&
     <Box
       display='flex'
       flexDirection={{ xs: 'column', sm: 'row' }}

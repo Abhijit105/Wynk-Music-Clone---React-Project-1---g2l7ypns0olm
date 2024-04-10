@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import SearchedArtistItem from './SearchedArtistItem'
 import { AllContext } from '../../contexts/AllProvider'
 import { useDebounce } from '../useDebounce'
@@ -45,7 +45,7 @@ function SearchedArtists({ activeTab }) {
   // console.log(debouncedSearchTerm)
   // console.log(data)
 
-  if (isError)
+  if (isError && error.message !== 'No more artists to display')
     return (
       <Box
         height={'100vh'}
@@ -80,6 +80,12 @@ function SearchedArtists({ activeTab }) {
           />
         ))}
       </Box>
+      <Typography variant='h5' fontWeight={'bold'}>
+        {error?.message === 'No more artists to display' &&
+        searchedArtists.length === 0
+          ? 'No artists to display'
+          : error?.message}
+      </Typography>
       <Button
         variant='contained'
         onClick={clickHandler}

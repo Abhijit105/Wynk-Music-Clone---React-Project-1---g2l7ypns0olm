@@ -4,6 +4,7 @@ import { BASEURL } from '../../config/config'
 import { fetchData } from '../../utility/http'
 import { useQuery } from '@tanstack/react-query'
 import ErrorImage from '../../assets/img/error-image.png'
+import { Box, Typography } from '@mui/material'
 
 function CarouselWithFetch({
   title,
