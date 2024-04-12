@@ -67,7 +67,6 @@ function AudioPlayerComponent() {
 
   useEffect(() => {
     player.current.audio.current.pause()
-    player.current.forceUpdate()
   }, [webToken])
 
   // console.log('component rendered')
@@ -94,11 +93,18 @@ function AudioPlayerComponent() {
         <AudioPlayer
           customProgressBarSection={[
             RHAP_UI.PROGRESS_BAR,
-            matchesMediumScreen && RHAP_UI.CURRENT_TIME,
+            matchesMediumScreen &&
+              playlist?.at(track)?.audio_url &&
+              RHAP_UI.CURRENT_TIME,
             matchesMediumScreen && (
-              <div className='rhap_time rhap_slash'>/</div>
+              <div className='rhap_time rhap_slash'>
+                {!playlist?.at(track)?.audio_url && '--:--'}/
+                {!playlist?.at(track)?.audio_url && '--:--'}
+              </div>
             ),
-            matchesMediumScreen && RHAP_UI.DURATION,
+            matchesMediumScreen &&
+              playlist?.at(track)?.audio_url &&
+              RHAP_UI.DURATION,
           ]}
           customControlsSection={[
             <Paper
