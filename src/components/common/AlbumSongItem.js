@@ -21,6 +21,7 @@ import ArtistsModal from '../ArtistsModal'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import ErrorImage from '../../assets/img/error-image.png'
+import { FavoriteContext } from '../../contexts/FavoriteProvider'
 
 function AlbumSongItem({
   albumName,
@@ -40,6 +41,7 @@ function AlbumSongItem({
   const navigate = useNavigate()
 
   const { webToken } = useContext(AuthContext)
+  const { likedSongs, setRefetchLikedSongs } = useContext(FavoriteContext)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -131,6 +133,7 @@ function AlbumSongItem({
     onSuccess: response => {
       setMessageSnackbar(response.message)
       setOpenSnackbar(true)
+      setRefetchLikedSongs(true)
     },
     onError: error => {
       setMessageSnackbar(error.response.message)
@@ -251,7 +254,9 @@ function AlbumSongItem({
           <Grid item md={'auto'} key={5}>
             <IconButton
               sx={{
-                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+                background: likedSongs.map(song => song._id).includes(item._id)
+                  ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
+                  : darkTheme.palette.text.primary,
               }}
               onClick={event =>
                 webToken
@@ -259,7 +264,14 @@ function AlbumSongItem({
                   : handleOpenLoginModal(event)
               }
             >
-              <Favorite fontSize='small' />
+              <Favorite
+                fontSize='small'
+                sx={{
+                  color: likedSongs.map(song => song._id).includes(item._id)
+                    ? darkTheme.palette.text.primary
+                    : darkTheme.palette.background.default,
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>
@@ -281,7 +293,12 @@ function AlbumSongItem({
             <Typography>{i + 1}</Typography>
           </Grid>
           <Grid item xs={12} key={7}>
-            <Box display='flex' alignItems='center' gap='0.5em'>
+            <Box
+              display='flex'
+              flexDirection={'column'}
+              alignItems='start'
+              gap='0.5em'
+            >
               {/* <Box
               component={'img'}
               src={item.thumbnail}
@@ -325,7 +342,9 @@ function AlbumSongItem({
           <Grid item xl={'auto'} key={8}>
             <IconButton
               sx={{
-                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+                background: likedSongs.map(song => song._id).includes(item._id)
+                  ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
+                  : darkTheme.palette.text.primary,
               }}
               onClick={event =>
                 webToken
@@ -333,7 +352,14 @@ function AlbumSongItem({
                   : handleOpenLoginModal(event)
               }
             >
-              <Favorite fontSize='small' />
+              <Favorite
+                fontSize='small'
+                sx={{
+                  color: likedSongs.map(song => song._id).includes(item._id)
+                    ? darkTheme.palette.text.primary
+                    : darkTheme.palette.background.default,
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>

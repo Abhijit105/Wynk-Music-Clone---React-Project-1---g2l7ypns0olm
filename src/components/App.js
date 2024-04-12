@@ -40,6 +40,7 @@ import Payment from './routes/Payment'
 import Pay from './routes/Pay'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import PageNotFound from './routes/PageNotFound'
+import FavoriteProvider from '../contexts/FavoriteProvider'
 
 export const darkTheme = createTheme({
   palette: {
@@ -62,6 +63,7 @@ function App() {
         <AuthProvider>
           <AllProvider searchTerm={searchTerm} searchTermUpdate={setSearchTerm}>
             <PlayerProvider>
+              <FavoriteProvider>
               <BrowserRouter>
                 <AppBarPrimary
                   searchTerm={searchTerm}
@@ -129,6 +131,7 @@ function App() {
                 <Footer />
                 <AudioPlayerComponent />
               </BrowserRouter>
+              </FavoriteProvider>
             </PlayerProvider>
           </AllProvider>
         </AuthProvider>

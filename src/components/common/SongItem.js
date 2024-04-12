@@ -17,10 +17,11 @@ import ImagePlayBox from './ImagePlayBox'
 import { darkTheme } from '../App'
 import ArtistsModal from '../ArtistsModal'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import {  fetchData } from '../../utility/http'
+import { fetchData } from '../../utility/http'
 import { PROJECTID } from '../../config/config'
 import { Link, useNavigate } from 'react-router-dom'
 import ErrorImage from '../../assets/img/error-image.png'
+import { FavoriteContext } from '../../contexts/FavoriteProvider'
 
 function SongItem({
   item,
@@ -40,6 +41,7 @@ function SongItem({
   const navigate = useNavigate()
 
   const { webToken } = useContext(AuthContext)
+  const { likedSongs, setRefetchLikedSongs } = useContext(FavoriteContext)
 
   const clickHandler = function (i) {
     onPlaylistUpdate(songItems)
@@ -124,11 +126,13 @@ function SongItem({
         throw new Error('Something went wrong during setting up of favorite.')
       }
       const data = await response.json()
+      // console.log(data)
       return data
     },
     onSuccess: response => {
       setMessageSnackbar(response.message)
       setOpenSnackbar(true)
+      setRefetchLikedSongs(true)
     },
     onError: error => {
       setMessageSnackbar(error.response.message)
@@ -155,6 +159,7 @@ function SongItem({
   }, [dataAlbum])
 
   // console.log(item)
+  // console.log(likedSongs)
   // console.log(webToken.token)
 
   const matchesExtraSmallScreen = useMediaQuery(theme =>
@@ -173,9 +178,19 @@ function SongItem({
         alignItems={'center'}
         marginBottom={'4em'}
       >
-        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} width={'41.67%'} />
-        <Typography variant='h5' textAlign={'center'}>{errorAlbum?.message}</Typography>
-        <Typography variant='h5' textAlign={'center'}>{errorFavorite?.message}</Typography>
+        <Box
+          component={'img'}
+          src={ErrorImage}
+          alt='error'
+          display={'flex'}
+          width={'41.67%'}
+        />
+        <Typography variant='h5' textAlign={'center'}>
+          {errorAlbum?.message}
+        </Typography>
+        <Typography variant='h5' textAlign={'center'}>
+          {errorFavorite?.message}
+        </Typography>
       </Box>
     )
 
@@ -257,7 +272,9 @@ function SongItem({
           <Grid item md={'auto'} lg={'auto'} xl={'auto'}>
             <IconButton
               sx={{
-                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+                background: likedSongs?.map(song => song._id).includes(item._id)
+                  ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
+                  : darkTheme.palette.text.primary,
               }}
               onClick={event =>
                 webToken
@@ -265,7 +282,14 @@ function SongItem({
                   : handleOpenLoginModal(event)
               }
             >
-              <Favorite fontSize='small' />
+              <Favorite
+                fontSize='small'
+                sx={{
+                  color: likedSongs?.map(song => song._id).includes(item._id)
+                    ? darkTheme.palette.text.primary
+                    : darkTheme.palette.background.default,
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>
@@ -287,7 +311,12 @@ function SongItem({
             <Typography>{i + 1}</Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Box display='flex' alignItems='center' gap='0.5em'>
+            <Box
+              display='flex'
+              flexDirection={'column'}
+              alignItems='start'
+              gap='0.5em'
+            >
               {/* <Box
               component={'img'}
               src={item.thumbnail}
@@ -331,7 +360,9 @@ function SongItem({
           <Grid item xs={'auto'} sm={'auto'}>
             <IconButton
               sx={{
-                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+                background: likedSongs?.map(song => song._id).includes(item._id)
+                  ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
+                  : darkTheme.palette.text.primary,
               }}
               onClick={event =>
                 webToken
@@ -339,7 +370,14 @@ function SongItem({
                   : handleOpenLoginModal(event)
               }
             >
-              <Favorite fontSize='small' />
+              <Favorite
+                fontSize='small'
+                sx={{
+                  color: likedSongs?.map(song => song._id).includes(item._id)
+                    ? darkTheme.palette.text.primary
+                    : darkTheme.palette.background.default,
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>

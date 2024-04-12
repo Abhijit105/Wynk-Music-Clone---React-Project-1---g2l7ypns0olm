@@ -1,61 +1,16 @@
 import React, { useContext, useEffect } from 'react'
 import { Box, Typography } from '@mui/material'
 import BestWay from '../common/BestWay'
-import { useState } from 'react'
-import { BASEURL3, PROJECTID } from '../../config/config'
-import { AuthContext } from '../../contexts/AuthProvider'
 import LikedSongItem from '../common/LikedSongItem'
-import { useQuery } from '@tanstack/react-query'
 import ErrorImage from '../../assets/img/error-image.png'
+import { FavoriteContext } from '../../contexts/FavoriteProvider'
 
 function MyMusic() {
-  const [likedSongs, setLikedSongs] = useState([])
-
-  const { webToken } = useContext(AuthContext)
-
-  const { data, isLoading, isPending, isError, error } = useQuery({
-    queryKey: ['Favorite', 'Songs'],
-    queryFn: async () => {
-      const response = await fetch(`${BASEURL3}`, {
-        headers: {
-          Authorization: `Bearer ${webToken.token}`,
-          projectID: PROJECTID,
-        },
-      })
-      if (!response.ok)
-        throw new Error('Something went wrong while fetching favorite songs.')
-      const data = await response.json()
-      return data
-    },
-    staleTime: 1000 * 60 * 30,
-    gcTime: 1000 * 60 * 30,
-  })
-
-  useEffect(() => {
-    if (!data) return
-
-    setLikedSongs(data.data.songs)
-  }, [data])
+  const { likedSongs, isLoading, isPending } = useContext(FavoriteContext)
 
   // console.log(likedSongs)
   // console.log(data)
   // console.log(isError)
-
-  if (isError)
-    return (
-      <Box
-        height={'100vh'}
-        display={'flex'}
-        flexDirection={'column'}
-        gap={'1em'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        marginBottom={'4em'}
-      >
-        <Box component={'img'} src={ErrorImage} alt='error' display={'flex'} width={'41.67%'} />
-        <Typography variant='h5' textAlign={'center'}>{error?.message}</Typography>
-      </Box>
-    )
 
   return (
     <Box

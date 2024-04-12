@@ -24,6 +24,7 @@ import { fetchData } from '../../utility/http'
 import { PROJECTID } from '../../config/config'
 import { Link, useNavigate } from 'react-router-dom'
 import ErrorImage from '../../assets/img/error-image.png'
+import { FavoriteContext } from '../../contexts/FavoriteProvider'
 
 function ArtistSongItem({ i, item, songItems, isLoading }) {
   const [artists, setArtists] = useState([])
@@ -37,6 +38,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   const navigate = useNavigate()
 
   const { webToken } = useContext(AuthContext)
+  const { likedSongs, setRefetchLikedSongs } = useContext(FavoriteContext)
 
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
@@ -133,6 +135,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
     onSuccess: response => {
       setMessageSnackbar(response.message)
       setOpenSnackbar(true)
+      setRefetchLikedSongs(true)
     },
     onError: error => {
       setMessageSnackbar(error.message)
@@ -305,7 +308,9 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
           <Grid item key={crypto.randomUUID()} md={'auto'}>
             <IconButton
               sx={{
-                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+                background: likedSongs.map(song => song._id).includes(item._id)
+                  ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
+                  : darkTheme.palette.text.primary,
               }}
               onClick={event =>
                 webToken
@@ -313,7 +318,14 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
                   : handleOpenLoginModal(event)
               }
             >
-              <Favorite fontSize='small' />
+              <Favorite
+                fontSize='small'
+                sx={{
+                  color: likedSongs.map(song => song._id).includes(item._id)
+                    ? darkTheme.palette.text.primary
+                    : darkTheme.palette.background.default,
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>
@@ -337,7 +349,12 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
             <Typography>{i + 1}</Typography>
           </Grid>
           <Grid item key={crypto.randomUUID()} xs={12}>
-            <Box display='flex' alignItems='center' gap='0.5em'>
+            <Box
+              display='flex'
+              flexDirection={'column'}
+              alignItems='start'
+              gap='0.5em'
+            >
               {/* <Box
               component={'img'}
               src={item?.thumbnail}
@@ -389,7 +406,9 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
           <Grid item key={crypto.randomUUID()} xs={'auto'}>
             <IconButton
               sx={{
-                background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+                background: likedSongs.map(song => song._id).includes(item._id)
+                  ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
+                  : darkTheme.palette.text.primary,
               }}
               onClick={event =>
                 webToken
@@ -397,7 +416,14 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
                   : handleOpenLoginModal(event)
               }
             >
-              <Favorite fontSize='small' />
+              <Favorite
+                fontSize='small'
+                sx={{
+                  color: likedSongs.map(song => song._id).includes(item._id)
+                    ? darkTheme.palette.text.primary
+                    : darkTheme.palette.background.default,
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>
