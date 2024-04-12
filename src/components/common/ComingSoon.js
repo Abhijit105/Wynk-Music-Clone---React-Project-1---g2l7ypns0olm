@@ -14,6 +14,7 @@ function ComingSoon() {
         gap={'1em'}
         alignItems={'center'}
         justifyContent={'center'}
+        marginBottom={'4em'}
       >
         <Box
           component={'img'}

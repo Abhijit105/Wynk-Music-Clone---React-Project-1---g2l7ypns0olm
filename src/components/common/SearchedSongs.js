@@ -86,17 +86,23 @@ function SearchedSongs({ activeTab }) {
           ? 'No songs to display'
           : error?.message}
       </Typography>
-      <Button
-        variant='contained'
-        onClick={clickHandler}
-        sx={{
-          alignSelf: 'center',
-          background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
-        }}
-        color='inherit'
-      >
-        Show More
-      </Button>
+      {!isError && searchedSongs && searchedSongs.length !== 0 ? (
+        <Button
+          variant='contained'
+          onClick={clickHandler}
+          sx={{
+            alignSelf: 'center',
+            background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+          }}
+          color='inherit'
+        >
+          Show More
+        </Button>
+      ) : (
+        <Typography variant='h4' textAlign={'center'}>
+          Type a song to get started
+        </Typography>
+      )}
     </Box>
   )
 }

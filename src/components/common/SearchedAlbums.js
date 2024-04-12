@@ -80,17 +80,23 @@ function SearchedAlbums({ activeTab }) {
           ? 'No albums to display'
           : error?.message}
       </Typography>
-      <Button
-        variant='contained'
-        onClick={clickHandler}
-        sx={{
-          alignSelf: 'center',
-          background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
-        }}
-        color='inherit'
-      >
-        Show More
-      </Button>
+      {!isError && searchedAlbums && searchedAlbums.length !== 0 ? (
+        <Button
+          variant='contained'
+          onClick={clickHandler}
+          sx={{
+            alignSelf: 'center',
+            background: 'linear-gradient(to bottom, #ff8c76, #ff0d55)',
+          }}
+          color='inherit'
+        >
+          Show More
+        </Button>
+      ) : (
+        <Typography variant='h4' textAlign={'center'}>
+          Type an album to get started
+        </Typography>
+      )}
     </Box>
   )
 }
