@@ -254,7 +254,7 @@ function AlbumSongItem({
           <Grid item md={'auto'} key={5}>
             <IconButton
               sx={{
-                background: likedSongs.map(song => song._id).includes(item._id)
+                background: likedSongs?.map(song => song._id).includes(item._id)
                   ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
                   : darkTheme.palette.text.primary,
               }}
@@ -267,7 +267,7 @@ function AlbumSongItem({
               <Favorite
                 fontSize='small'
                 sx={{
-                  color: likedSongs.map(song => song._id).includes(item._id)
+                  color: likedSongs?.map(song => song._id).includes(item._id)
                     ? darkTheme.palette.text.primary
                     : darkTheme.palette.background.default,
                 }}
@@ -342,7 +342,7 @@ function AlbumSongItem({
           <Grid item xl={'auto'} key={8}>
             <IconButton
               sx={{
-                background: likedSongs.map(song => song._id).includes(item._id)
+                background: likedSongs?.map(song => song._id).includes(item._id)
                   ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
                   : darkTheme.palette.text.primary,
               }}
@@ -355,7 +355,7 @@ function AlbumSongItem({
               <Favorite
                 fontSize='small'
                 sx={{
-                  color: likedSongs.map(song => song._id).includes(item._id)
+                  color: likedSongs?.map(song => song._id).includes(item._id)
                     ? darkTheme.palette.text.primary
                     : darkTheme.palette.background.default,
                 }}

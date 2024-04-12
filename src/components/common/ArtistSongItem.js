@@ -308,7 +308,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
           <Grid item key={crypto.randomUUID()} md={'auto'}>
             <IconButton
               sx={{
-                background: likedSongs.map(song => song._id).includes(item._id)
+                background: likedSongs?.map(song => song._id).includes(item._id)
                   ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
                   : darkTheme.palette.text.primary,
               }}
@@ -321,7 +321,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
               <Favorite
                 fontSize='small'
                 sx={{
-                  color: likedSongs.map(song => song._id).includes(item._id)
+                  color: likedSongs?.map(song => song._id).includes(item._id)
                     ? darkTheme.palette.text.primary
                     : darkTheme.palette.background.default,
                 }}
@@ -406,7 +406,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
           <Grid item key={crypto.randomUUID()} xs={'auto'}>
             <IconButton
               sx={{
-                background: likedSongs.map(song => song._id).includes(item._id)
+                background: likedSongs?.map(song => song._id).includes(item._id)
                   ? 'linear-gradient(to bottom, #ff8c76, #ff0d55)'
                   : darkTheme.palette.text.primary,
               }}
@@ -419,7 +419,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
               <Favorite
                 fontSize='small'
                 sx={{
-                  color: likedSongs.map(song => song._id).includes(item._id)
+                  color: likedSongs?.map(song => song._id).includes(item._id)
                     ? darkTheme.palette.text.primary
                     : darkTheme.palette.background.default,
                 }}
