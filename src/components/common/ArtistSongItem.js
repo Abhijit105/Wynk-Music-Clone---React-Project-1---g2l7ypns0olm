@@ -161,7 +161,7 @@ function ArtistSongItem({ i, item, songItems, isLoading }) {
   const combinedQueries = useQueries({
     queries: item.artist.map(id => ({
       queryKey: ['Artist', id],
-      queryFn: () => fetchData(`${BASEURL}/artist/${id}/a`),
+      queryFn: () => fetchData(`${BASEURL}/artist/${id}/`),
       staleTime: 1000 * 60 * 30,
       gcTime: 1000 * 60 * 30,
     })),

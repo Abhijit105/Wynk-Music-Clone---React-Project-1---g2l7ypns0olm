@@ -67,6 +67,7 @@ function AudioPlayerComponent() {
 
   useEffect(() => {
     player.current.audio.current.pause()
+    player.current.forceUpdate()
   }, [webToken])
 
   // console.log('component rendered')
