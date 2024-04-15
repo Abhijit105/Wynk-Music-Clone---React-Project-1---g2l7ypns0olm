@@ -53,27 +53,19 @@ function Payment() {
           paddingY: '0.5em',
           marginBottom: '2em',
           backgroundColor: lightTheme.palette.background.paper,
+          position: 'static',
         }}
       >
         <Toolbar
           sx={{
-            position: 'relative',
+            position: 'static',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'flex-start',
+            justifyContent: 'space-between',
           }}
         >
           <WynkImage />
-          <Typography
-            fontSize={'1.25em'}
-            sx={{
-              position: 'absolute',
-              left: { xs: '100%', md: '50%' },
-              transform: { xs: 'translateX(-120%)', md: 'translateX(-50%)' },
-            }}
-          >
-            Pay Securely
-          </Typography>
+          <Typography fontSize={'1.25em'}>Pay Securely</Typography>
         </Toolbar>
       </AppBar>
       <Box
@@ -99,7 +91,7 @@ function Payment() {
           <PaymentComponent3 />
         </Box>
         <Box
-          marginTop={'10em'}
+          marginTop={{ xs: '20em', md: '10em' }}
           width={'100%'}
           height={'100vh'}
           display={'flex'}

@@ -1,3 +1,5 @@
+/* this is the albumstamil file at route /toptamilalbums */
+
 import React from 'react'
 import { useContext } from 'react'
 import { AllContext } from '../../contexts/AllProvider'

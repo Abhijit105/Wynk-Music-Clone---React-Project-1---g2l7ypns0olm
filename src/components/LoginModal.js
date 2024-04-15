@@ -61,17 +61,18 @@ function LoginModal({ open, handleClose }) {
       }
       const data = await response.json()
       // console.log(data)
-      const { token, status } = data
-      login({ token, status })
+      // const { token, status } = data.data
+      // login({ token, status })
+      // const { name, email } = data.data.user
+      // createUser({ name, email })
       return data
     },
     onSuccess: response => {
       // console.log(response)
       if (response.status === 'success') {
-        setMessageSnackbar(
-          `signup successful, welcome ${response.data.user.name}`
-        )
+        setMessageSnackbar(`signup successful`)
         setOpenSnackbar(true)
+        onCloseHandler()
       }
     },
     onError: error => {
@@ -83,6 +84,18 @@ function LoginModal({ open, handleClose }) {
   const signUpHandler = function () {
     if (!name || !email || !password) {
       setMessage('Enter all the fields')
+      return
+    }
+    if (name.length < 3) {
+      setMessage('Username should be at least 3 characters')
+      return
+    }
+    if (!email.includes('@') || email.startsWith('@') || email.endsWith('@')) {
+      setMessage('Please enter a valid email ID')
+      return
+    }
+    if (password.length < 8) {
+      setMessage('Password should be at least 8 characters')
       return
     }
     const user = {
@@ -119,7 +132,7 @@ function LoginModal({ open, handleClose }) {
       const { token, status } = data
       login({ token, status })
       const { name, email } = data.data
-      createUser({name, email})
+      createUser({ name, email })
       return data
     },
     onSuccess: response => {
@@ -127,6 +140,7 @@ function LoginModal({ open, handleClose }) {
       if (response.status === 'success') {
         setMessageSnackbar(`login successful, welcome ${response.data.name}`)
         setOpenSnackbar(true)
+        onCloseHandler()
       }
     },
     onError: error => {
@@ -150,16 +164,17 @@ function LoginModal({ open, handleClose }) {
   }
 
   useEffect(() => {
-    if (!webToken) return
-
-    onCloseHandler()
-  }, [webToken])
-
-  useEffect(() => {
     if (!errorSignUp && !errorLogin) return
 
     setMessage('Invalid username or password')
   }, [errorSignUp, errorLogin])
+
+  useEffect(() => {
+    setName('')
+    setEmail('')
+    setPassword('')
+    setMessage('')
+  }, [value])
 
   // console.log(error === '')
   // console.log(dataLogin)
@@ -197,7 +212,7 @@ function LoginModal({ open, handleClose }) {
           <Box
             sx={{
               gridColumn: '2',
-              padding: '2rem',
+              padding: '2em',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

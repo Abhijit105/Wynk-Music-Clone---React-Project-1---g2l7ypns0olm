@@ -1,3 +1,5 @@
+/* this is the component file to display each song image as a box which can be clicked and has hover styling */
+
 import { PlayCircle } from '@mui/icons-material'
 import { Box, IconButton } from '@mui/material'
 import React, { useState } from 'react'

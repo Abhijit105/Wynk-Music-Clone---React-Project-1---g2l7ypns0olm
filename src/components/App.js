@@ -1,3 +1,5 @@
+/* this is the main app file */
+
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Box } from '@mui/material'
@@ -64,73 +66,76 @@ function App() {
           <AllProvider searchTerm={searchTerm} searchTermUpdate={setSearchTerm}>
             <PlayerProvider>
               <FavoriteProvider>
-              <BrowserRouter>
-                <AppBarPrimary
-                  searchTerm={searchTerm}
-                  searchTermUpdate={setSearchTerm}
-                />
-                <AppBarSecondary />
-                <Routes>
-                  <Route path='/' element={<All />} />
-                  <Route path='/search' element={<Search />} />
-                  <Route path='/subscription' element={<Subscription />} />
-                  <Route path='/payment' element={<Payment />} />
-                  <Route path='/pay' element={<Pay />} />
-                  <Route path='/trendingsongs' element={<Trending />} />
-                  <Route path='/evergreenmelodies' element={<OldSongs />} />
-                  <Route path='/new' element={<NewSongs />} />
-                  <Route path='/romantic' element={<RomanticSongs />} />
-                  <Route path='/happy' element={<HappySongs />} />
-                  <Route path='/excited' element={<ExcitedSongs />} />
-                  <Route path='/sad' element={<SadSongs />} />
-                  <Route path='/tophindialbums' element={<AlbumsHindi />} />
-                  <Route path='/topenglishalbums' element={<AlbumsEnglish />} />
-                  <Route path='/toptamilalbums' element={<AlbumsTamil />} />
-                  <Route path='/toptelugualbums' element={<AlbumsTelugu />} />
-                  <Route
-                    path='/topbhojpurialbums'
-                    element={<AlbumsBhojpuri />}
+                <BrowserRouter>
+                  <AppBarPrimary
+                    searchTerm={searchTerm}
+                    searchTermUpdate={setSearchTerm}
                   />
-                  <Route path='/topartists' element={<Artists />} />
-                  <Route path='/top50ofthismonth' element={<Top50 />} />
-                  <Route path='/top20ofthisweek' element={<Top20 />} />
-                  <Route path='/soulsoother' element={<SoulSoother />} />
-                  <Route path='/podcast' element={<Podcast />} />
-                  <Route path='/bannerlink' element={<BannerLink />} />
-                  <Route path='/footerlink' element={<FooterLink />} />
-                  <Route
-                    path='/albums'
-                    element={
-                      <Box>
-                        <Outlet />
-                      </Box>
-                    }
-                  >
-                    <Route path=':_id' element={<Album />} />
-                  </Route>
-                  <Route
-                    path='/artists'
-                    element={
-                      <Box>
-                        <Outlet />
-                      </Box>
-                    }
-                  >
-                    <Route path=':_id' element={<Artist />} />
-                  </Route>
-                  <Route
-                    path='/mymusic'
-                    element={
-                      <RequireAuth>
-                        <MyMusic />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route path='*' element={<PageNotFound />} />
-                </Routes>
-                <Footer />
-                <AudioPlayerComponent />
-              </BrowserRouter>
+                  <AppBarSecondary />
+                  <Routes>
+                    <Route path='/' element={<All />} />
+                    <Route path='/search' element={<Search />} />
+                    <Route path='/subscription' element={<Subscription />} />
+                    <Route path='/payment' element={<Payment />} />
+                    <Route path='/pay' element={<Pay />} />
+                    <Route path='/trendingsongs' element={<Trending />} />
+                    <Route path='/evergreenmelodies' element={<OldSongs />} />
+                    <Route path='/new' element={<NewSongs />} />
+                    <Route path='/romantic' element={<RomanticSongs />} />
+                    <Route path='/happy' element={<HappySongs />} />
+                    <Route path='/excited' element={<ExcitedSongs />} />
+                    <Route path='/sad' element={<SadSongs />} />
+                    <Route path='/tophindialbums' element={<AlbumsHindi />} />
+                    <Route
+                      path='/topenglishalbums'
+                      element={<AlbumsEnglish />}
+                    />
+                    <Route path='/toptamilalbums' element={<AlbumsTamil />} />
+                    <Route path='/toptelugualbums' element={<AlbumsTelugu />} />
+                    <Route
+                      path='/topbhojpurialbums'
+                      element={<AlbumsBhojpuri />}
+                    />
+                    <Route path='/topartists' element={<Artists />} />
+                    <Route path='/top50ofthismonth' element={<Top50 />} />
+                    <Route path='/top20ofthisweek' element={<Top20 />} />
+                    <Route path='/soulsoother' element={<SoulSoother />} />
+                    <Route path='/podcast' element={<Podcast />} />
+                    <Route path='/bannerlink' element={<BannerLink />} />
+                    <Route path='/footerlink' element={<FooterLink />} />
+                    <Route
+                      path='/albums'
+                      element={
+                        <Box>
+                          <Outlet />
+                        </Box>
+                      }
+                    >
+                      <Route path=':_id' element={<Album />} />
+                    </Route>
+                    <Route
+                      path='/artists'
+                      element={
+                        <Box>
+                          <Outlet />
+                        </Box>
+                      }
+                    >
+                      <Route path=':_id' element={<Artist />} />
+                    </Route>
+                    <Route
+                      path='/mymusic'
+                      element={
+                        <RequireAuth>
+                          <MyMusic />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route path='*' element={<PageNotFound />} />
+                  </Routes>
+                  <Footer />
+                  <AudioPlayerComponent />
+                </BrowserRouter>
               </FavoriteProvider>
             </PlayerProvider>
           </AllProvider>

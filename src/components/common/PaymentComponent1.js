@@ -15,7 +15,8 @@ function PaymentComponent1() {
 
   return (
     <Box
-      border={`1px solid ${lightTheme.palette.divider}`}
+      // border={`1px solid ${lightTheme.palette.divider}`}
+      border={`1px solid black`}
       width={'70%'}
       height={'10em'}
       padding={'1em'}

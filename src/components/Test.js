@@ -1,3 +1,5 @@
+/* this is a test file */
+
 import React, { useState, useEffect } from 'react'
 
 function Test() {
@@ -30,7 +32,7 @@ function Test() {
   }
 
   useEffect(() => {
-    if(error) return
+    if (error) return
 
     fetchData()
   }, [page])

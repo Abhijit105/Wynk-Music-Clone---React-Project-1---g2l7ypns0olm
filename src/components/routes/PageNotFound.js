@@ -1,3 +1,5 @@
+/* this is the page not found to display links not available */
+
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import ErrorImage from '../../assets/img/error-image.png'

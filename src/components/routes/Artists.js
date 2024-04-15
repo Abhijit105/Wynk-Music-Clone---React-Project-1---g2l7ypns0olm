@@ -1,3 +1,5 @@
+/* this is the top artists display file at route /topartists */
+
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import ArtistsPage from '../common/ArtistsPage'

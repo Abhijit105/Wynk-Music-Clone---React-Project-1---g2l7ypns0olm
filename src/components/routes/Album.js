@@ -1,3 +1,5 @@
+/* this is the album display file at route /albums/albumId */
+
 import React, { useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, Grid, useMediaQuery, Button } from '@mui/material'

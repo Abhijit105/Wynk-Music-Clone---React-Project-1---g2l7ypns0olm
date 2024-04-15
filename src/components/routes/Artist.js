@@ -1,3 +1,5 @@
+/* this is the artist display file at route /artists/artistId */
+
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box, Typography, Grid, useMediaQuery, Button } from '@mui/material'
