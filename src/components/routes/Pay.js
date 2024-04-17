@@ -2,9 +2,12 @@ import { Box, CssBaseline, ThemeProvider, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { lightTheme } from './Payment'
 import { Check } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 function Pay() {
   const [displayLoader, setDisplayLoader] = useState(true)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     document.querySelector('.app-bar-primary').style.display = 'none'
@@ -28,6 +31,16 @@ function Pay() {
     return () => clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    if (displayLoader) return
+
+    const timer = setTimeout(() => {
+      navigate('/', { replace: true })
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [displayLoader])
+
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline />
@@ -38,6 +51,7 @@ function Pay() {
       <Box
         height={'100vh'}
         display={'flex'}
+        flexDirection={'column'}
         justifyContent={'center'}
         alignItems={'center'}
       >
@@ -73,6 +87,15 @@ function Pay() {
             {displayLoader ? 'Processing Payment' : 'Payment Successful'}
           </Typography>
         </Box>
+        {!displayLoader && (
+          <Typography
+            fontWeight={'bold'}
+            textAlign={'center'}
+            fontSize={'large'}
+          >
+            Redirecting to home...
+          </Typography>
+        )}
       </Box>
     </ThemeProvider>
   )
