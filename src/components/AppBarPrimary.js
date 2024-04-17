@@ -35,6 +35,7 @@ import PasswordChangeModal from './PasswordChangeModal'
 import { SETTINGS, MOBILESETTINGS } from '../config/config'
 import { PlayerContext } from '../contexts/PlayerProvider'
 import { useRef } from 'react'
+import { FavoriteContext } from '../contexts/FavoriteProvider'
 
 function AppBarPrimary({ searchTerm, searchTermUpdate }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
@@ -47,7 +48,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
   const navigate = useNavigate()
 
   const { webToken, logout, user, deleteUser } = useContext(AuthContext)
-
+  const { setLikedSongs } = useContext(FavoriteContext)
   const { setPlaylist, setTrack } = useContext(PlayerContext)
 
   const search = useRef()
@@ -115,6 +116,7 @@ function AppBarPrimary({ searchTerm, searchTermUpdate }) {
     logout()
     setPlaylist([])
     setTrack(undefined)
+    setLikedSongs([])
     navigate('/', { replace: true })
     handleCloseUserMenu()
     deleteUser()
