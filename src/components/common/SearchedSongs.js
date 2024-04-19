@@ -47,8 +47,8 @@ function SearchedSongs({ activeTab }) {
   }, [data])
 
   // console.log(error)
-  console.log(searchedSongs)
-  console.log(data)
+  // console.log(searchedSongs)
+  // console.log(data)
 
   if (isError && error.message !== 'No more songs to display')
     return (

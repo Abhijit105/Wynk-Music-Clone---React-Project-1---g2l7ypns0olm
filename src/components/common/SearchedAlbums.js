@@ -44,9 +44,9 @@ function SearchedAlbums({ activeTab }) {
     setSearchedAlbums(data?.pages.flatMap(page => page.data))
   }, [data])
 
-  console.log(error?.message)
-  console.log(searchedAlbums)
-  console.log(data)
+  // console.log(error?.message)
+  // console.log(searchedAlbums)
+  // console.log(data)
 
   if (isError && error.message !== 'No more albums to display')
     return (
