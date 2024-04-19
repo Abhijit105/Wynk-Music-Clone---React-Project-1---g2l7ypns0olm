@@ -45,7 +45,7 @@ function SearchedArtists({ activeTab }) {
   // console.log(debouncedSearchTerm)
   // console.log(data)
 
-  if (isError && error.message !== 'No more artists to display')
+  if (isError)
     return (
       <Box
         height={'100vh'}
@@ -80,13 +80,7 @@ function SearchedArtists({ activeTab }) {
           />
         ))}
       </Box>
-      <Typography variant='h5' fontWeight={'bold'}>
-        {error?.message === 'No more artists to display' &&
-        searchedArtists.length === 0
-          ? 'No artists to display'
-          : error?.message}
-      </Typography>
-      {!isError && searchedArtists && searchedArtists.length !== 0 ? (
+      {searchedArtists && searchedArtists.length !== 0 ? (
         <Button
           variant='contained'
           onClick={clickHandler}
@@ -100,7 +94,7 @@ function SearchedArtists({ activeTab }) {
         </Button>
       ) : (
         <Typography variant='h4' textAlign={'center'}>
-          Type an artist to get started
+          Nothing to display. Type an artist to get started.
         </Typography>
       )}
     </Box>

@@ -32,12 +32,21 @@ function SearchedAlbums({ activeTab }) {
       },
       staleTime: Infinity,
       gcTime: Infinity,
-      enabled: !!debouncedSearchTerm && activeTab === 1,
+      enabled:
+        !!debouncedSearchTerm &&
+        activeTab === 1 &&
+        typeof searchedAlbums?.length === 'number',
     })
 
   useEffect(() => {
+    if (!data) return
+
     setSearchedAlbums(data?.pages.flatMap(page => page.data))
   }, [data])
+
+  console.log(error?.message)
+  console.log(searchedAlbums)
+  console.log(data)
 
   if (isError && error.message !== 'No more albums to display')
     return (
@@ -74,13 +83,7 @@ function SearchedAlbums({ activeTab }) {
           />
         ))}
       </Box>
-      <Typography variant='h5' fontWeight={'bold'}>
-        {error?.message === 'No more albums to display' &&
-        searchedAlbums.length === 0
-          ? 'No albums to display'
-          : error?.message}
-      </Typography>
-      {!isError && searchedAlbums && searchedAlbums.length !== 0 ? (
+      {searchedAlbums && searchedAlbums.length !== 0 ? (
         <Button
           variant='contained'
           onClick={clickHandler}
@@ -94,7 +97,7 @@ function SearchedAlbums({ activeTab }) {
         </Button>
       ) : (
         <Typography variant='h4' textAlign={'center'}>
-          Type an album to get started
+          Nothing to display. Type an album to get started.
         </Typography>
       )}
     </Box>

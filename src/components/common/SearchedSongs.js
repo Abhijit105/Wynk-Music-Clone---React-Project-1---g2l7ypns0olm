@@ -34,7 +34,10 @@ function SearchedSongs({ activeTab }) {
       },
       staleTime: Infinity,
       gcTime: Infinity,
-      enabled: !!debouncedSearchTerm && activeTab === 0,
+      enabled:
+        !!debouncedSearchTerm &&
+        activeTab === 0 &&
+        typeof searchedSongs?.length === 'number',
     })
 
   useEffect(() => {
@@ -44,6 +47,8 @@ function SearchedSongs({ activeTab }) {
   }, [data])
 
   // console.log(error)
+  console.log(searchedSongs)
+  console.log(data)
 
   if (isError && error.message !== 'No more songs to display')
     return (
@@ -80,13 +85,7 @@ function SearchedSongs({ activeTab }) {
           />
         ))}
       </Box>
-      <Typography variant='h5' fontWeight={'bold'}>
-        {error?.message === 'No more songs to display' &&
-        searchedSongs.length === 0
-          ? 'No songs to display'
-          : error?.message}
-      </Typography>
-      {!isError && searchedSongs && searchedSongs.length !== 0 ? (
+      {searchedSongs && searchedSongs.length !== 0 ? (
         <Button
           variant='contained'
           onClick={clickHandler}
@@ -100,7 +99,7 @@ function SearchedSongs({ activeTab }) {
         </Button>
       ) : (
         <Typography variant='h4' textAlign={'center'}>
-          Type a song to get started
+          Nothing to display. Type a song to get started.
         </Typography>
       )}
     </Box>
