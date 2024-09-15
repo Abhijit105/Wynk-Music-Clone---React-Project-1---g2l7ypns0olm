@@ -61,10 +61,10 @@ function LoginModal({ open, handleClose }) {
       }
       const data = await response.json()
       // console.log(data)
-      // const { token, status } = data.data
-      // login({ token, status })
-      // const { name, email } = data.data.user
-      // createUser({ name, email })
+      const { token, status } = data.data
+      login({ token, status })
+      const { name, email } = data.data.user
+      createUser({ name, email })
       return data
     },
     onSuccess: response => {
@@ -128,17 +128,19 @@ function LoginModal({ open, handleClose }) {
         throw new Error('Something went wrong during login.')
       }
       const data = await response.json()
-      // console.log(data)
+      console.log(data)
       const { token, status } = data
       login({ token, status })
-      const { name, email } = data.data
+      const { name, email } = data.data.user
       createUser({ name, email })
       return data
     },
     onSuccess: response => {
       // console.log(response)
       if (response.status === 'success') {
-        setMessageSnackbar(`login successful, welcome ${response.data.name}`)
+        setMessageSnackbar(
+          `login successful, welcome ${response.data.user.name}`
+        )
         setOpenSnackbar(true)
         onCloseHandler()
       }
