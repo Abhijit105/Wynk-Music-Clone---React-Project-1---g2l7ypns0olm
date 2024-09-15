@@ -128,7 +128,7 @@ function LoginModal({ open, handleClose }) {
         throw new Error('Something went wrong during login.')
       }
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const { token, status } = data
       login({ token, status })
       const { name, email } = data.data.user

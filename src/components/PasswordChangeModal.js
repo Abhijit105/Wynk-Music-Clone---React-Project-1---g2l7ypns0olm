@@ -14,6 +14,7 @@ import { BASEURL2, PROJECTID } from '../config/config'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthProvider'
 import { useMutation } from '@tanstack/react-query'
+import { FavoriteContext } from '../contexts/FavoriteProvider'
 
 function PasswordChangeModal({ open, handleClose }) {
   const [name, setName] = useState('')
@@ -25,6 +26,7 @@ function PasswordChangeModal({ open, handleClose }) {
   const [messageSnackbar, setMessageSnackbar] = useState('')
 
   const { webToken, login } = useContext(AuthContext)
+  const { setRefetchLikedSongs } = useContext(FavoriteContext)
 
   const onCloseHandler = function () {
     handleClose()
@@ -68,6 +70,7 @@ function PasswordChangeModal({ open, handleClose }) {
       // console.log(data)
       const { token, status } = data
       login({ token, status })
+      setRefetchLikedSongs(true)
       return data
     },
     onSuccess: response => {
