@@ -7,10 +7,10 @@ import {
   Close,
 } from '@mui/icons-material'
 
-export const BASEURL = 'https://academics.newtonschool.co/api/v1/music'
-export const BASEURL2 = 'https://academics.newtonschool.co/api/v1/user'
-export const BASEURL3 = `https://academics.newtonschool.co/api/v1/music/favorites/like`
-export const PROJECTID = 'g2l7ypns0olm'
+export const BASEURL = process.env.REACT_APP_BASEURL
+export const BASEURL2 = process.env.REACT_APP_BASEURL2
+export const BASEURL3 = process.env.REACT_APP_BASEURL3
+export const PROJECTID = process.env.REACT_APP_PROJECTID
 export const FEATURED = [
   'Trending songs',
   'Top 50 of this month',
